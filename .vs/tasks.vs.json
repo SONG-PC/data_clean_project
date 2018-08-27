@@ -1,0 +1,15 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskName": "任务-my-project",
+      "appliesTo": "/",
+      "type": "launch"
+    },
+    {
+      "taskName": "任务-index",
+      "appliesTo": "index.html",
+      "type": "launch"
+    }
+  ]
+}
