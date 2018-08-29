@@ -3,10 +3,12 @@
     <div class="col_info">
 
       <div class="title">
-        <div v-if="select_object.all_col" class="now_column">{{col}} </div>
-        <div v-if="select_object.all_row" class="now_column">{{row}}</div>
-        <div v-if="select_object.normal" class="now_column">{{cell}}</div>
-        <ul class="tabs"><li v-bind:class="{active:select_object.all_col}">列</li><li v-bind:class="{active:select_object.all_row}">行</li><li v-bind:class="{active:select_object.normal}">单元格</li></ul>
+        <transition name="fade">
+          <div v-if="select_object.all_col" class="now_column">{{col}} </div>
+          <div v-if="select_object.all_row" class="now_column">{{row}}</div>
+          <div v-if="select_object.normal" class="now_column">{{cell}}</div>
+          </transition>
+          <ul class="tabs"><li v-bind:class="{active:select_object.all_col}">列</li><li v-bind:class="{active:select_object.all_row}">行</li><li v-bind:class="{active:select_object.normal}">单元格</li></ul>
       </div>
       <div class="selectBox">
 
@@ -179,23 +181,23 @@
       },
       cell: function () {
      
-        var cells_start = this.select_object.cells[0]+1;
-        var cells_end = this.select_object.cells[this.select_object.cells.length - 1] + 1;
-        var rows_start = this.select_object.rows[0] + 1;
-        var rows_end = this.select_object.rows[this.select_object.rows.length - 1] + 1;
+        var cells_start = this.select_object.cells[0];
+        var cells_end = this.select_object.cells[this.select_object.cells.length - 1] ;
+        var rows_start = this.select_object.rows[0] ;
+        var rows_end = this.select_object.rows[this.select_object.rows.length - 1] ;
         var row_info = '';
         if (rows_start == rows_end) {
-          row_info = " 第" + rows_start + "行";
+          row_info = " 第" + (rows_start+1) + "行";
         }
         else {
-          row_info = " 行(" + rows_start + "," + rows_end + ")";
+          row_info = " 行(" + (rows_start + 1) + "," + (rows_end + 1) + ")";
         }
         if (cells_start == cells_end) {
           var columns = window.Bus["columns"];
           return columns[cells_start].name + row_info
         }
         else {
-          return '列(' + cells_start + ',' + cells_end + ')'+ row_info;
+          return '列(' + (cells_start+1) + ',' + (cells_end+1) + ')'+ row_info;
         }
       }
 

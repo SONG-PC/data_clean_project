@@ -5,8 +5,10 @@
 
     </div>
     <div  class="filter_content">
-      <div  class="slider">
-        <div v-for="(item, index) in orderlist" class="item" data-index="index">{{item.txt}}<div class="close"  v-on:click="close_filter(index)">{{item.op}}</div></div>
+      <div class="slider">
+        <transition-group name="list" tag="p">
+          <div v-for="(item, index) in orderlist"  v-bind:key="index"  class="item" data-index="index">{{item.txt}}<div class="close" v-on:click="close_filter(index)">{{item.op}}</div></div>
+          </transition-group>
       </div>
 
     </div>
@@ -26,6 +28,24 @@
       </div>
   </div>
 </template>
+<style>
+  .list-item {
+    display: inline-block;
+    margin-right: 10px;
+
+  }
+
+  .list-enter-active, .list-leave-active {
+    transition: all 0.2s;
+  }
+
+  .list-enter, .list-leave-to
+  /* .list-leave-active for below version 2.1.8 */ {
+    opacity: 0;
+ 
+    transform: translateY(30px);
+  }
+</style>
 <script>
   import DB from '../assets/js/global/global_database.js'
   import NS from '../assets/js/global/global_scoller'

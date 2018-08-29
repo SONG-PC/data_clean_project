@@ -3,12 +3,16 @@
   left: 0px;
   padding: 0;
   top: 0px;
-  min-height: 68px;
+  min-height: 60px;
   width: 100%;
-  color: #808080;
+ border-radius:5px;
+  border-bottom: 1px solid rgb(200,200,200);
+  box-sizing: border-box;
 
-  border-bottom: 1px  dotted rgb(200,200,200);
-  box-sizing:border-box;
+  &:hover {
+
+
+  }
 
   .title {
     padding-left: 20px;
@@ -37,7 +41,7 @@
     width: 17px;
     height: 17px;
     top: 50%;
-    margin-top:-8.5px;
+    margin-top: -8.5px;
     right: 30px;
   }
 

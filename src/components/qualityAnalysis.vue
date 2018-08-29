@@ -20,12 +20,9 @@
     mounted: function () {
       var dom = document.getElementById("container");
       var con = $(".right-bottom .tabs");
-      console.log(con);
       con.delegate("li", "click", function () {
-
         con.find("li").removeClass("active");
-        $(this).addClass("active");
-       
+        $(this).addClass("active");   
       })
       var myChart =echarts.init(dom);
      

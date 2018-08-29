@@ -8,7 +8,7 @@ classes should alter those!
 .slick-header-columns {
     background-color: #677579;
     color: #FFFFFF;
-    height: 30px;
+    height: 20px;
     border-bottom: 0px solid silver;
 }
 
@@ -40,7 +40,7 @@ classes should alter those!
   position: absolute;
   background: white;
   border: 0px;
-  line-height: 20px;
+  line-height: 25px;
 }
 
   .slick-row.selected {
@@ -91,7 +91,8 @@ classes should alter those!
 }
 
 .slick-cell.selected {
-  background-color: #FFDEAD;
+  background-color: #FBFB97;
+  color: #60A9CE;
 }
 
 .slick-cell.active {
@@ -125,11 +126,11 @@ classes should alter those!
 }
 
 @-moz-keyframes slickgrid-invalid-hilite {
-  from { box-shadow: 0 0 6px red; }
-  to { box-shadow: none; }
+  /*from { box-shadow: 0 0 6px red; }
+  to { box-shadow: none; }*/
 }
 
 @-webkit-keyframes slickgrid-invalid-hilite {
-  from { box-shadow: 0 0 6px red; }
-  to { box-shadow: none; }
+  /*from { box-shadow: 0 0 6px red; }
+  to { box-shadow: none; }*/
 }

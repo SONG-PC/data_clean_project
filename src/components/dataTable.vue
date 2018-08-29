@@ -13,6 +13,7 @@
     -moz-box-shadow: 2px 2px 2px silver;
     -webkit-box-shadow: 2px 2px 2px silver;
     z-index: 20;
+
   }
 
 
@@ -20,6 +21,7 @@
     padding: 2px 5px 2px 5px;
     border: 1px solid transparent;
     border-radius: 3px;
+
   }
 
     .slick-header-menuitem:hover {
@@ -67,9 +69,7 @@
         };
       }
       var my_grid = new grid("#myGrid", data, columns);
-
       Vue.set(window.Bus, "columns", columns);
-    
     },
     name: "Grid"
   }

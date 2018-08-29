@@ -65,7 +65,8 @@ export default (function () {
             return function () {
               ele.css("background-color", "rgb(220, " + parseInt(235 * (quality / 100)) + ", 60)");
               ele.css("width", quality + "%");
-           
+              ele.css("font-weight", "300");
+
               if (quality > 50) {
                 ele.html(quality + "%");
               }
