@@ -24,6 +24,7 @@ classes should alter those!
 
 .slick-headerrow {
   background: #fafafa;
+  overflow:hidden;
 }
 
 .slick-headerrow-column {
