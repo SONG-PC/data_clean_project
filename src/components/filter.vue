@@ -5,12 +5,9 @@
 
     </div>
     <div  class="filter_content">
-      <div class="slider">
-        <transition-group name="list" tag="p">
-          <div v-for="(item, index) in orderlist"  v-bind:key="index"  class="item" data-index="index">{{item.txt}}<div class="close" v-on:click="close_filter(index)">{{item.op}}</div></div>
+        <transition-group name="list" tag="div" class="slider">
+          <div v-for="(item, index) in orderlist"  v-bind:key="item.gid"  class="item" data-index="index">{{item.txt}}<div class="close" v-on:click="close_filter(index)">{{item.op}}</div></div>
           </transition-group>
-      </div>
-
     </div>
     <div style="position:absolute;width:100%;padding-right:6px;" v-if="tipShow==true" id="input_tip" class="input_tip">
       <ul>
@@ -36,19 +33,20 @@
   }
 
   .list-enter-active, .list-leave-active {
-    transition: all 0.2s;
+    transition: all .3s;
   }
 
   .list-enter, .list-leave-to
   /* .list-leave-active for below version 2.1.8 */ {
     opacity: 0;
- 
     transform: translateY(30px);
   }
+
 </style>
 <script>
   import DB from '../assets/js/global/global_database.js'
   import NS from '../assets/js/global/global_scoller'
+import common from '../assets/js/common.js';
   var count = 0;
   var select = -1;
   var last_valid_cursor = -1;
@@ -89,13 +87,16 @@
 
   export default {
     mounted: function () {
+  
       window.Bus.$watch('columns', function (newValue, oldValue) {
         _createTree(newValue);
       });
       this.input_control = $("#filter_input");
       this.parent = $(".mid");
       this.filter_bar = $(".filter_content");
+      this.slider = $(".slider");
       new NS(".filter_content", ".slider");
+    
     },
     methods: {
       create_order: function (node, v) {
@@ -279,6 +280,7 @@
             if (isValid) {
               order_edit.txt = this.message;
               order_edit.op = order_edit[DB.nodeType.fn][0];
+              order_edit.gid=common.GUID();
               this.orderlist.push(order_edit);
               this.tipShow = false;
               this.message = "";
@@ -295,7 +297,7 @@
         this.selected();
       },
       select_item: function (e) {
-        select = $(e.target).attr("data-index");
+        select = $(e.currentTarget).attr("data-index");
         this.enter_selected();
         this.input_control.focus();
       },
@@ -313,6 +315,8 @@
         }
       },
       close_filter: function (index) {
+        if (this.lock)
+          return;
         this.orderlist.splice(index, 1);
         this.refreshBar();
       },
@@ -355,6 +359,7 @@
     },
     data: function () {
       return {
+        lock: false,
         tiplist: [],
         orderlist:[],
         message: "",

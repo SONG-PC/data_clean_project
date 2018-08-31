@@ -150,7 +150,7 @@ header {
         top: 0px;
 
         .item {
-     
+
           margin-top: 3px;
           margin-left: 1px;
           padding-left: 10px;
@@ -171,25 +171,24 @@ header {
 
 
           .close {
-            width: 14px;
+            width: 10px;
             line-height: 6px;
             border-radius: 50%;
-            height: 14px;
+            height: 10px;
             position: absolute;
             right: 5px;
             top: 3px;
             @include transition;
 
             &:hover {
-              height: 14px;
+              height: 10px;
               color: transparent;
-              width: 14px;
-              background-size: 12px 12px;
+              width: 10px;
+              background-size: 8px 8px;
               background-position: center;
               background-repeat: no-repeat;
               background-image: url('../../resourse/cross.png');
               background-color: red;
-              background-size: 10px 10px;
               transform: rotate(45deg);
               -ms-transform: rotate(45deg); /* IE 9 */
               -moz-transform: rotate(45deg); /* Firefox */

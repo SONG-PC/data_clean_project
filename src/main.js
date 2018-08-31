@@ -5,7 +5,8 @@ window.Bus = new Vue({
   data: {
     columns: {},//数据列信息
     operatingCommand: {}, //数据操作命令集合
-    gridSelected: {} //当前表格选中元素
+    gridSelected: {}, //当前表格选中元素
+    order: {}
   }
 
 });
@@ -47,4 +48,51 @@ new Vue({
 document.body.onselectstart = function () {
   return false;
 };
+
+
+//import { Observable, Subject, ReplaySubject, from, of, range } from 'rxjs';
+//import common from './assets/js/common';
+//import { setTimeout } from 'timers';
+//new Vue({
+//  el: '#right',
+//  template: ' <div class="right"><input id="ok" type="button" value="test_change" v-on:click="test2"/></div>',
+//  methods: {
+
+//    test2: function () {
+//      Vue.set(window.Bus, "order", { index: common.getRandomByRank(1,10000) });
+
+     
+//     // observable.subscribe({
+//     //   next: x => console.log(x),
+//     //   error: error => console.log(error),
+//     //   complete: () => console.log('Observer got a complete notification')
+//     // });
+      
+//    }
+
+//  }
+
+//});
+//var  observable = Observable.create(
+//        function subscribe(observer) {
+//          try {
+//            setTimeout(function () {
+//              observer.complete();
+
+//            }, 5000);
+          
+//          } catch (e) {
+//            observer.error(e);
+//          }
+//  });
+//var subscribe_obj = null;
+
+//window.Bus.$watch("order", function (nv, ov) {
+//  subscribe_obj&&subscribe_obj.unsubscribe();
+//  subscribe_obj = observable.subscribe({
+//    next: x => console.log(x),
+//    error: error => console.log(error),
+//    complete: () => console.log('Observer got a complete notification')
+//  });
+//});
 
