@@ -11,7 +11,7 @@ import common from '../common.js'
   var originPoint = {};
   function release() {
 
-    drag_obj ? (drag_obj.removeClass("transparent"), drag_obj.trigger("change_end")) : false;
+    drag_obj ? (drag_obj.parent().removeClass("transparent"), drag_obj.trigger("change_end")) : false;
     drag_real_obj ? drag_real_obj.css("display", "none") : false;
     positon = {};
     point = {};

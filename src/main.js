@@ -6,10 +6,14 @@ window.Bus = new Vue({
     columns: {},//数据列信息
     operatingCommand: {}, //数据操作命令集合
     gridSelected: {}, //当前表格选中元素
-    order: {}
+    order: {},//当前命令
+    filter: {},//需要装填的过滤器
   }
 
 });
+window.Bus.$watch('filter', function (newValue, oldValue) {
+console.log("filter有变化")
+}.bind(this));
 window.Promise = Promise
 import Vue from 'vue'
 import App from './components/FunctionSection'
@@ -17,20 +21,21 @@ import Grid from './components/dataTable'
 import InputFilter from './components/filter'
 import FunctionList from './components/functionList'
 import QualityAnalysis from './components/qualityAnalysis'
+
 //主页面样式
+import sectionGroup from './components/part/sectionGroup'
 import './assets/css/css_rest.css'
 import './assets/scss/main.scss'
 import './assets/scss/menu.scss'
 import './assets/scss/section.scss'
-
 import $ from 'jquery'
 Vue.config.productionTip = false
 /* eslint-disable no-new */
 
 new Vue({
   el: '#left',
-  components: { App },
-  template: ' <div class="left"><App/>   </div>'
+  components: { App, sectionGroup},
+  template: ' <div class="left"><sectionGroup/><App/>   </div>'
 
 });
 new Vue({

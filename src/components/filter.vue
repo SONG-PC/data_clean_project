@@ -6,7 +6,7 @@
     </div>
     <div  class="filter_content">
         <transition-group name="list" tag="div" class="slider">
-          <div v-for="(item, index) in orderlist"  v-bind:key="item.gid"  class="item" data-index="index">{{item.txt}}<div class="close" v-on:click="close_filter(index)">{{item.op}}</div></div>
+          <div v-for="(item, index) in orderlist"  v-bind:key="item.gid"  class="item" data-index="index"><div class="txt">{{item.txt}}</div><div class="close" v-on:click="close_filter(index)">{{item.op}}</div></div>
           </transition-group>
     </div>
     <div style="position:absolute;width:100%;padding-right:6px;" v-if="tipShow==true" id="input_tip" class="input_tip">
@@ -46,6 +46,7 @@
 <script>
   import DB from '../assets/js/global/global_database.js'
   import NS from '../assets/js/global/global_scoller'
+  import Vue from 'vue'
 import common from '../assets/js/common.js';
   var count = 0;
   var select = -1;
@@ -94,9 +95,10 @@ import common from '../assets/js/common.js';
       this.input_control = $("#filter_input");
       this.parent = $(".mid");
       this.filter_bar = $(".filter_content");
-      this.slider = $(".slider");
-      new NS(".filter_content", ".slider");
+      this.slider = this.filter_bar.find(".slider");
     
+      new NS(".filter_content", ".slider");
+     
     },
     methods: {
       create_order: function (node, v) {
@@ -244,6 +246,10 @@ import common from '../assets/js/common.js';
             this.sliderShow = false;
             this.toggleFilterBar();
         }
+        Vue.nextTick(function () {
+          Vue.set(window.Bus, "filter", this.filter_bar.find(".slider"));  
+        }.bind(this))
+     
       },
       toggleFilterBar: function () {
        

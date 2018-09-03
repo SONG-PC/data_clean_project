@@ -12,19 +12,6 @@ export default (function () {
     transform = preFix+ "transform",
     transitionDuration = preFix+"traendnsition-duration",
     startTime, endTime,
-    TRNEND_EV = (function () {
-      if (preFix === false) return false;
-
-      var transitionEnd = {
-        '': 'transitionend',
-        '-webkit-': 'webkitTransitionEnd',
-        '-moz-': 'transitionend',
-        '-o-': 'otransitionend',
-        '-ms-': 'MSTransitionEnd'
-      };
-
-      return transitionEnd[preFix];
-    })(),
    animatework = new animate_worker(),
   nowChild, nowFather,fatherRect;
   function release() {
@@ -130,7 +117,10 @@ export default (function () {
   }
   ns.prototype = {
     bind_envent: function (el, child) {
-      nowChild.on("mousedown", function (e) {
+      var _super = this;
+      this.child.on("mousedown", function (e) {
+        nowChild = _super.child;
+        nowFather = _super.father;
         if (!allow_move()) {
           reset_pos(400, 0);
           return;
@@ -145,9 +135,6 @@ export default (function () {
         position.x = slideRect.left - fatherRect.left;
         position.y = slideRect.top - fatherRect.top;
         originalPoint.x = newPoint.x = e.clientX;
-      });
-      nowChild.on(TRNEND_EV, function (e) {
-        
       });
    }
   }
