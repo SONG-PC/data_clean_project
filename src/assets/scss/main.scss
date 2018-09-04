@@ -26,20 +26,21 @@
 
 
 
-
+#drag {
+  position: absolute;
+  z-index: 999999999999999999999999;
+}
 body, html {
 
-  #drag {
-    position: absolute;
-  }
+
 
   ::-ms-clear, ::-ms-reveal {
     display: none;
   }
 
   ::-webkit-scrollbar {
-    width: 11px;
-    height: 11px;
+    width: 6px;
+    height: 6px;
   }
 
   ::-webkit-scrollbar-thumb {
@@ -133,7 +134,9 @@ header {
         background-image: url('../../resourse/f0f6e5ae4d1575d049d8b81d100d87c4.png');
         width: 100%;
         border: none;
-        outline: none
+        outline: none;
+        border-bottom: 1px dotted #e5e5e5;
+        box-shadow: 0 5px 2px -2px rgba(160,160,160,.15);
       }
     }
 
@@ -213,11 +216,18 @@ header {
     background: white;
     background-color: #FFFFFF;
     height: 100%;
+    z-index: 90;
+
+    .drawer {
+      @include transition;
+      z-index: -1;
+    }
 
     .section_container {
       border-bottom: 1px solid #e5e5e5;
       padding-left: 10px;
       padding-right: 20px;
+      background-color: #fff;
 
       .more {
         background-color: #fff;
@@ -272,10 +282,21 @@ header {
       }
     }
 
+    .card::-webkit-scrollbar {
+      width: 5px;
+      height: 11px;
+    }
+
     .card {
       height: 100%;
       padding-bottom: 30px;
-  
+      overflow: auto;
+      z-index: 9999;
+      background-color: #fff;
+
+      .card_list {
+        position: relative;
+      }
     }
 
     .line {

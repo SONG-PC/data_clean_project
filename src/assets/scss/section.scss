@@ -22,7 +22,7 @@
     box-sizing: border-box;
     padding-left: 20px;
     padding-top: 12px;
-
+    cursor:crosshair;
     &:hover {
       background-color: aliceblue;
     }
@@ -43,6 +43,7 @@
       display: none;
       position: absolute;
       background-repeat: no-repeat;
+      cursor:pointer;
     }
 
     .close {
@@ -80,6 +81,7 @@
       z-index: 1;
       position: absolute;
       right: 7px;
+      top:50%;
       width: 17px;
       height: 17px;
       margin-top: -8.5px;
@@ -124,7 +126,7 @@
       margin-bottom: 5px;
       padding: 5px 15px 5px 5px;
       width:auto;
-      z-index:9999999999999999999999999999999999999999;
+      z-index:1;
       text-align: center;
       font-size: 10px;
       line-height: 10px;

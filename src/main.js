@@ -21,7 +21,6 @@ import Grid from './components/dataTable'
 import InputFilter from './components/filter'
 import FunctionList from './components/functionList'
 import QualityAnalysis from './components/qualityAnalysis'
-
 //主页面样式
 import sectionGroup from './components/part/sectionGroup'
 import './assets/css/css_rest.css'
@@ -34,8 +33,24 @@ Vue.config.productionTip = false
 
 new Vue({
   el: '#left',
+  data: {
+    drawer_content: "",
+    drawer_position: {
+      top:0,
+      left:0
+    }
+  },
+  methods: {
+    showDrawer: function (content,top,left) {
+      console.log(top);
+      this.drawer_content = content;
+      this.drawer_position = {
+        top: top ,
+        left: left}
+    }
+  },
   components: { App, sectionGroup},
-  template: ' <div class="left"><sectionGroup/><App/>   </div>'
+  template: ' <div class="left"  ><sectionGroup/><App /> </div>'
 
 });
 new Vue({

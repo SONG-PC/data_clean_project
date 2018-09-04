@@ -4,42 +4,63 @@ var transform = common.getPreFix() + "transform"
 var transition = common.getPreFix() + "transition"
 export default function flip(fromEle, toEle, intoCss, leaveCss) {
   var size = [];
+  var animateDom = [];
   fromEle.each(function (index, value) {
     var value_to = toEle.eq(index)[0];
     var from = value.getBoundingClientRect();
     var to = value_to.getBoundingClientRect();
-    console.log(to);
+    var dom = document.createElement("div");
+    dom.innerHTML = value_to.innerHTML;
+    var oStyle = (window.getComputedStyle && window.getComputedStyle(value_to, null)) || value_to.currentStyle;
+    for (var key in oStyle) {
+      var v = oStyle[key];
+      if (/^[a-z]/i.test(key) && [null, '', undefined].indexOf(v) === -1 && key != "length") {
+        try {
+          dom.style[key] = v;
+        }
+        catch (e) {
+        }
+      }
+    }
+    dom.style["z-index"] = "9999999999999999999999999999999999999999";
+    dom.style["position"] = "absolute";
+    dom.style["left"] = to.left+'px';
+    dom.style["top"] = to.top + 'px';
     var invertPosition = {
       x: from.left - to.left, y: to.top - from.top
     }
-    console.log(invertPosition);
     var invertSize = {
       width: to.width, height: to.height, index: value_to.style["index"]
     }
 
-    console.log(invertPosition.y );
-    value_to.style[transform] = 'translate(' + invertPosition.x + 'px,' + -invertPosition.y + 'px)';
-    value_to.style.width = from.width + 'px';
-    value_to.style.height = from.height + 'px';
-    value_to.style["index"] = "9999999999999999999999999999999999999999";
+
+    value_to.style["opacity"] = "0";
+    dom.style[transform] = 'translate(' + invertPosition.x + 'px,' + -invertPosition.y + 'px)';
+    dom.style.width = from.width + 'px';
+    dom.style.height = from.height + 'px';
     size.push(invertSize);
+    animateDom.push(dom);
+    document.body.appendChild(dom);
     if (intoCss) {
       for (var css in intoCss) {
-        value_to.style["css"] = intoCss[css];
+        dom.style["css"] = intoCss[css];
       }
     }
   });
   requestAnimationFrame(function () {
 
-    toEle.each(function (index, value) {
+    animateDom.forEach(function (value, index) {
       value.style[transition] = "all .5s";
       value.style.width = size[index].width+'px';
       value.style.height = size[index].height + 'px';
       value.style[transform] = '';
       value.addEventListener(common.getTrasitionEnd(), (function (obj,idx) {
         return function () {
+          document.body.removeChild(animateDom[idx]);
           obj.style[transition] = 'all 0s';
-          obj.style["index"] = size[index].index; 
+          var value_to = toEle.eq(idx)[0];
+          value_to.style["opacity"] = "1";
+          obj.style["z-index"] = size[index].index; 
           if (leaveCss) {
             for (var css in leaveCss) {
               obj.style["css"] = leaveCss[css];
