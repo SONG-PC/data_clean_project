@@ -8,6 +8,7 @@ window.Bus = new Vue({
     gridSelected: {}, //当前表格选中元素
     order: {},//当前命令
     filter: {},//需要装填的过滤器
+    card: []//卡牌队列
   }
 
 });

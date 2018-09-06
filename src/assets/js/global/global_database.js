@@ -10,6 +10,8 @@ var dataType= {
   }
 };
 export default {
+  notNull: /\S/,
+  dataType:dataType,
   normal: [{
     value: true,
     key: "是"

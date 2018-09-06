@@ -54,20 +54,25 @@ export default function flip(fromEle, toEle, intoCss, leaveCss) {
       value.style.width = size[index].width+'px';
       value.style.height = size[index].height + 'px';
       value.style[transform] = '';
-      value.addEventListener(common.getTrasitionEnd(), (function (obj,idx) {
+      var count = 0;
+      value.addEventListener(common.getTrasitionEnd(), (function (obj,idx,ct) {
         return function () {
-          document.body.removeChild(animateDom[idx]);
-          obj.style[transition] = 'all 0s';
-          var value_to = toEle.eq(idx)[0];
-          value_to.style["opacity"] = "1";
-          obj.style["z-index"] = size[index].index; 
-          if (leaveCss) {
-            for (var css in leaveCss) {
-              obj.style["css"] = leaveCss[css];
+          if (ct == 2) {
+            obj.style[transition] = 'all 0s';
+            var value_to = toEle.eq(idx)[0];
+            value_to.style["opacity"] = "1";
+            obj.style["z-index"] = size[idx].index;
+            if (leaveCss) {
+              for (var css in leaveCss) {
+                obj.style["css"] = leaveCss[css];
+              }
+
             }
-          }       
+            document.body.removeChild(obj);
+          }
+          ct++;
         }
-      }(value, index)))
+      }(value, index,count)))
     })
   });
 
