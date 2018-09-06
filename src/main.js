@@ -51,7 +51,7 @@ new Vue({
     }
   },
   components: { App, sectionGroup},
-  template: ' <div class="left"  ><sectionGroup/><App /> </div>'
+  template: ' <div class="left"  ><sectionGroup/><App /><div class="empty">无清洗函数,请从右侧列表添加</div> </div>'
 
 });
 new Vue({

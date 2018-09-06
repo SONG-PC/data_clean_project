@@ -159,15 +159,17 @@
       shrinkage: function () {
 
         if (this.op_list.length <= 0) {
-         $(".container").css("padding-left", "20px");
-          console.log("123");
-          $(".left").css(common.getPreFix() + "transform", "translateX(-100%)");
+          $(".empty").fadeIn(100);
+ 
+         //$(".container").css("padding-left", "310px");
+         // console.log("123");
+         // $(".left").css(common.getPreFix() + "transform", "translateX(-100%)");
        
         }
         else {
-
-          $(".left").css(common.getPreFix() + "transform", "");
-          $(".container").css("padding-left", "");
+          $(".empty").fadeOut(100);
+          //$(".left").css(common.getPreFix() + "transform", "");
+          //$(".container").css("padding-left", "");
         }
 
 

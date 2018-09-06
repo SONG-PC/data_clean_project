@@ -38,8 +38,8 @@ body, html {
   }
 
   ::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
+    width: 6px;
+    height: 6px;
   }
 
   ::-webkit-scrollbar-thumb {
@@ -86,7 +86,7 @@ header {
   padding-top: 72px;
   margin-top: -72px;
   background-color: #FFFFFF;
-  background-color:gray;
+  background-color: gray;
 
   .mid {
     padding: 0px 3px 3px 3px;
@@ -214,7 +214,22 @@ header {
     background-color: #FFFFFF;
     height: 100%;
     z-index: 90;
- 
+
+    .empty {
+      position: absolute;
+      left: 50%;
+      margin-left: -100px;
+      height: 72px;
+      text-align: center;
+      font-size: 12px;
+      padding-left: 10px;
+      padding-right: 10px;
+      width: 200px;
+      line-height: 72px;
+      border: 1px dashed red;
+      top: 50px;
+      color: lightslategray;
+    }
 
     .drawer {
       @include transition;
