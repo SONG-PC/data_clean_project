@@ -11,16 +11,16 @@
 </template>
 <script>
   import Valid from '../../assets/js/global/global_validate.js'
-  var default_value = null;
   export default {
     data: function () {
 
       return {
+        default_value:null,
         error: null
       }
     },
     mounted: function () {
-      default_value= this.options.components.value;
+      this.default_value= this.options.components.value;
       this.valid();
 
     },
@@ -47,7 +47,7 @@
       },
       reset: function () {
 
-        this.options.components.value = default_value;
+        this.options.components.value = this.default_value;
         this.valid();   
       }
 

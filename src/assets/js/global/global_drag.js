@@ -15,7 +15,7 @@ import { stat } from 'fs';
   var dom = null;
   function release() {
     drag_obj ? (drag_obj.parent().removeClass("transparent"), drag_obj.trigger("change_end")) : false;
-    drag_real_obj ? (document.body.removeChild(drag_real_obj[0]),drag_real_obj = null): false;
+    drag_real_obj ? (document.body.removeChild(dom),drag_real_obj = null): false;
     positon = {};
     point = {};
     drag_obj = null;
@@ -27,6 +27,7 @@ import { stat } from 'fs';
   var $Drag= {
     enableDrag: function (parent, children) {
       $(parent).delegate(children, "mousedown", function (e) {
+
         originTime = +new Date;
         drag_obj = $(this);
         drag_state = true;

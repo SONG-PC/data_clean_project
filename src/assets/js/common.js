@@ -1,4 +1,5 @@
 /* eslint-disable */
+import DB from './global/global_database.js'
 export default 
 (function (window, $) {
   var inv = null, 
@@ -92,6 +93,13 @@ export default
         arry[i] = arry[j];
         arry[j] = temp;
         return arry.concat();
+      },
+      getDataByString: function (key) {
+        if (DB.comData.hasOwnProperty(key))
+          return DB.comData[key]
+        else {
+          console.error("未找到绑定数据")
+        }
       }
     }
 })(window, $);

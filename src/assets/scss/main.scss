@@ -132,7 +132,7 @@ header {
         width: 100%;
         border: none;
         outline: none;
-        border-bottom: 1px dotted #e5e5e5;
+     
         box-shadow: 0 5px 2px -2px rgba(160,160,160,.15);
       }
     }
@@ -214,6 +214,80 @@ header {
     background-color: #FFFFFF;
     height: 100%;
     z-index: 90;
+
+    .option {
+      @include transition;
+      @include transform(translateX(-100%));
+
+      .content {
+        padding-left: 19px;
+        padding-top: 12px;
+        padding-bottom: 10px;
+        line-height: 29px;
+        padding-right: 50px;
+        border-top: 1px solid #E0E0E0;
+
+        .parm {
+          color: #4A4747;
+        }
+
+        .desc {
+          color: #9D9897;
+        }
+
+        .error {
+          color: #EF1D05;
+        }
+
+        .option {
+          margin-left: 30px;
+          float: left;
+        }
+
+        select {
+          min-width: 100px;
+          height: 25px;
+          font-size: 12px;
+        }
+
+        button {
+          margin-left: 30px;
+          border-radius: 5px;
+          border: 1px solid #fff;
+          text-align: center;
+          padding: 3px 10px 3px 10px;
+          font-size: 12px;
+          color: #fff;
+          margin-bottom: 12px;
+        }
+
+        button.join {
+          background-color: #C0E388;
+        }
+
+        button.reset {
+          background-color: #797673;
+        }
+
+        input {
+          min-width: 100px;
+          height: 25px;
+          font-size: 12px;
+        }
+
+        textarea {
+          width: 90%;
+          height: 50px;
+        }
+      }
+
+      position: relative;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      min-height: 100px;
+      display: none;
+    }
 
     .empty {
       position: absolute;

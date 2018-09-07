@@ -14,7 +14,6 @@
   border-radius: 5px;
   border-bottom: 1px solid rgb(200,200,200);
 
-
   .drag {
     position: relative;
     min-height: 59px;
@@ -22,7 +21,8 @@
     box-sizing: border-box;
     padding-left: 20px;
     padding-top: 12px;
-    cursor:crosshair;
+    cursor: crosshair;
+
     &:hover {
       background-color: aliceblue;
     }
@@ -43,7 +43,7 @@
       display: none;
       position: absolute;
       background-repeat: no-repeat;
-      cursor:pointer;
+      cursor: pointer;
     }
 
     .close {
@@ -81,7 +81,7 @@
       z-index: 1;
       position: absolute;
       right: 7px;
-      top:50%;
+      top: 50%;
       width: 17px;
       height: 17px;
       margin-top: -8.5px;
@@ -120,13 +120,13 @@
   .filter {
     padding-left: 20px;
     padding-right: 9px;
-   
+
 
     .item {
       margin-bottom: 5px;
       padding: 5px 15px 5px 5px;
-      width:auto;
-      z-index:1;
+      width: auto;
+      z-index: 1;
       text-align: center;
       font-size: 10px;
       line-height: 10px;

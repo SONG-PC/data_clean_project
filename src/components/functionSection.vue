@@ -7,22 +7,26 @@
               <div class="title">
                 {{item.fn_label}}
               </div><div class="turn_on_of"></div>
-              <div class="button close"></div><div class="button menu"  >
+              <div class="button close" ></div><div class="button menu" v-on:click="openOption" >
               </div><div class="button arrow_up"></div><div class="button arrow_down"></div>
             </div>
             <div class="filter">
               <div class="item" v-for="(fi, idx) in item.filter" v-html="fi">
               </div>
             </div>
+            <div class="option">
+              <Option v-bind:option_data="item" />
+            </div>
           </li>
 
         </transition-group>
-        <div class="line" v-bind:style="{top:(itemHeight/2)+'px',height:  lineHeight()}"></div>
+        <div class="line" v-bind:style="{top:(itemHeight/2)+'px',height:  lineHeight(),transition:'all .5s'}"></div>
       </div>
     </div>
 
 </template>
 <style>
+
   .list-complete-item {
     transition: all .5s;
     display: inline-block;
@@ -38,7 +42,7 @@
  
 </style>
 <script>
-
+  import Option from './part/option'
   import common from '../assets/js/common.js'
   import $ from 'jquery'
   import '../assets/js/global/global_drag.js'
@@ -88,28 +92,33 @@
   var item_list = null;
   var dragPositon = null;
   export default {
+    components: { Option },
     mounted: function () {
       this.shrinkage();
+      var container = $("#control_list");
+      $Drag.enableDrag("#control_list", ".drag");
       window.Bus.$watch('card', function (newValue, oldValue) {
-
+        var _super = this;
         this.op_list = newValue[0].fnlist;
         this.shrinkage();
+     
         Vue.nextTick(function () {
           if (window.Bus.filter.length > 0) {
             this.stuffFilter(this.op_list.length - 1, window.Bus.filter);
           }
-          var _super = this;
-          var container = $("#control_list");
+   
+   
           var offsetTop = parseInt(container.offset().top);
           this.itemHeight = parseInt(container.find(".drag:eq(0)").css("height"));
           this.scrollView = $(".card");
           var line = $(".line");
           line.fadeIn(0);
-          item_list = $("#control_list li");
+          item_list ? item_list.unbind() : false;
+          item_list = $("#control_list li");     
           dragPositon = parseInt(item_list.find(".drag").css("height")) * 0.5;
           this.reComputeHeight();
           var turn_off = item_list.find(".turn_on_of");
-          $Drag.enableDrag("#control_list", ".drag");
+       
           item_list.on("change_start", function () {
             line.fadeOut(0);
             turn_off.addClass("off");
@@ -156,6 +165,26 @@
     },
   
     methods: {
+      openOption: function (e) {
+        var transform = common.getPreFix() + "transform";
+        var li = $(e.currentTarget).parent().parent();
+        var drag = li.find(".drag");
+        var option = li.find(".option");
+        var display = option.css("display");
+        if (display == "block") {
+          option.css(transform, "translateX(-100%)");
+          option.css("display", "none");
+        }
+        else {
+
+          option.css("display", "block"); 
+          setTimeout(function () {
+
+            option.css(transform, "translateX(0)");
+          }, 360);
+        }  
+        this.reComputeHeight();     
+      },
       shrinkage: function () {
 
         if (this.op_list.length <= 0) {
@@ -178,7 +207,7 @@
         var arry = this.op_list.concat();
         var height = 0;
         item_list = $("#control_list li");
-        console.log(item_list);
+
         item_list.each(function (idx, item) {
           arry[idx].height = parseInt($(item).css("height"));
           height += arry[idx].height;

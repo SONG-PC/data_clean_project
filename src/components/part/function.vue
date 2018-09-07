@@ -50,8 +50,7 @@
           if (hash_exsit) {
             var arry = card.concat();
             arry[exsit_idx].fnlist.push(newObject);
-            Vue.set(window.Bus, "card", arry);
-            console.log("走这个");
+            Vue.set(window.Bus, "card", arry);;
           }
           else {
             var data = {

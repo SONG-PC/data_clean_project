@@ -11,15 +11,18 @@ var dataType= {
 };
 export default {
   notNull: /\S/,
-  dataType:dataType,
-  normal: [{
-    value: true,
-    key: "是"
-  },
-  {
-    value: false,
-    key: "否"
-  }],
+  dataType: dataType,
+  comData: {
+    normal: [{
+      value: true,
+      key: "是"
+    },
+    {
+      value: false,
+      key: "否"
+    }]
+  }
+  ,
   keybordCode: {
     Up: 38,
     Down: 40,

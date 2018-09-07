@@ -52,7 +52,7 @@
                 value: null,//默认值
                 label: "名字",//组件的标签
                 placeholder: "请输入",//如果是输入组件,提示输入的内容
-                data: [],//如果是选择组建,可传入key-value键值对
+                data:[],//如果是选择组建,可传入key-value键值对
                 desc: "这是一个输入组件"   //对组件的描述
               }
           }
@@ -79,11 +79,27 @@
                 //value: null,//默认值
                 label: "名字",//组件的标签
                 //  placeholder: "请输入",//如果是输入组件,提示输入的内容
-                data: [{ key: "124", value: "456" }],//如果是选择组建,可传入key-value键值对
+                value: true,
+                data: "normal",//如果是选择组建,可传入key-value键值对
                 desc: "这是一个输入组件"   //对组件的描述
               }
           }
-
+          ,
+          {
+            parm_name: //服务端参数名称,请求时使用
+              "desc",
+            parm_type: //参数类型,和前端data文件保持一致
+              "string",
+            components://当前参数所使用的组件信息
+              {
+                tag: "textarea",
+                value: null,//默认值
+                label: "介绍",//组件的标签
+                placeholder: "请输入",//如果是输入组件,提示输入的内容
+                data: [],//如果是选择组建,可传入key-value键值对
+                desc: "这是一个输入组件"   //对组件的描述
+              }
+          }
           //参数N.....
 
         ]
