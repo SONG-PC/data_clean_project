@@ -7,15 +7,15 @@
               <div class="title">
                 {{item.fn_label}}
               </div><div class="turn_on_of"></div>
-              <div class="button close" ></div><div class="button menu" v-on:click="openOption" >
-              </div><div class="button arrow_up"></div><div class="button arrow_down"></div>
+              <div class="button close"  v-on:click="deleteOne"></div><div class="button menu" v-on:click="openOption" >
+              </div><div v-if="index>0" class="button arrow_up"  v-on:click="exchangeUp"></div><div v-if="index<op_list.length-1" class="button arrow_down"  v-on:click="exchangeDown"></div>
             </div>
             <div class="filter">
               <div class="item" v-for="(fi, idx) in item.filter" v-html="fi">
               </div>
             </div>
             <div class="option">
-              <Option v-bind:option_data="item" />
+              <Option v-bind:option_data="item"    v-on:refresh_order="refreshOrder" />
             </div>
           </li>
 
@@ -48,54 +48,16 @@
   import '../assets/js/global/global_drag.js'
   import flip from '../assets/js/global/global_flip.js'
   import Vue from 'vue'
-  var exzample = [
-    {
-      data_id: "0",
-      fn_lable: '大写转小写',
-      filter: []
-    }, {
-      data_id: "1",
-      fn_lable: '小写转大写',
-      filter: []
-    },
-    {
-      data_id: "2",
-      fn_lable: '提取身份证',
-      filter: []
-    },
-    {
-      data_id: "3",
-      fn_lable: '获取电话号码',
-      filter: []
-    },
-    {
-      data_id: "4",
-      fn_lable: '查看经纬度',
-      filter: []
-    },
-    {
-      data_id: "5",
-      fn_lable: '查看经纬度',
-      filter: []
-    },
-    {
-      data_id: "6",
-      fn_lable: '查看经纬度',
-      filter: []
-    },
-    {
-      data_id: "7",
-      fn_lable: '查看经纬度',
-      filter: []
-    }];
   var lockButton = false;
   var item_list = null;
   var dragPositon = null;
+  var offsetTop;
   export default {
     components: { Option },
     mounted: function () {
       this.shrinkage();
       var container = $("#control_list");
+      offsetTop  = parseInt(container.offset().top);
       $Drag.enableDrag("#control_list", ".drag");
       window.Bus.$watch('card', function (newValue, oldValue) {
         var _super = this;
@@ -108,7 +70,7 @@
           }
    
    
-          var offsetTop = parseInt(container.offset().top);
+      
           this.itemHeight = parseInt(container.find(".drag:eq(0)").css("height"));
           this.scrollView = $(".card");
           var line = $(".line");
@@ -134,6 +96,7 @@
 
             drag_obj.parent().addClass("transparent");
             var pre = (index - 1) >= 0 ? index - 1 : index;
+
             top = _super.scrollView.scrollTop() + top;
             var after = (index + 1) >= _super.op_list.length ? index : index + 1;
             if (index != pre) {
@@ -148,6 +111,7 @@
             }
             if (index != after) {
               var pre_obj_break_point = (offsetTop + _super.computedHeight(after)) - dragPositon;
+              console.log(offsetTop);
               //如果当前虚拟对象位置小于临界点
               if (top > pre_obj_break_point) {
                 _super.op_list = common.swap_arry(_super.op_list, index, after);
@@ -165,6 +129,42 @@
     },
   
     methods: {
+      deleteOne: function (e) {
+        var li = $(e.currentTarget).parent().parent();
+        var index = li.attr("data-index");
+        this.op_list.splice(index, 1);
+        this.refreshOrder();
+
+      },
+      exchangeUp: function (e) {
+        var li = $(e.currentTarget).parent().parent();
+        var index = parseInt(li.attr("data-index"));
+        var pre = (index - 1) >= 0 ? index - 1 : index;
+
+        if (index == pre) {
+          return
+        } else {
+          this.op_list = common.swap_arry(this.op_list, index, pre);
+          this.refreshOrder();
+        }
+
+      },
+      exchangeDown: function (e) {
+        var li = $(e.currentTarget).parent().parent();
+        var index = parseInt(li.attr("data-index"));
+        var after = (index + 1) >= this.op_list.length ? index : index + 1;
+
+        if (index == after ) {
+          return
+        } else {
+          this.op_list = common.swap_arry(this.op_list, index, after);
+          this.refreshOrder();
+        }
+      },
+      refreshOrder: function () {
+        console.log("刷新指令");
+        window.Bus.card[0].fnlist= this.op_list;
+      },
       openOption: function (e) {
         var transform = common.getPreFix() + "transform";
         var li = $(e.currentTarget).parent().parent();
@@ -186,22 +186,12 @@
         this.reComputeHeight();     
       },
       shrinkage: function () {
-
         if (this.op_list.length <= 0) {
-          $(".empty").fadeIn(100);
- 
-         //$(".container").css("padding-left", "310px");
-         // console.log("123");
-         // $(".left").css(common.getPreFix() + "transform", "translateX(-100%)");
-       
+          $(".empty").fadeIn(100);    
         }
         else {
           $(".empty").fadeOut(100);
-          //$(".left").css(common.getPreFix() + "transform", "");
-          //$(".container").css("padding-left", "");
         }
-
-
       },
       reComputeHeight: function () {
         var arry = this.op_list.concat();

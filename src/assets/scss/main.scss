@@ -38,12 +38,13 @@ body, html {
   }
 
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 9px;
+    height: 9px;
   }
 
   ::-webkit-scrollbar-thumb {
     border: 0;
+    border-radius: 1px;
     /*border-color: #fff;*/
     background: #D1CFCE;
   }
@@ -52,7 +53,7 @@ body, html {
     background-color: #D1CFCE;
   }
 
-  min-width: 736px;
+  min-width: 746px;
   height: 100%;
   overflow: hidden;
   font: normal 13px arial,Microsoft;
@@ -81,7 +82,7 @@ header {
 }
 
 .container {
-  padding: 0 420px 0 310px;
+  padding: 0 430px 0 310px;
   width: 100%;
   padding-top: 72px;
   margin-top: -72px;
@@ -116,13 +117,13 @@ header {
     }
 
     .filter {
-      height: 40px;
+      height: 35px;
       width: 100%;
       padding: 0;
 
       input {
         height: 100%;
-        line-height: 30px;
+        line-height: 35px;
         font-size: 14px;
         background-position: right;
         background-repeat: no-repeat;
@@ -132,7 +133,6 @@ header {
         width: 100%;
         border: none;
         outline: none;
-     
         box-shadow: 0 5px 2px -2px rgba(160,160,160,.15);
       }
     }
@@ -144,7 +144,6 @@ header {
       position: relative;
       font-size: 0px;
       box-sizing: border-box;
-      height: 32px;
       width: 100%;
       display: none;
       background-color: #fff;
@@ -251,12 +250,13 @@ header {
         }
 
         button {
+          cursor: pointer;
           margin-left: 30px;
-          border-radius: 5px;
+          border-radius: 3px;
           border: 1px solid #fff;
           text-align: center;
-          padding: 3px 10px 3px 10px;
-          font-size: 12px;
+          padding: 3px 9px 3px 9px;
+          font-size: 10px;
           color: #fff;
           margin-bottom: 12px;
         }
@@ -292,29 +292,28 @@ header {
     .empty {
       position: absolute;
       left: 50%;
-      margin-left: -100px;
-      height: 72px;
+      margin-left: -130px;
+      height: 66px;
       text-align: center;
-      font-size: 12px;
+      font-size: 13px;
       padding-left: 10px;
       padding-right: 10px;
-      width: 200px;
-      line-height: 72px;
-      border: 1px dashed red;
-      top: 50px;
-      color: lightslategray;
+      width: 260px;
+      line-height: 66px;
+      border: 1px dashed #FA6317;
+      top: 35.5px;
+      color: #FA6317;
     }
 
-    .drawer {
-      @include transition;
-      z-index: -1;
-    }
+
 
     .section_container {
       border-bottom: 1px solid #e5e5e5;
       padding-left: 10px;
       padding-right: 20px;
       background-color: #fff;
+      font-weight: 600;
+      color: #696969;
 
       .more {
         background-color: #fff;
@@ -399,9 +398,9 @@ header {
   }
 
   .right {
-    margin-left: -420px;
-    width: 420px;
-    right: -420px;
+    margin-left: -430px;
+    width: 430px;
+    right: -430px;
     background-color: #FFFFFF;
     padding-bottom: 360px;
 
@@ -431,16 +430,17 @@ header {
         box-sizing: border-box;
         overflow: hidden;
 
+
         .title {
           height: 70%;
           overflow: hidden;
 
           .now_column {
-            font-family: 微软雅黑;
-            font-weight: 500;
+            font-weight: 600;
             font-size: 20px;
             padding-left: 10px;
             height: 40px;
+            color: #696969;
             line-height: 40px;
           }
         }
@@ -470,11 +470,13 @@ header {
       .function_group {
         width: 100%;
         height: 70%;
-        font-size: 15px;
+        font-size: 17px;
         overflow-x: hidden;
         background-position: center;
         background-size: 25px 25px;
         background-repeat: no-repeat;
+        font-weight: 500;
+        color: #696969;
 
         .function_group_title {
           width: 100%;
@@ -554,12 +556,13 @@ header {
               }
 
               button {
+                cursor: pointer;
                 margin-left: 30px;
-                border-radius: 5px;
+                border-radius: 3px;
                 border: 1px solid #fff;
                 text-align: center;
-                padding: 5px 12px 5px 12px;
-                font-size: 15px;
+                padding: 3px 9px 3px 9px;
+                font-size: 10px;
                 color: #fff;
                 margin-bottom: 12px;
               }

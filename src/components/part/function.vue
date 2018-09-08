@@ -37,7 +37,20 @@
           var newObject = jQuery.extend(true, { data_id: common.GUID(), filter: [] }, this.function_data);
 
           var card = window.Bus.card;
-          var hash = md5(JSON.stringify(this.operator_data));
+          var hash_data;
+          if (this.operator_data.all_col) {
+            hash_data = {
+              cells: this.operator_data.cells
+            }
+          }
+          else {
+            hash_data = {
+              cells: this.operator_data.cells,
+              rows: this.operator_data.rows
+            }
+          }
+          var hash = md5(JSON.stringify(hash_data));
+
           var hash_exsit = false;
           var exsit_idx;
           card.forEach(function (v,idx) {

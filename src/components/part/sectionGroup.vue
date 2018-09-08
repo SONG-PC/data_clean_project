@@ -20,7 +20,6 @@
   import NS from '../../assets/js/global/global_scoller'
   export default {
     mounted: function () {
-      console.log(1);
       new NS(".section_group", ".list");
     },
     name: "sectionGroup"

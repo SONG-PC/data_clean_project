@@ -6,7 +6,7 @@
           <Areatext ref="mychild" v-if="item.components.tag=='textarea'" v-bind:options="item" />
         </div>
         <div style="clear:both"> </div>
-        <div><button class="join" v-on:click="save">保存</button><button class="reset" v-on:click="reset">取消</button></div>
+        <div><button class="join" v-on:click="save">保存</button><button class="reset" v-on:click="reset">还原</button></div>
       </div>
 </template>
 <script>
@@ -17,13 +17,27 @@
   export default {
     components: { Input, Select, Areatext },
     props: ['option_data'],
+    data: function () {
+      return {
+        default_value: null
+      }
+    },
     methods: {
-     save: function () {
-
-
+      save: function () {
+        var isAllowed = true;
+        this.$refs.mychild.forEach(function (item, index) {
+          if (!item.valid()) {
+            isAllowed = false;
+          }
+        });
+        if (isAllowed) {
+          this.$emit("refresh_order");
+        }
       },
       reset: function () {
-
+        this.$refs.mychild.forEach(function (item, index) {
+          item.reset();
+        })   
       }
     },
     name: "Option"

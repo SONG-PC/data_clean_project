@@ -11,8 +11,9 @@
   padding: 0;
   top: 0px;
   width: 100%;
-  border-radius: 5px;
+  /*border-radius: 5px;*/
   border-bottom: 1px solid rgb(200,200,200);
+  box-sizing: border-box;
 
   .drag {
     position: relative;
@@ -47,7 +48,7 @@
     }
 
     .close {
-      background-image: url('../../resourse/delete.png');
+      background-image: url('../../resourse/delete_item.png');
       background-size: 17px 17px;
       width: 17px;
       height: 17px;
