@@ -724,3 +724,7 @@ ul {
   box-sizing: border-box;
   @include transition;
 }
+
+.section .close {
+  background-image: url('../../resourse/delete_item.png');
+}
