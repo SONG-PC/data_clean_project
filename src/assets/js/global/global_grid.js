@@ -73,7 +73,7 @@ export default (function () {
             }
           }(a, args.index, q)), 0);
         }
-    
+
         a.parent().css(
           {
             "background-image": "url('" + quality_bg + "')",
@@ -89,7 +89,7 @@ export default (function () {
         allow_fresh = true;
 
       }.bind(this));
-      grid.onHeaderClick.subscribe(function (e, arg) {        
+      grid.onHeaderClick.subscribe(function (e, arg) {
         select_all_col = arg.column;
         this._selectAllCol(grid, select_all_col);
       }.bind(this));
@@ -107,15 +107,14 @@ export default (function () {
         else {
           arg.normal = true;
         }
-        
-        console.log(arg);
+        arg.selected_text = this._convertoText(arg);
         Vue.set(window.Bus, "gridSelected", arg);
 
       }.bind(this));
 
- 
+
       grid.onMouseDown.subscribe(function (e, arg) {
-        select_all_col = null;   
+        select_all_col = null;
       });
 
       grid.onClick.subscribe(function (e, arg) {
@@ -130,6 +129,46 @@ export default (function () {
 
       });
 
+    },
+    _convertoText: function (arg) {
+      if (arg.all_col) {
+        return arg.all_col.name;
+      }
+      else if (arg.all_row) {
+        var start = arg.all_row[0] + 1;
+        var end = arg.all_row[arg.all_row.length - 1] + 1;
+        if (start == end) {
+          return '第' + start + "行";
+        }
+        else {
+         return '第' + start + "行 至 第" + end + "行";
+
+        }
+      }
+      else if (arg.normal) {
+        var cells_start =arg.cells[0];
+        var cells_end = arg.cells[arg.cells.length - 1];
+        var rows_start = arg.rows[0];
+        var rows_end = arg.rows[arg.rows.length - 1];
+        var row_info = '';
+        if (rows_start == rows_end) {
+          row_info = " 第" + (rows_start + 1) + "行";
+        }
+        else {
+          row_info = " 行(" + (rows_start + 1) + "," + (rows_end + 1) + ")";
+        }
+        if (cells_start == cells_end) {
+          var columns = window.Bus["columns"];
+          return columns[cells_start].name + row_info
+        }
+        else {
+          return '列(' + (cells_start + 1) + ',' + (cells_end + 1) + ')' + row_info;
+
+        }
+      }
+      else {
+        return "未知对象"
+      }
     },
     _selectAllRow: function (grid, column,rows) {
       grid.setSelectedCells({
@@ -151,7 +190,7 @@ export default (function () {
       var start = inf.top;
       var end = inf.bottom;
       var colidx = grid.getColumnIndex(column.id);
-
+    
       grid.setSelectedCells({
         fromCell: colidx,
         toCell: colidx,
@@ -161,7 +200,24 @@ export default (function () {
 
 
 
+    },
+    _selectByObj: function (arg) {
+      if (arg.all_col) {
+        select_all_col = arg.all_col;
+        this._selectAllCol(this._grid, select_all_col);
+      }
+      else {
+        select_all_col = null;
+        this._grid.setSelectedCells({
+          fromCell: arg.cells[0],
+          toCell: arg.cells[arg.cells.length - 1],
+          fromRow: arg.rows[0],
+          toRow: arg.rows[arg.rows.length - 1]
+        });
+
+      }
     }
+ 
   };
   function my_slick_grid(container, data, columns) {
     //列菜单配置
@@ -214,6 +270,7 @@ export default (function () {
       }
 
       var grid = new Slick.Grid(container, data, columns, options);
+      _super._grid = grid;
       grid.setSelectionModel(s_mode_c);
       grid.registerPlugin(headerMenuPlugin);
       grid.registerPlugin(draggableGrouping);

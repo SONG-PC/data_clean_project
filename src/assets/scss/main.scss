@@ -46,7 +46,7 @@ body, html {
     border: 0;
     border-radius: 1px;
     /*border-color: #fff;*/
-    background: #D1CFCE;
+    background: #E9DFC1;
   }
 
   ::-webkit-scrollbar-thumb:hover {
@@ -293,15 +293,15 @@ header {
       position: absolute;
       left: 50%;
       margin-left: -130px;
-      height: 66px;
+      height: 76px;
       text-align: center;
-      font-size: 13px;
+      font-size: 10px;
       padding-left: 10px;
       padding-right: 10px;
       width: 260px;
-      line-height: 66px;
+      line-height: 76px;
       border: 1px dashed #FA6317;
-      top: 35.5px;
+      top: 56px;
       color: #FA6317;
     }
 
@@ -309,11 +309,12 @@ header {
 
     .section_container {
       border-bottom: 1px solid #e5e5e5;
-      padding-left: 10px;
+      padding-left: 0px;
       padding-right: 20px;
       background-color: #fff;
       font-weight: 600;
       color: #696969;
+      overflow: hidden;
 
       .more {
         background-color: #fff;
@@ -344,6 +345,15 @@ header {
           top: 0px;
           position: absolute;
 
+          .tabs.active {
+            background-color: #FBFB97;
+            color: #60A9CE;
+          }
+
+          .tabs.virtual {
+            opacity: 0.5;
+          }
+
           .tabs {
             cursor: pointer;
             @include transform(skew(-20deg));
@@ -358,10 +368,34 @@ header {
             text-align: center;
             line-height: 25px;
 
-
-            span {
-              display: block;
+            .name {
+              display: inline-block;
               @include transform(skew(20deg));
+              padding: 0px 5px 0px 5px;
+            }
+
+            .count {
+              display: inline-block;
+              color: red;
+              padding: 0px 5px 0px 0px;
+              @include transform(skew(20deg));
+            }
+
+            .delete_btn {
+              display: inline-block;
+              position: relative;
+              text-align: center;
+              color: #fff;
+              padding: 0px 0px 0px 0px;
+              margin-right: -12px;
+              background-color: red;
+              height: 100%;
+              width: 15px;
+
+              .text {
+                display: inline-block;
+                @include transform(skew(20deg));
+              }
             }
           }
         }

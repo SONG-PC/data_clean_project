@@ -44,8 +44,7 @@
   import Vue from 'vue'
   export default {
     mounted: function () {
-
-
+  
       var columns = [
         { id: "index", name: "#", field: "index", isIgonore: true },
         { id: "title", name: "任务号", field: "title", quality: common.getRandomByRank(60, 100) },
@@ -69,6 +68,9 @@
         };
       }
       var my_grid = new grid("#myGrid", data, columns);
+      window.Bus.$watch('groupSelected', function (newValue, oldValue) {
+        my_grid._selectByObj(newValue);
+      }.bind(this));
       Vue.set(window.Bus, "columns", columns);
     },
     name: "Grid"

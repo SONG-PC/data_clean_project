@@ -6,8 +6,9 @@ window.Bus = new Vue({
     columns: {},//数据列信息
     operatingCommand: {}, //数据操作命令集合
     gridSelected: {}, //当前表格选中元素
+    groupSelected: {},//当前卡牌组选择对象
     order: {},//当前命令
-    filter: {},//需要装填的过滤器
+    filter: null,//需要装填的过滤器
     card: []//卡牌队列
   }
 
@@ -35,11 +36,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#left',
   data: {
-    drawer_content: "",
-    drawer_position: {
-      top:0,
-      left:0
-    }
+    card: window.Bus.card
   },
   methods: {
     showDrawer: function (content,top,left) {
@@ -50,8 +47,18 @@ new Vue({
         left: left}
     }
   },
+  mounted: function () {
+    //监听卡牌组变化情况
+    window.Bus.$watch('card', function (newValue, oldValue) {
+      this.card = newValue;
+      //去做一些子组件的更新
+      this.$refs.mychild.forEach(function (item, idx) {
+        item.update();
+      })
+    }.bind(this));
+  },
   components: { App, sectionGroup},
-  template: ' <div class="left"  ><sectionGroup/><App /><div class="empty">无清洗函数,请从右侧列表添加</div> </div>'
+  template: ' <div class="left"  ><sectionGroup/><App  ref="mychild" v-for="c in  card" v-bind:c_data="c"  v-if="c.isActive"/><div class="empty">无清洗函数,请从右侧列表添加</div> </div>'
 
 });
 new Vue({

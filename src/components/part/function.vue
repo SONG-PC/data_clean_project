@@ -29,18 +29,24 @@
       join: function () {
         var isAllowed =true;
         this.$refs.mychild.forEach(function (item, index) {
+
           if (!item.valid()) {
             isAllowed = false;
           }
         });
         if (isAllowed) {
-          var newObject = jQuery.extend(true, { data_id: common.GUID(), filter: [] }, this.function_data);
+          var newObject = jQuery.extend(true, { data_id: common.GUID(), filter: [], needFilter: true }, this.function_data);
 
           var card = window.Bus.card;
           var hash_data;
           if (this.operator_data.all_col) {
             hash_data = {
               cells: this.operator_data.cells
+            }
+          }
+          else if (this.operator_data.all_row) {
+            hash_data = {
+              all_row: this.operator_data.all_row
             }
           }
           else {
@@ -56,11 +62,14 @@
           card.forEach(function (v,idx) {
             if (v.hash == hash) {
               hash_exsit = true;
+              v.virtual = false;    
+              Vue.set(card, idx, v);
               exsit_idx = idx;
             }
           }
           );
           if (hash_exsit) {
+       
             var arry = card.concat();
             arry[exsit_idx].fnlist.push(newObject);
             Vue.set(window.Bus, "card", arry);;
@@ -72,8 +81,9 @@
               operator_data:
                 {
                   isAllCol: this.operator_data.all_col ? true : false,
-                  rows: this.operator_data.all_col,
-                  cells: this.operator_data.all_col
+                  rows: this.operator_data.rows,
+                  cells: this.operator_data.cells,
+                  all_col: this.operator_data.all_col
                 },
               fnlist: [newObject]
             }

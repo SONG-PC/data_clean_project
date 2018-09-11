@@ -50,7 +50,7 @@
           return false;
         }
         else {
-          console.log("valid")
+  
           this.error = null;
           return true;
         }

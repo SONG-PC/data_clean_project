@@ -30,9 +30,7 @@
             isAllowed = false;
           }
         });
-        if (isAllowed) {
-          this.$emit("refresh_order");
-        }
+
       },
       reset: function () {
         this.$refs.mychild.forEach(function (item, index) {

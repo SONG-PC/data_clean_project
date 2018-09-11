@@ -26,7 +26,6 @@
     },
     methods: {
       valid: function () {
-        console.log(this.options.components);
         if (!Valid.validateByType(this.options.components.value, this.options.parm_type)) {
           if (!this.options.components.value) {
              this.error = "请输入一个有效值";
@@ -37,7 +36,7 @@
           return false;
         }
         else {
-          console.log("valid")
+     
           this.error = null;
           return true;
         }

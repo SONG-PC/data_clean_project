@@ -4,9 +4,8 @@
 
       <div class="title">
         <transition name="fade">
-          <div v-if="select_object.all_col" class="now_column">{{col}} </div>
-          <div v-if="select_object.all_row" class="now_column">{{row}}</div>
-          <div v-if="select_object.normal" class="now_column">{{cell}}</div>
+          <div class="now_column">{{select_object.selected_text}} </div>
+
           </transition>
           <ul class="tabs"><li v-bind:class="{active:select_object.all_col}">列</li><li v-bind:class="{active:select_object.all_row}">行</li><li v-bind:class="{active:select_object.normal}">单元格</li></ul>
       </div>
@@ -20,7 +19,7 @@
         <div  class="function_group_title">{{item.group_name}}</div>
         <ul class="function suggestion">
           <li v-for="(child,index) in item.fn_list" v-bind:data-name="child.fn_name">
-            <Function v-bind:function_data="child" v-bind:operator_data="select_object" v-bind:operator_name="select_name"/>
+            <Function v-bind:function_data="child" v-bind:operator_data="select_object" v-bind:operator_name="select_object.selected_text"/>
           </li>
         </ul>
       </div>
@@ -198,52 +197,8 @@
     data: function () {
       return {
         grouplist: [],
-        select_object: {},
-        select_name:""
+        select_object: {}
       }
-    },
-    computed: {
-      col: function () {
-        this.select_name = this.select_object.all_col.name;
-        return this.select_name;
-      },
-      row: function () {
-        var start = this.select_object.all_row[0] + 1;
-        var end = this.select_object.all_row[this.select_object.all_row.length - 1] + 1;
-        if (start == end) {
-          this.select_name = '第' + start + "行";
-        }
-        else {
-          this.select_name = '第' + start + "行 至 第" + end + "行";
-      
-        }
-        return this.select_name
-       
-      },
-      cell: function () {
-     
-        var cells_start = this.select_object.cells[0];
-        var cells_end = this.select_object.cells[this.select_object.cells.length - 1] ;
-        var rows_start = this.select_object.rows[0] ;
-        var rows_end = this.select_object.rows[this.select_object.rows.length - 1] ;
-        var row_info = '';
-        if (rows_start == rows_end) {
-          row_info = " 第" + (rows_start+1) + "行";
-        }
-        else {
-          row_info = " 行(" + (rows_start + 1) + "," + (rows_end + 1) + ")";
-        }
-        if (cells_start == cells_end) {
-          var columns = window.Bus["columns"];
-          this.select_name =  columns[cells_start].name + row_info
-        }
-        else {
-          this.select_name = '列(' + (cells_start + 1) + ',' + (cells_end + 1) + ')' + row_info;
-         
-        }
-        return this.select_name;
-      }
-
     },
     methods: {
       loading: function () {
