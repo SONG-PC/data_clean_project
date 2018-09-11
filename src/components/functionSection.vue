@@ -49,14 +49,18 @@
   var lockButton = false;
   var item_list = null;
   var dragPositon = null;
+  var container;
   var offsetTop;
   export default {
     components: { Option },
+    mounted: function () {
+      container = $("#control_list");
+      offsetTop = parseInt(container.offset().top);
+      $Drag.enableDrag("#control_list", ".drag");
+    },
     methods: {
       update: function () {
-        var container = $("#control_list");
-        offsetTop = parseInt(container.offset().top);
-        $Drag.enableDrag("#control_list", ".drag");
+
         var _super = this;
         this.op_list = this.c_data.fnlist;
         console.log(this.op_list == this.c_data.fnlist)

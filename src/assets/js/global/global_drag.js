@@ -92,7 +92,6 @@ import { stat } from 'fs';
   
   });
   $(document).on("mouseup", function (e) {
-
     release();
   });
   window.$Drag = $Drag;
