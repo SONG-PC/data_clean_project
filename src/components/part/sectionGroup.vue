@@ -7,7 +7,7 @@
   <div class="tabs"><span>开始时间</span></div>
   <div class="tabs"><span>项目周期</span></div>
   <div class="tabs"><span>结束时间</span></div>-->
-        <div v-on:click="changeSeleted(index)"  v-for="(item,index) in tabs" v-bind:class="{tabs:true,active: item.isActive, virtual:item.virtual}"><span class="name">{{item.name}}</span><span v-if="item.fnlist.length>0" class="count">{{item.fnlist.length}}</span><span class="delete_btn"  v-if=" item.isActive&&tabs.length>1&&!item.virtual" v-on:click="deleteOne(index)"><span class="text" >x</span></span></div>
+        <div v-on:click="changeSeleted(index)"  v-for="(item,index) in tabs" v-bind:class="{tabs:true,active: item.isActive, virtual:item.virtual}"><span class="name">{{item.name}}</span><span v-if="item.fnlist.length>0" class="count">{{item.fnlist.length}}个函数</span><span class="delete_btn"  v-if=" item.isActive&&tabs.length>1&&!item.virtual" v-on:click="deleteOne(index)"><span class="text" >x</span></span></div>
       </div>
 
     </div>

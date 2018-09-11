@@ -58,7 +58,7 @@ new Vue({
     }.bind(this));
   },
   components: { App, sectionGroup},
-  template: ' <div class="left"  ><sectionGroup/><App  ref="mychild" v-for="c in  card" v-bind:c_data="c"  v-if="c.isActive"/><div class="empty">无清洗函数,请从右侧列表添加</div> </div>'
+  template: ' <div class="left"  ><sectionGroup/><App  ref="mychild" v-for="c in  card" v-bind:c_data="c"  v-if="c.isActive"></App>  </div>'
 
 });
 new Vue({

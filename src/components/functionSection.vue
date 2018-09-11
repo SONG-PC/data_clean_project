@@ -22,6 +22,7 @@
       </transition-group>
       <div class="line" v-bind:style="{top:(itemHeight/2)+'px',height:  lineHeight()}"></div>
     </div>
+    <div class="empty" v-if=" op_list.length<=0">无清洗函数,请从右侧列表添加</div>
   </div>
 
 </template>
@@ -30,7 +31,7 @@
   .list-complete-item {
     transition: all .5s;
     display: inline-block;
-    margin-right: 10px;
+ 
   }
 
   .list-complete-enter, .list-complete-leave-to
@@ -59,8 +60,6 @@
         var _super = this;
         this.op_list = this.c_data.fnlist;
         console.log(this.op_list == this.c_data.fnlist)
-        this.shrinkage();
-
         Vue.nextTick(function () {
           this.stuffFilter();
           this.itemHeight = parseInt(container.find(".drag:eq(0)").css("height"));
@@ -116,6 +115,9 @@
         var li = $(e.currentTarget).parent().parent();
         var index = li.attr("data-index");
         this.op_list.splice(index, 1);
+        if (this.op_list <= 0) {
+          this.c_data.virtual = true;
+        }
 
       },
       exchangeUp: function (e) {
@@ -160,14 +162,6 @@
           }, 360);
         }
         this.reComputeHeight();
-      },
-      shrinkage: function () {
-        if (this.op_list.length <= 0) {
-          $(".empty").fadeIn(100);
-        }
-        else {
-          $(".empty").fadeOut(100);
-        }
       },
       reComputeHeight: function () {
         var height = 0;

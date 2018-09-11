@@ -289,21 +289,6 @@ header {
       display: none;
     }
 
-    .empty {
-      position: absolute;
-      left: 50%;
-      margin-left: -130px;
-      height: 76px;
-      text-align: center;
-      font-size: 10px;
-      padding-left: 10px;
-      padding-right: 10px;
-      width: 260px;
-      line-height: 76px;
-      border: 1px dashed #FA6317;
-      top: 56px;
-      color: #FA6317;
-    }
 
 
 
@@ -413,6 +398,22 @@ header {
       overflow: auto;
       z-index: 9999;
       background-color: #fff;
+
+      .empty {
+        position: absolute;
+        left: 50%;
+        margin-left: -130px;
+        height: 76px;
+        text-align: center;
+        font-size: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        width: 260px;
+        line-height: 76px;
+        border: 1px dashed #FA6317;
+        top: 56px;
+        color: #FA6317;
+      }
 
       .card_list {
         position: relative;
