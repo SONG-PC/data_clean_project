@@ -93,9 +93,11 @@ export default (function () {
       return null;
     }
   }
-  function reset_pos(time, pos) {
+  function reset_pos(time, pos,obj) {
     if (pos == null)
       return;
+    if (obj)
+      nowChild = obj;
       nowChild[0].style[transition] = 'all '+time + 'ms';
       nowChild[0].style[transform] = 'translate(' + pos+'px,0px) translateZ(0)';
   }
@@ -136,7 +138,29 @@ export default (function () {
         position.y = slideRect.top - fatherRect.top;
         originalPoint.x = newPoint.x = e.clientX;
       });
-   }
+    },
+    scrollTo: function (index, offset) {
+      offset = offset || 0;
+      var obj = this.child.find(".tabs:eq(" + index + ")");
+      var objRect = obj.offset();
+      var fatherRect = this.father.offset();
+      var childRect = this.child.offset();
+      var frontWidth = objRect.left - childRect.left;
+      var objWidth= parseInt(obj.css("width")),
+        fatherWidth = parseInt(this.father.css("width"));
+      var allow = fatherWidth - objWidth;
+      position.x = parseInt( allow - frontWidth - offset);
+      if (position.x >= 0) {
+        position.x = 0;
+      }
+      if (position.x % 2 != 0) {
+        position.x += 1;
+      }
+      position.y = 0;
+      if (animatework.nowAnimateState == animatework.animateState.move) { animatework.closeAnimate(); }
+      reset_pos(400, position.x, this.child)
+   
+    }
   }
   $(document).on("mousemove", function (e) {
 
@@ -161,6 +185,7 @@ export default (function () {
         momentumMove(momentum, nowFather, nowChild);
       }
       else {
+
         reset_pos(400, isBound());
       }
     }

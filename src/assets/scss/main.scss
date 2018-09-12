@@ -38,22 +38,19 @@ body, html {
   }
 
   ::-webkit-scrollbar {
-    width: 9px;
-    height: 9px;
+    width: 10px;
+    height: 10px;
   }
 
   ::-webkit-scrollbar-thumb {
-    border: 0;
-    border-radius: 1px;
+
     /*border-color: #fff;*/
-    background: #E9DFC1;
+    background: #CDCDC8;
   }
-
-  ::-webkit-scrollbar-thumb:hover {
+  /*::-webkit-scrollbar-thumb:hover {
     background-color: #D1CFCE;
-  }
-
-  min-width: 746px;
+  }*/
+  min-width: 766px;
   height: 100%;
   overflow: hidden;
   font: normal 13px arial,Microsoft;
@@ -67,6 +64,7 @@ body, html {
   float: left;
   height: 100%;
   background: #f2f2f2;
+  
 }
 
 header {
@@ -86,15 +84,14 @@ header {
   width: 100%;
   padding-top: 72px;
   margin-top: -72px;
-  background-color: #FFFFFF;
-  background-color: gray;
+
 
   .mid {
-    padding: 0px 3px 3px 3px;
+    padding: 13px 13px 13px 13px;
     width: 100%;
     overflow: hidden;
     cursor: pointer;
-    padding-bottom: 40px;
+    padding-bottom: 52px;
 
     .loading {
       background-image: url('../../resourse/7eaf1309008734e8f5821fc712c3e22d.gif');
@@ -114,6 +111,7 @@ header {
       font-size: 12px;
       width: 100%;
       height: 100%;
+      margin-top: 12px;
     }
 
     .filter {
@@ -125,7 +123,7 @@ header {
         height: 100%;
         line-height: 35px;
         font-size: 14px;
-        background-position: right;
+        background-position: right center;
         background-repeat: no-repeat;
         background-size: 20px 20px;
         font-weight: 400;
@@ -133,7 +131,7 @@ header {
         width: 100%;
         border: none;
         outline: none;
-        box-shadow: 0 5px 2px -2px rgba(160,160,160,.15);
+        box-shadow: 0 5px 2px -2px rgba(160,160,160,.35);
       }
     }
 
@@ -309,10 +307,62 @@ header {
         float: left;
         width: 20px;
         text-align: center;
-        @include transform(skew(-20deg));
-        border-left: 1px solid #e5e5e5;
+        line-height: 25px;
         height: 25px;
         cursor: pointer;
+      }
+
+      .panel {
+        min-width: 260px;
+        position: absolute;
+        background-color: #fff;
+        left: 100%;
+        top: 0;
+        box-shadow: 0 5px 2px -2px rgba(160,160,160,.35);
+
+        span {
+          color: #FA6317;
+          padding: 0px 5px 0px 5px;
+        }
+
+        ul {
+          li {
+            text-align: center;
+            height: 30px;
+            line-height: 30px;
+            font-weight: 500;
+            font-size: 12px;
+            width: 100%;
+          }
+
+          .active {
+            background-color: #FBFB97;
+            color: #60A9CE;
+          }
+        }
+
+        .clear_all {
+          padding-top: 5px;
+          padding-bottom: 5px;
+          text-align: center;
+          font-weight: 500;
+          border-top: 1px dashed #FA6317;
+          color: #9B9393;
+          width: 100%;
+          cursor: pointer;
+
+          &:hover {
+            color: red;
+          }
+        }
+
+        .title {
+          padding-top: 5px;
+          padding-bottom: 5px;
+          border-bottom: 1px dashed #FA6317;
+          width: 100%;
+          text-align: center;
+        }
       }
 
       .section_group {
@@ -352,6 +402,7 @@ header {
             display: inline;
             text-align: center;
             line-height: 25px;
+            box-sizing: border-box;
 
             .name {
               display: inline-block;
@@ -361,7 +412,7 @@ header {
 
             .count {
               display: inline-block;
-              color: red;
+              color: #FA6317;
               padding: 0px 5px 0px 0px;
               @include transform(skew(20deg));
             }
@@ -411,7 +462,7 @@ header {
         width: 260px;
         line-height: 76px;
         border: 1px dashed #FA6317;
-        top: 56px;
+        top: 50.5px;
         color: #FA6317;
       }
 
@@ -438,6 +489,7 @@ header {
     right: -430px;
     background-color: #FFFFFF;
     padding-bottom: 360px;
+
 
     .right-bottom {
       height: 100%;
@@ -522,6 +574,7 @@ header {
           padding-left: 16px;
           cursor: text;
           font-size: 15px;
+          box-shadow: 0 5px 2px -2px rgba(160,160,160,.65);
         }
 
         .function {

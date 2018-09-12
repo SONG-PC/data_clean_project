@@ -60,10 +60,11 @@
     },
     methods: {
       update: function () {
-
         var _super = this;
         this.op_list = this.c_data.fnlist;
-        console.log(this.op_list == this.c_data.fnlist)
+        if (this.op_list.length < 1) {
+          return;
+        }
         Vue.nextTick(function () {
           this.stuffFilter();
           this.itemHeight = parseInt(container.find(".drag:eq(0)").css("height"));
