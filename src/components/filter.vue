@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="position:relative">
     <div class="filter">
       <input id="filter_input" v-model="message" v-on:keyup="input_change($event);key_response($event)"  v-on:keydown="input_keydown"   placeholder=" 输入一个过滤规则..." type="text" />
 
@@ -9,7 +9,7 @@
           <div v-for="(item, index) in orderlist"  v-bind:key="item.gid"  class="item" data-index="index"><div class="txt">{{item.txt}}</div><div class="close" v-on:click="close_filter(index)">{{item.op}}</div></div>
           </transition-group>
     </div>
-    <div style="position:absolute;width:100%;padding-right:6px;" v-if="tipShow==true" id="input_tip" class="input_tip">
+    <div style="position:absolute;width:100%;" v-if="tipShow==true" id="input_tip" class="input_tip">
       <ul>
         <li v-on:click="select_item" v-if="item.render_type=='tip'" v-for="(item, index) in tiplist" v-bind:class="{select: item.selected }" v-bind:data-index="index" v-bind:data-value="item.value">
           {{item.value}}  <span class="tip">{{item.tip}}</span>

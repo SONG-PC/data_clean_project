@@ -5,8 +5,8 @@
         <li v-for="(item, index) in op_list" :key="item.data_id" data-type="run" v-bind:data-index="index" class="section list-complete-item" v-bind:style="{top:computedHeight(index)+'px'}">
           <div class="drag" v-bind:data-index="index" v-on:mouseover="showButton($event)" v-on:mouseleave="hideButton($event)">
             <div class="title">
-              {{item.fn_label}}
-            </div><div class="turn_on_of"></div>
+              {{item.fn_label}}<span class="tip">{{item.tip}}</span>
+            </div><div v-bind:class="{turn_on_of: true,off:!item.open}" v-on:click="turnOnOff(index)"></div>
             <div class="button close" v-on:click="deleteOne"></div><div class="button menu" v-on:click="openOption">
             </div><div v-if="index>0" class="button arrow_up" v-on:click="exchangeUp"></div><div v-if="index<op_list.length-1" class="button arrow_down" v-on:click="exchangeDown"></div>
           </div>
@@ -51,25 +51,49 @@
   var dragPositon = null;
   var container;
   var offsetTop;
+  var offsetPadding = 25;
+  var inteval = null;
+  var card = null;
+  var scrollHeight;
+  var line;
   export default {
     components: { Option },
     mounted: function () {
       container = $("#control_list");
       offsetTop = parseInt(container.offset().top);
       $Drag.enableDrag("#control_list", ".drag");
+      card = $(".card");
+      scrollHeight = parseInt(card.css("height"));
+      line = $(".line");
+  
     },
     methods: {
+     turnOnOff: function (idx) {
+
+       this.op_list.forEach(function (item, index) {
+         if (index < idx) {
+           item.open = true;
+         }
+         else if (index > idx) {
+           if (!this.op_list[idx].item)
+             item.open = false;
+         }
+         else {
+           item.open = !item.open;
+         }
+       }.bind(this));
+      },
       update: function () {
         var _super = this;
         this.op_list = this.c_data.fnlist;
         if (this.op_list.length < 1) {
+          this.resetHeight();
           return;
         }
         Vue.nextTick(function () {
-          this.stuffFilter();
+          this.stuffFilter();      
+          this.scrollView = card;
           this.itemHeight = parseInt(container.find(".drag:eq(0)").css("height"));
-          this.scrollView = $(".card");
-          var line = $(".line");
           line.fadeIn(0);
           item_list ? item_list.unbind() : false;
           item_list = $("#control_list li");
@@ -77,19 +101,42 @@
           this.reComputeHeight();
           var turn_off = item_list.find(".turn_on_of");
 
-          item_list.on("change_start", function () {
-            line.fadeOut(0);
-            turn_off.addClass("off");
+          item_list.on("change_start", function (e,position) {
+            line.fadeOut(0);        
             lockButton = true;
+            !inteval ? inteval = setInterval(function () {
+              if (position.y < offsetTop) {
+                var now = card.scrollTop();
+                var delta = now > 0 ? ((now - 2)) : 0;
+                if (delta > 0) {
+                  card.scrollTop(delta);
+                }
+               
+              }
+              if (position.y > offsetTop + scrollHeight-86 ) {
+                var now = card.scrollTop();
+                var delta = now < card[0].scrollHeight ? ((now + 2)) : 0;
+                if (delta > 0) {
+                  card.scrollTop(delta);
+                }
+              }
+              
+            }, 0) : false;
           });
-          item_list.on("change_end", function () {
+          item_list.on("change_end", function (e, real_obj) {
+            var index = parseInt(real_obj.attr("data-index"));
+            if (_super.op_list[index].tip) {
+              _super.deleteOne(e, index);
+            }
             line.fadeIn(0);
-            turn_off.removeClass("off");
+            inteval ? clearInterval(inteval) : false, inteval = null;
             lockButton = false;
           })
           item_list.on("change_positon", function (e, real_obj, top, drag_obj) {
-            var index = parseInt(real_obj.attr("data-index"));
 
+          
+            var index = parseInt(real_obj.attr("data-index"));
+            _super.contactTest(real_obj, index);
             drag_obj.parent().addClass("transparent");
             var pre = (index - 1) >= 0 ? index - 1 : index;
 
@@ -116,14 +163,46 @@
         }.bind(this));
 
       },
-      deleteOne: function (e) {
+      contactTest: function (obj,index) {
+        if (obj.offset().left > $(".mid").offset().left) {
+          if (!this.op_list[index].tip) {
+            this.op_list[index].tip = "松开将删除此函数"
+            Vue.set(this.op_list, index, this.op_list[index]);
+          }
+        }
+        else {
+          if (this.op_list[index].tip) {
+            this.op_list[index].tip = null;
+            Vue.set(this.op_list, index, this.op_list[index]);
+          }
+     
+        }
+       
+      },
+      scrollToBottom: function (cb) {
+        var card = $(".card");
+        card.animate({
+          scrollTop: card[0].scrollHeight
+        }, 0, cb);  
+      },
+   
+      deleteOne: function (e,idx) {
         var li = $(e.currentTarget).parent().parent();
-        var index = li.attr("data-index");
+        var index = idx?idx: li.attr("data-index");
         this.op_list.splice(index, 1);
         if (this.op_list <= 0) {
           this.c_data.virtual = true;
         }
+        this.resetHeight();
+      },
+      resetHeight: function () {
+        var height = 0;
+        this.op_list.forEach(function (item, idx) {
+          height += item.height;
 
+        });
+
+        this.parentHeight = height + offsetPadding;
       },
       exchangeUp: function (e) {
         var li = $(e.currentTarget).parent().parent();
@@ -177,7 +256,8 @@
           Vue.set(this.op_list, idx, this.op_list[idx]);
           height += this.op_list[idx].height;
         }.bind(this));
-        this.parentHeight = height;
+
+        this.parentHeight = height + offsetPadding ;
       },
       stuffFilter: function () {
         var $filter = window.Bus.filter;
@@ -189,18 +269,31 @@
               items.each(function (index, filter_item) {
                 item.filter.push($(filter_item).html());
                 needAni.push(idx)
-              }.bind(this));
+              });
             }
+    
             item.needFilter = false;
           }
 
-        });
+        }.bind(this));
         Vue.nextTick(function () {
-          needAni.forEach(function (item, idx) {
-            this.reComputeHeight();
-            this.op_list = this.op_list;
-            flip(items, item_list.eq(item).find(".item"));
-          }.bind(this))
+          if (needAni.length > 0) {
+            needAni.forEach(function (item, idx) {
+              this.reComputeHeight();
+
+              this.op_list = this.op_list;
+              Vue.nextTick(function () {
+                this.scrollToBottom(function () {
+                  flip(items, item_list.eq(item).find(".item"));
+                });
+              }.bind(this));
+
+            }.bind(this));
+          } else {
+            Vue.nextTick(function () {
+              this.scrollToBottom();
+            }.bind(this));
+          }
         }.bind(this));
       },
       shuffle: function () {
@@ -230,6 +323,9 @@
       lineHeight: function () {
         var height = 0;
         this.op_list.forEach(function (item, index, arr) {
+
+          if ((index + 1) < this.op_list.length&&!this.op_list[index + 1].open)
+            return
           if (index < this.op_list.length - 1) {
             height += item.height;
           }
@@ -240,6 +336,7 @@
     }, computed: {
 
     },
+   
     data: function () {
       return {
         count: 0,

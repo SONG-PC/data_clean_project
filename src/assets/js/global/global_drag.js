@@ -14,11 +14,10 @@ import { stat } from 'fs';
   var start = false;
   var dom = null;
   function release() {
-    drag_obj ? (drag_obj.parent().removeClass("transparent"), drag_obj.trigger("change_end")) : false;
+    drag_obj ? (drag_obj.parent().removeClass("transparent"), drag_obj.trigger("change_end", [drag_obj ]), drag_obj = null) : false;
     drag_real_obj ? (document.body.removeChild(dom),drag_real_obj = null): false;
     positon = {};
     point = {};
-    drag_obj = null;
     drag_state = false;
     originTime = null;
     start = false;
@@ -67,16 +66,17 @@ import { stat } from 'fs';
     if (drag_state && drag_obj) {
       var now = +new Date;
       if (now - originTime > 150) {
-        drag_real_obj.html(drag_obj.prop("outerHTML"));
+       
      
         positon.x = positon.x + (e.clientX - point.x);
         positon.y = positon.y + (e.clientY - point.y);
         drag_real_obj.css("left", positon.x);
         drag_real_obj.css("top", positon.y);
         if (start == false) {
+          drag_real_obj.html(drag_obj.prop("outerHTML"));
           start = true;
           drag_real_obj.css("display", "block");
-          drag_obj.trigger("change_start");
+          drag_obj.trigger("change_start", [positon, drag_obj]);
         }
         point.x = e.clientX;
         point.y = e.clientY;

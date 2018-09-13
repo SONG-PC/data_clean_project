@@ -35,7 +35,7 @@ export default
     return transitionEnd[prefix];
   })();
     return {
-      ieVersion: function () {
+      ieVersionIE: function () {
         return navigator.appName == "Microsoft Internet Explorer" && parseInt(navigator.appVersion.split(";")[1].replace(/[ ]/g, "").replace("MSIE", ""))
       },
       getPreFix: function () {

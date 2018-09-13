@@ -35,7 +35,7 @@
           }
         });
         if (isAllowed) {
-          var newObject = jQuery.extend(true, { data_id: common.GUID(), filter: [], needFilter: true }, this.function_data);
+          var newObject = jQuery.extend(true, { data_id: common.GUID(), filter: [], open: true, needFilter: true }, this.function_data);
 
           var card = window.Bus.card;
           var hash_data;

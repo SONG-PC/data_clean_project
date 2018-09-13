@@ -24,9 +24,10 @@
     padding-top: 12px;
     cursor: crosshair;
 
-  
-
-    &:hover {
+    .tip{
+      padding-left:10px;
+      color:red;
+      }&:hover {
       background-color: aliceblue;
     }
 
