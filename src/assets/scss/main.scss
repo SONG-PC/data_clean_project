@@ -135,67 +135,86 @@ header {
       }
     }
 
-    .filter_content {
-      border-bottom: 1px solid #E0E0E0;
-      overflow: hidden;
-      height: 32px;
+    .filter_container {
+      padding-right: 30px;
       position: relative;
-      font-size: 0px;
-      box-sizing: border-box;
-      width: 100%;
-      display: none;
-      background-color: #fff;
 
-
-      .slider {
+      .clear_all {
+        background-color: #fff;
         position: absolute;
-        white-space: nowrap;
-        width: auto;
-        display: inline-block !important;
-        display: inline;
-        left: 0px;
-        top: 0px;
+        right: 0;
+        top: 0;
+        height: 100%;
+        width: 30px;
+        background-image: url('../../resourse/f0f6e5ae4d1575d049d8b81d100d87c3.png');
+        background-size: 17px 17px;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-bottom: 1px solid #E0E0E0;
+      }
 
-        .item {
-          margin-top: 3px;
-          margin-left: 1px;
-          padding-left: 10px;
-          padding-right: 20px;
-          min-width: 60px;
-          text-align: center;
-          height: 26px;
-          font-size: 10px;
-          line-height: 26px;
+      .filter_content {
+        border-bottom: 1px solid #E0E0E0;
+        overflow: hidden;
+        height: 32px;
+        position: relative;
+        font-size: 0px;
+        box-sizing: content-box;
+        width: 100%;
+        display: none;
+        background-color: #fff;
+
+
+        .slider {
+          position: absolute;
+          white-space: nowrap;
+          width: auto;
           display: inline-block !important;
           display: inline;
-          vertical-align: top;
-          background-color: #7FD3ED;
-          color: #fff;
-          border-radius: 2px;
-          border-right: 1px solid #FFFFFF;
-          position: relative;
+          left: 0px;
+          top: 0px;
+
+          .item {
+            margin-top: 3px;
+            margin-left: 1px;
+            padding-left: 10px;
+            padding-right: 20px;
+            min-width: 60px;
+            text-align: center;
+            height: 26px;
+            font-size: 10px;
+            line-height: 26px;
+            display: inline-block !important;
+            display: inline;
+            vertical-align: top;
+            background-color: #7FD3ED;
+            color: #fff;
+            border-radius: 2px;
+            border-right: 1px solid #FFFFFF;
+            position: relative;
 
 
-          .close {
-            width: 10px;
-            line-height: 6px;
-            border-radius: 50%;
-            height: 10px;
-            position: absolute;
-            right: 5px;
-            top: 3px;
-            @include transition;
-
-            &:hover {
-              height: 10px;
-              color: transparent;
+            .close {
               width: 10px;
-              background-size: 8px 8px;
-              background-position: center;
-              background-repeat: no-repeat;
-              background-image: url('../../resourse/cross.png');
-              background-color: red;
-              @include transform(rotate(45deg));
+              line-height: 6px;
+              border-radius: 50%;
+              height: 10px;
+              position: absolute;
+              right: 5px;
+              top: 3px;
+              @include transition;
+
+              &:hover {
+                height: 10px;
+                color: transparent;
+                width: 10px;
+                background-size: 8px 8px;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url('../../resourse/cross.png');
+                background-color: red;
+                @include transform(rotate(45deg));
+              }
             }
           }
         }
@@ -211,6 +230,8 @@ header {
     background-color: #FFFFFF;
     height: 100%;
     z-index: 90;
+    border-right: 1px solid #e5e5e5;
+    box-shadow: 2px 0px 10px rgba(160,160,160,.35);
 
     .option {
       @include transition;
@@ -441,7 +462,6 @@ header {
     .card::-webkit-scrollbar {
       width: 5px;
       height: 5px;
-  
     }
 
     .card {
@@ -490,7 +510,8 @@ header {
     right: -430px;
     background-color: #FFFFFF;
     padding-bottom: 360px;
-
+    border-left: 1px solid #e5e5e5;
+    box-shadow: -2px 0px 10px rgba(160,160,160,.35);
 
     .right-bottom {
       height: 100%;
@@ -543,6 +564,7 @@ header {
             height: 100%;
             line-height: 30px;
             font-size: 14px;
+            padding-left: 10px;
             background-position: right;
             background-repeat: no-repeat;
             background-size: 20px 20px;
@@ -575,7 +597,6 @@ header {
           padding-left: 16px;
           cursor: text;
           font-size: 15px;
-          box-shadow: 0 5px 2px -2px rgba(160,160,160,.65);
         }
 
         .function {
@@ -607,9 +628,20 @@ header {
               padding-left: 19px;
               color: #7B7B7B;
 
+              .tip {
+                padding-left: 10px;
+                color: #74DF00;
+              }
+
+
               &:hover {
                 background-color: aliceblue;
               }
+            }
+
+            .hit {
+              padding: 0;
+              color: orangered;
             }
 
             .content {

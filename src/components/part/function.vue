@@ -1,18 +1,25 @@
 <template>
   <div>
-    <div class="label">{{function_data.fn_label}}</div>
+    <div v-if="!function_data.strRange" v-bind:group_index="group_index" v-bind:fn_index="fn_index" class="label">{{function_data.fn_label}}<span class="tip">{{function_data.fn_tip}}</span></div>
+    <div v-if="function_data.strRange" v-bind:group_index="group_index" v-bind:fn_index="fn_index" class="label">
+      {{function_data.fn_label.substring(0,function_data.strRange.start)}}<span class="hit">{{function_data.fn_label.substring(function_data.strRange.start,function_data.strRange.end)}}</span>{{function_data.fn_label.substring(function_data.strRange.end,function_data.fn_label.length)}}
+      <span class="tip">
+        {{function_data.fn_tip }}
+      </span>
+    </div>
+
     <div>
       <div class="content" data-name="test" style="display: none;">
         <div v-for="(item,index) in  function_data.parm" v-bind:data-name="item.parm_name" data-index="index" class="parm">
-          <Input ref="mychild"  v-if="item.components.tag=='input'" v-bind:options="item" />
+          <Input ref="mychild" v-if="item.components.tag=='input'" v-bind:options="item" />
           <Select ref="mychild" v-if="item.components.tag=='select'" v-bind:options="item" />
-          <Areatext  ref="mychild" v-if="item.components.tag=='textarea'" v-bind:options="item" />
+          <Areatext ref="mychild" v-if="item.components.tag=='textarea'" v-bind:options="item" />
         </div>
         <div style="clear:both"> </div>
-        <div><button  class="join" v-on:click="join">加入队列</button><button class="reset" v-on:click="reset">还原</button></div>
+        <div><button class="join" v-on:click="join">加入队列</button><button class="reset" v-on:click="reset">还原</button></div>
       </div>
     </div>
- 
+
   </div>
 </template>
 <script>
@@ -24,7 +31,7 @@
   import Vue from 'vue'
   export default {
     components: { Input, Select, Areatext },
-    props: ['function_data', 'operator_data','operator_name'],
+    props: ['function_data', 'operator_data', 'operator_name', 'group_index','fn_index'],
     methods: {
       join: function () {
         var isAllowed =true;
@@ -59,17 +66,17 @@
 
           var hash_exsit = false;
           var exsit_idx;
-          card.forEach(function (v,idx) {
+          card.forEach(function (v, idx) {
             if (v.hash == hash) {
               hash_exsit = true;
-              v.virtual = false;    
+              v.virtual = false;
               Vue.set(card, idx, v);
               exsit_idx = idx;
             }
           }
           );
           if (hash_exsit) {
-       
+
             var arry = card.concat();
             arry[exsit_idx].fnlist.push(newObject);
             Vue.set(window.Bus, "card", arry);;
@@ -89,7 +96,10 @@
             }
             card.push(data);
           }
- 
+          return true;
+        }
+        else {
+          return false;
         }
       
       },

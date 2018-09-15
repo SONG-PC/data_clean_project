@@ -11,7 +11,7 @@
             </div><div v-if="index>0" class="button arrow_up" v-on:click="exchangeUp"></div><div v-if="index<op_list.length-1" class="button arrow_down" v-on:click="exchangeDown"></div>
           </div>
           <div class="filter">
-            <div class="item" v-for="(fi, idx) in item.filter" v-html="fi">
+            <div v-on:click="deleteFilter(index,idx)" class="item" v-for="(fi, idx) in item.filter" v-html="fi">
             </div>
           </div>
           <div class="option">
@@ -179,13 +179,21 @@
         }
        
       },
+    
       scrollToBottom: function (cb) {
         var card = $(".card");
         card.animate({
           scrollTop: card[0].scrollHeight
         }, 0, cb);  
       },
-   
+      deleteFilter: function (index,idx) {
+
+        this.op_list[index].filter.splice(idx, 1);
+        Vue.nextTick(function () {
+          this.reComputeHeight();
+        }.bind(this))
+    
+      },
       deleteOne: function (e,idx) {
         var li = $(e.currentTarget).parent().parent();
         var index = idx?idx: li.attr("data-index");
