@@ -645,6 +645,7 @@
    * and to the right cell if it's at the end. Otherwise, move the cursor within the text
    */
   function handleKeydownLRNav(e) {
+   
     var cursorPosition = this.selectionStart;
     var textLength = this.value.length;
     if ((e.keyCode === $.ui.keyCode.LEFT && cursorPosition > 0) ||

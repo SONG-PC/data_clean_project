@@ -79,6 +79,7 @@
     }
 
     function setSelectedRanges(ranges) {
+    
       // simple check for: empty selection didn't change, prevent firing onSelectedRangesChanged
       if ((!_ranges || _ranges.length === 0) && (!ranges || ranges.length === 0)) { return; }
 
@@ -86,7 +87,19 @@
       var rangeHasChanged = !rangesAreEqual(_ranges, ranges);
       
       _ranges = removeInvalidRanges(ranges);
-      if (rangeHasChanged) { _self.onSelectedRangesChanged.notify(_ranges); }
+      if (rangeHasChanged) {
+        
+        if (_self.column[ranges[0].fromCell].primary) {
+          _ranges[0].toCell = _self.column.length - 1;
+        }
+        else {
+          
+          _ranges[0].fromRow = 0;
+          _ranges[0].toRow = _self.data.length-1;
+        }
+
+        _self.onSelectedRangesChanged.notify(_ranges);
+      }
     }
 
     function getSelectedRanges() {

@@ -92,6 +92,7 @@
       autoAlignOffset: 0
     };
     var $menu;
+    this.hideMenu = hideMenu;
     var $activeHeaderColumn;
 
 
@@ -137,14 +138,16 @@
     }
 
     function handleHeaderCellRendered(e, args) {
+
       var column = args.column;
+      var index = args.index;
       var menu = column.header && column.header.menu;
 
       if (menu) {
         var $el = $("<div></div>")
           .addClass("slick-header-menubutton")
           .data("column", column)
-          .data("menu", menu);
+          .data("menu", menu).data("index", index);
 
         if (options.buttonCssClass) {
           $el.addClass(options.buttonCssClass);
@@ -178,7 +181,7 @@
       var $menuButton = $(this);
       var menu = $menuButton.data("menu");
       var columnDef = $menuButton.data("column");
-
+      var index = $menuButton.data("index");
       // Let the user modify the menu or cancel altogether,
       // or provide alternative menu implementation.
       if (_self.onBeforeMenuShow.notify({
@@ -191,7 +194,7 @@
 
 
       if (!$menu) {
-        $menu = $("<div class='slick-header-menu' style='min-width: " + options.minWidth + "px'></div>")
+        $menu = $("<div class='slick-header-menu' style='min-width: " + options.minWidth + "px'></div>").on("mouseleave", handleMouseleave)
           .appendTo(_grid.getContainerNode());
       }
       $menu.empty();
@@ -204,8 +207,8 @@
         var $li = $("<div class='slick-header-menuitem'></div>")
           .data("command", item.command || '')
           .data("column", columnDef)
-          .data("item", item)
-          .on("click", handleMenuItemClick)
+          .data("item", item).data("index", index)
+          .on("click", handleMenuItemClick).on("mouseover", handleMenuItemMouseover)
           .appendTo($menu);
 
         if (item.disabled) {
@@ -260,7 +263,37 @@
       e.stopPropagation();
     }
 
+    function handleMenuItemMouseover(e) {
+      var command = $(this).data("command");
+      var columnDef = $(this).data("column");
+      var item = $(this).data("item");
+      var index = $(this).data("index");
+      if (item.disabled) {
+        return;
+      }
 
+      //hideMenu();
+
+      if (command != null && command != '') {
+        _self.onMouseover.notify({
+          "grid": _grid,
+          "column": columnDef,
+          "command": command,
+          "item": item,
+          "index":index
+        }, e, _self);
+      }
+
+      // Stop propagation so that it doesn't register as a header click event.
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    function handleMouseleave(e) {
+
+      _self.onMouseleave.notify({
+     
+      }, e, _self);
+    }
     function handleMenuItemClick(e) {
       var command = $(this).data("command");
       var columnDef = $(this).data("column");
@@ -290,9 +323,10 @@
       "init": init,
       "destroy": destroy,
       "setOptions": setOptions,
-
+      "onMouseleave": new Slick.Event(),
       "onBeforeMenuShow": new Slick.Event(),
-      "onCommand": new Slick.Event()
+      "onCommand": new Slick.Event(),
+      "onMouseover": new Slick.Event()
     });
   }
 })(jQuery);

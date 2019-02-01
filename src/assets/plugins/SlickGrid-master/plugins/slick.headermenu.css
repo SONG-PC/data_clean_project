@@ -11,7 +11,7 @@
   cursor: pointer;
 
   display: none;
-  border-left: thin ridge silver;
+
 }
 
 .slick-header-column > .slick-header-menubutton,
@@ -33,18 +33,18 @@
 .slick-header-menuitem {
   list-style: none;
   margin: 0;
-  padding: 0;
+
   cursor: pointer;
 }
 
 .slick-header-menuicon {
     display: inline-block;
-    width: 20px;
-    height: 20px;
-    background-size: 20px 20px;
+    width: 12px;
+    height: 12px;
+    background-size:12px 12px;
     vertical-align: middle;
     margin-right: 0px;
-    margin-top:1px;
+    margin-left:3px;
     background-repeat: no-repeat;
     background-position: center center;
 }

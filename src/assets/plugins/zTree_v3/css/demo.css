@@ -1,0 +1,82 @@
+
+body {color: #2f332a;font: 15px/21px Arial, Helvetica, simsun, sans-serif;background: #f0f6e4 \9;}
+.ztree li:hover {
+  background-color: #fff;
+}
+
+.ztree li {
+  background-color: #fff;
+}
+
+.ztree li {
+  float: none
+}
+
+.ztree {
+ 
+}
+
+  .ztree li span.button.pIcon01_ico_open {
+    margin-right: 2px;
+    background: url(./zTreeStyle/img/diy/1_open.png) no-repeat scroll 0 0 transparent;
+    vertical-align: top;
+    *vertical-align: middle
+  }
+
+  .ztree li span.button.pIcon01_ico_close {
+    margin-right: 2px;
+    background: url(./zTreeStyle/img/diy/1_open.png) no-repeat scroll 0 0 transparent;
+    vertical-align: top;
+    *vertical-align: middle
+  }
+
+  .ztree li span.button.pIcon02_ico_open, .ztree li span.button.pIcon02_ico_close {
+    margin-right: 2px;
+    background: url(./zTreeStyle/img/diy/2.png) no-repeat scroll 0 0 transparent;
+    vertical-align: top;
+    *vertical-align: middle
+  }
+
+  .ztree li span.button.icon01_ico_open, .ztree li span.button.icon01_ico_close {
+    margin-right: 2px;
+    background: url(./zTreeStyle/img/diy/3.png) no-repeat scroll 0 0 transparent;
+    vertical-align: top;
+    *vertical-align: middle
+  }
+
+  .ztree li span.button.icon02_ico_open, .ztree li span.button.icon02_ico_close {
+    margin-right: 2px;
+    background: url(./zTreeStyle/img/diy/base_entity.jpg) no-repeat scroll 0 0 transparent;
+    vertical-align: top;
+    *vertical-align: middle
+  }
+
+  .ztree li span.button.icon03_ico_open, .ztree li span.button.icon03_ico_close, .ztree li span.button.icon03_ico_docu {
+    margin-right: 2px;
+    background: url(./zTreeStyle/img/diy/folder.jpg) no-repeat scroll 0 0 transparent;
+    vertical-align: top;
+    *vertical-align: middle
+  }
+
+  .ztree li span.button.icon04_ico_docu, .ztree li span.button.icon04_ico_open, .ztree li span.button.icon04_ico_close {
+    margin-right: 2px;
+    background: url(./zTreeStyle/img/diy/tb.jpg) no-repeat scroll 0 0 transparent;
+    vertical-align: top;
+    *vertical-align: middle
+  }
+
+  .ztree li span.button.icon05_ico_docu {
+    margin-right: 2px;
+    background: url(./zTreeStyle/img/diy/2.png) no-repeat scroll 0 0 transparent;
+    vertical-align: top;
+    *vertical-align: middle
+  }
+
+  .ztree li span.button.icon06_ico_docu {
+    margin-right: 2px;
+    background: url(./zTreeStyle/img/diy/key_col.jpg) no-repeat scroll 0 0 transparent;
+    vertical-align: top;
+    *vertical-align: middle
+  }
+
+ul.ztree {width:320px;height:360px;overflow-y:scroll;overflow-x:auto;}

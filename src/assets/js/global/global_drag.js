@@ -13,9 +13,9 @@ import { stat } from 'fs';
   var originTime = null;
   var start = false;
   var dom = null;
-  function release() {
-    drag_obj ? (drag_obj.parent().removeClass("transparent"), drag_obj.trigger("change_end", [drag_obj ]), drag_obj = null) : false;
-    drag_real_obj ? (document.body.removeChild(dom),drag_real_obj = null): false;
+  function release(e) {
+    drag_obj ? (drag_obj.parent().removeClass("transparent"), drag_obj.trigger("change_end", [drag_obj, drag_real_obj,e]), drag_obj = null) : false;
+    drag_real_obj ? (console.log('执行了删除步骤'),drag_real_obj.remove(),drag_real_obj = null): false;
     positon = {};
     point = {};
     drag_state = false;
@@ -30,7 +30,7 @@ import { stat } from 'fs';
         originTime = +new Date;
         drag_obj = $(this);
         drag_state = true;
-        dom = document.createElement("div");
+        dom = dom || document.createElement("div");
         dom.id = "drag";
 
         positon.x = drag_obj.offset().left;
@@ -92,7 +92,7 @@ import { stat } from 'fs';
   
   });
   $(document).on("mouseup", function (e) {
-    release();
+    release(e);
   });
   window.$Drag = $Drag;
 

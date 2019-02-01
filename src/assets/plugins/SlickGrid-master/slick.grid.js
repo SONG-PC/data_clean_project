@@ -1,3 +1,5 @@
+import { fail } from "assert";
+
 /**
  * @license
  * (c) 2009-2016 Michael Leibman
@@ -54,6 +56,7 @@ if (typeof Slick === "undefined") {
    **/
   function SlickGrid(container, data, columns, options) {
     // settings
+   
     var defaults = {
       alwaysShowVerticalScroll: false,
       explicitInitialization: false,
@@ -107,7 +110,7 @@ if (typeof Slick === "undefined") {
       emulatePagingWhenScrolling: true, // when scrolling off bottom of viewport, place new row at top of viewport
       editorCellNavOnLRKeys: false
     };
-
+    var zoom;
     var columnDefaults = {
       name: "",
       resizable: true,
@@ -215,7 +218,7 @@ if (typeof Slick === "undefined") {
     var $hiddenParents;
     var oldProps = [];
     var columnResizeDragging = false;
-
+    var gridRect;
     //////////////////////////////////////////////////////////////////////////////////////////////
     // Initialization
 
@@ -228,9 +231,9 @@ if (typeof Slick === "undefined") {
       if ($container.length < 1) {
         throw new Error("SlickGrid requires a valid container, " + container + " does not exist in the DOM.");
       }
-
+     
       cacheCssForHiddenInit();
-
+      gridRect = $container[0].getBoundingClientRect();
       // calculate these only once and share between grid instances
       maxSupportedCssHeight = maxSupportedCssHeight || getMaxSupportedCssHeight();
 
@@ -304,7 +307,7 @@ if (typeof Slick === "undefined") {
         $headerRowScroller.hide();
       }
 
-      $viewport = $("<div class='slick-viewport' style='width:100%;overflow:auto;outline:0;position:relative;;'>").appendTo($container);
+      $viewport = $("<div class='slick-viewport' style='width:100%;overflow:auto;outline:0;position:relative;;'>").appendTo($container).append("<div id=\"myzoom\" style=\"z-index:999; opacity: 0.19; position: absolute; width: 0px; height: 0px; background-color: aqua; left: 50 %; top: 50 %; transition: all 0.5s; border: 2px dashed red\"></div>");
       $viewport.css("overflow-y", options.alwaysShowVerticalScroll ? "scroll" : (options.autoHeight ? "hidden" : "auto"));
       $viewport.css("overflow-x", options.forceFitColumns ? "hidden" : "auto");
       if (options.viewportClass) $viewport.toggleClass(options.viewportClass, true);
@@ -487,7 +490,7 @@ if (typeof Slick === "undefined") {
 
     function measureScrollbar() {
       var $outerdiv = $('<div class="' + $viewport.className + '" style="position:absolute; top:-10000px; left:-10000px; overflow:auto; width:100px; height:100px;"></div>').appendTo($viewport);
-      var $innerdiv = $('<div style="width:200px; height:200px; overflow:auto;"></div>').appendTo($outerdiv);
+      var $innerdiv = $('<div style="width:200px; height:200px; overflow:auto;">    </div>').appendTo($outerdiv);
       var dim = {
 	width: $outerdiv[0].offsetWidth - $outerdiv[0].clientWidth,
 	height: $outerdiv[0].offsetHeight - $outerdiv[0].clientHeight
@@ -645,7 +648,8 @@ if (typeof Slick === "undefined") {
         trigger(self.onHeaderCellRendered, {
           "node": $header[0],
           "column": columnDef,
-          "grid": self
+          "grid": self,
+          "index": idx
         });
       }
     }
@@ -740,7 +744,7 @@ if (typeof Slick === "undefined") {
         var m = columns[i];
 
         var header = $("<div class='ui-state-default slick-header-column' />")
-            .html("<span class='slick-column-name'>" + m.name + "</span>")
+          .html("<span class='slick-column-name'>" + m.name + "</span><div class='slick-column-name'>" + (m.data_type_name ? m.data_type_name:"" )+"</div>")
             .width(m.width - headerColumnWidthDiff)
             .attr("id", "" + uid + m.id)
             .attr("title", m.toolTip || "")
@@ -764,7 +768,8 @@ if (typeof Slick === "undefined") {
         trigger(self.onHeaderCellRendered, {
           "node": header[0],
           "column": m,
-          "grid": self
+          "grid": self,
+          "index": i
         });
 
         if (options.showHeaderRow) {
@@ -1214,7 +1219,64 @@ if (typeof Slick === "undefined") {
       $style.remove();
       stylesheet = null;
     }
+    function clearZoom(selecObj) {
+      zoom = null;
+      setTimeout(function () {
+        if (zoom)
+          return;
+        $("#myzoom").css({
+          "display": "none"
+     
+          //"width": '0px',
+          //"height": '0px'
+        });
+        
+      }, 1000);
+    
+      
+    }
+    function setZoom(selecObj) {
+      zoom = selecObj;
+      console.log("12131")
+      $("#myzoom").css("display", "block");
+      var left = 0;
+      var width = 0;
+      var height = 0;
+      for (var i = 0; i <= selecObj.cells[selecObj.cells.length - 1]; i++) {
+        if (i < selecObj.cells[0]) {
+          left += columns[i].width;
+        }
+        else {
+          width += columns[i].width
+        }
+     
+      }
 
+      var row = 0;
+      if (selecObj.type == "cell") {
+        row = selecObj.rows[0]-1;
+        height = (selecObj.rows[selecObj.rows.length - 1] - selecObj.rows[0]+1) * options.rowHeight;
+        height == 0 ? height = options.rowHeight : false;
+      }
+      else if (selecObj.type == "row") {
+       
+        row = selecObj.rows[0];
+        height = (selecObj.rows[selecObj.rows.length - 1] - selecObj.rows[0]+1) * options.rowHeight;
+        height == 0 ? height = options.rowHeight : false;
+      
+      }
+      else {
+        height = options.rowHeight * Object.keys(rowsCache).length;
+      }
+      scrollRowToTop(row);
+      var ok = rowsCache[row].rowNode.getBoundingClientRect();
+      var grid = $container.find(".slick-viewport")[0].getBoundingClientRect();
+      $("#myzoom").css("left", (ok.left + left - grid.left + parseInt($container.find(".slick-viewport").scrollLeft())) + 'px');
+
+      $("#myzoom").css("top", (ok.top - grid.top +parseInt($container.find(".slick-viewport").scrollTop())) + 'px');
+      $("#myzoom").css("width", width + 'px');
+      $("#myzoom").css("height", height + 'px');
+    }
     function destroy() {
       getEditorLock().cancelCurrentEdit();
 
@@ -1683,6 +1745,7 @@ if (typeof Slick === "undefined") {
     }
 
     function appendRowHtml(stringArray, row, range, dataLength) {
+
       var d = getDataItem(row);
       var dataLoading = row < dataLength && !d;
       var rowCss = "slick-row" +
@@ -2386,6 +2449,10 @@ if (typeof Slick === "undefined") {
     }
 
     function handleScroll() {
+      if (zoom && zoom.type == "col") {
+        $("#myzoom").css("height", parseInt($container.find(".slick-viewport").css("height")) + parseInt($container.find(".slick-viewport").scrollTop()) + 'px');
+
+      }
       scrollTop = $viewport[0].scrollTop;
       scrollLeft = $viewport[0].scrollLeft;
       var vScrollDist = Math.abs(scrollTop - prevScrollTop);
@@ -2963,6 +3030,7 @@ if (typeof Slick === "undefined") {
     }
 
     function setActiveCellInternal(newCell, opt_editMode, preClickModeOn, suppressActiveCellChangedEvent) {
+
       if (activeCellNode !== null) {
         makeActiveCellNormal();
         $(activeCellNode).removeClass("active");
@@ -3848,11 +3916,17 @@ if (typeof Slick === "undefined") {
       //没用 selectionModel.setSelectedRanges();
     }
     function setSelectedCells(range) {
+   
           if (!selectionModel) {
               throw new Error("Selection model is not set");
 
-        }
-        selectionModel.setSelectedRanges([new Slick.Range(range.fromRow, range.fromCell, range.toRow, range.toCell)]);
+          }
+      var range_arry = [];
+      range.forEach(function (v) {
+        range_arry.push(new Slick.Range(v.fromRow, v.fromCell, v.toRow, v.toCell));
+      })
+      console.log(range_arry)
+      selectionModel.setSelectedRanges(range_arry);
       }
 
     //////////////////////////////////////////////////////////////////////////////////////////////
@@ -4024,8 +4098,10 @@ if (typeof Slick === "undefined") {
 
       // IEditor implementation
       "getEditorLock": getEditorLock,
-      "getEditController": getEditController
-    });
+      "getEditController": getEditController,
+      "setZoom": setZoom,
+      "clearZoom": clearZoom
+      });
 
     init();
   }

@@ -868,7 +868,7 @@ body .ui-tooltip {
 .ui-widget-header .ui-state-default {
 	border: 0px solid #d3d3d3;
 	
-	font-weight:500;
+	color:dimgray;
 
 }
 .ui-state-default a,
@@ -885,9 +885,8 @@ body .ui-tooltip {
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
 	border: 1px solid #999999;
-	background: #dadada url("images/ui-bg_glass_75_dadada_1x400.png") 50% 50% repeat-x;
-	font-weight: normal;
-	color: #212121;
+
+
 }
 .ui-state-hover a,
 .ui-state-hover a:hover,

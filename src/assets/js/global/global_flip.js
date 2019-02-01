@@ -26,6 +26,8 @@ export default function flip(fromEle, toEle, intoCss, leaveCss) {
     dom.style["position"] = "absolute";
     dom.style["left"] = to.left+'px';
     dom.style["top"] = to.top + 'px';
+
+
     var invertPosition = {
       x: from.left - to.left, y: to.top - from.top
     }
@@ -55,9 +57,11 @@ export default function flip(fromEle, toEle, intoCss, leaveCss) {
       value.style.height = size[index].height + 'px';
       value.style[transform] = '';
       var count = 0;
+
       value.addEventListener(common.getTrasitionEnd(), (function (obj,idx,ct) {
         return function () {
-          if (ct == 2) {
+          console.log(ct);
+         // if (ct == 2) {
             obj.style[transition] = 'all 0s';
             var value_to = toEle.eq(idx)[0];
             value_to.style["opacity"] = "1";
@@ -68,8 +72,9 @@ export default function flip(fromEle, toEle, intoCss, leaveCss) {
               }
 
             }
+     
             document.body.removeChild(obj);
-          }
+        //  }
           ct++;
         }
       }(value, index,count)))

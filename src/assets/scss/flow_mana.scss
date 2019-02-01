@@ -1,0 +1,114 @@
+.flow-container {
+  .mapping, .list_view, .line_content {
+    position: relative;
+    float: left;
+    box-sizing: border-box;
+    font-size: 10px;
+  }
+
+  .mapping {
+    width: 100%;
+    padding: 0px 110px 0px 110px;
+    overflow: hidden;
+
+    .list_view {
+      list-style: none;
+      overflow: hidden;
+      height: 100%;
+
+ 
+    }
+
+    .line_content {
+      width: 100%;
+      height: 100%;
+    }
+
+    .list_view.leftside {
+      width: 110px;
+      left: -100%;
+      margin-left: -110px;
+    }
+
+    .list_view.rightside {
+      width: 110px;
+      right: -110px;
+      margin-left: -110px;
+    }
+
+    .list_view ul {
+      padding: 0;
+    }
+  }
+
+  table {
+    font-size: 10px;
+    width: 100%;
+    line-height: 25px;
+  }
+
+  tr {
+  }
+
+  th {
+    width: 25%;
+    font-size: 10px;
+    text-align: center;
+  }
+
+  td {
+    border: 1px black solid;
+    border-left: none;
+    border-color: lightgray;
+    width: 25%;
+    font-size: 10px;
+    text-align: center;
+  }
+
+  .setting {
+    font-weight: 500;
+
+    .input_point {
+      width: 100%;
+      height: auto;
+
+
+      .point_list {
+        border-bottom: 1px rgb(230,230,230) solid;
+
+        li {
+          padding-left: 76px;
+          width: 100%;
+          min-height: 60px;
+          line-height: 60px;
+          border-top: 1px rgb(230,230,230) solid;
+          color: black;
+
+          span {
+          }
+        }
+
+        li:hover {
+          background-color: snow;
+        }
+      }
+    }
+
+    .option {
+
+      label {
+        color:lightslategray;
+        font-weight:600;
+        font-size:13px;
+      }
+      input{
+        width:80%;
+        border-bottom:1px solid rgb(210,210,210);
+        font-size:13px;
+        padding:3px 0px 0px 3px;
+      }
+   
+      width: 100%;
+    }
+  }
+}

@@ -6,31 +6,35 @@ classes should alter those!
 */
 
 .slick-header-columns {
-    background-color: #677579;
-    color: #FFFFFF;
-    height: 20px;
-    border-bottom: 0px solid silver;
+  background-color: snow;
+  font-size:13px;
+  font-weight: 500;
+  border-top: 1px rgb(239,239,239) solid;
+  min-height: 30px;
+
+  border-bottom: 1px rgb(239,239,239) solid;
 }
 
 .slick-header-column {
- 
-  border-right: 1px solid silver;
+  border-right: 1px rgb(239,239,239) solid;
 }
 
-.slick-header-column:hover, .slick-header-column-active {
- cursor:pointer;
-  color:gray;
-}
+  .slick-header-column:hover, .slick-header-column-active {
+    cursor: pointer;
+    background-color: snow;
+    color: gray;
+  }
 
 .slick-headerrow {
-  background: #fafafa;
+  background:#fff;
   overflow:hidden;
 }
 
 .slick-headerrow-column {
-  background: #fafafa;
+  background: #fff;
   border-bottom: 0;
   height: 100%;
+
 }
 
 .slick-row.ui-state-active {
@@ -46,7 +50,7 @@ classes should alter those!
 
   .slick-row.selected {
     z-index: 10;
-    background: #FFDEAD;
+    background-color:snow;
   }
 
 .slick-cell {

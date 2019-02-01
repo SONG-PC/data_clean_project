@@ -28,23 +28,23 @@ classes should alter those!
   overflow: hidden;
 }
 
-.slick-header-column.ui-state-default {
-  position: relative;
-  display: inline-block;
- /*box-sizing: content-box !important; use this for Firefox! */ 
-  overflow: hidden;
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-  height: 20px;
-  line-height: 20px;
-  margin: 0;
-  padding-left: 4px;
-  border-right: 1px solid silver;
-  border-left: 0px !important;
-  border-top: 0px !important;
-  border-bottom: 0px !important;
-  float: left;
-}
+  .slick-header-column.ui-state-default {
+    position: relative;
+    display: inline-block;
+    /*box-sizing: content-box !important; use this for Firefox! */
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    height: 53px;
+    line-height: 23px;
+    margin: 0;
+    padding-left: 6px;
+    padding-top: 8px;
+    border-left: 0px !important;
+    border-top: 2px !important;
+    border-bottom: 0px !important;
+    float: left;
+  }
 
 .slick-headerrow-column.ui-state-default, .slick-footerrow-column.ui-state-default {
   padding: 0px;
@@ -112,11 +112,11 @@ classes should alter those!
   width: 100%;
 }
 
-.slick-cell, .slick-headerrow-column , .slick-footerrow-column{
+.slick-cell, .slick-headerrow-column, .slick-footerrow-column {
   position: absolute;
   border: 1px solid transparent;
-  border-right: 1px dotted silver;
-  border-bottom-color: silver;
+  border-right: 1px solid rgb(239,239,239);
+  border-bottom-color: rgb(239,239,239);
   overflow: hidden;
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
@@ -127,11 +127,11 @@ classes should alter those!
   white-space: nowrap;
   cursor: default;
 }
-.slick-cell, .slick-headerrow-column{
-  border-bottom-color: silver;
+.slick-cell, .slick-headerrow-column {
+  border-bottom-color: rgb(239,239,239);
 }
 .slick-footerrow-column {
-  border-top-color: silver;
+  border-top-color: rgb(239,239,239);
 }
  
 .slick-group {

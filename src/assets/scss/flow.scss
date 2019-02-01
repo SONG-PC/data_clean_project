@@ -1,0 +1,411 @@
+@mixin transition {
+  transition: all .2s;
+  -moz-transition: all .2s ease; /* Firefox 4 */
+  -webkit-transition: all .2s ease; /* Safari 和 Chrome */
+  -o-transition: all .2s ease; /* Opera */
+}
+@mixin transform($parm) {
+  transform: $parm;
+  -ms-transform: $parm; /* IE 9 */
+  -moz-transform: $parm; /* Firefox */
+  -webkit-transform: $parm; /* Safari 和 Chrome */
+  -o-transform: $parm; /* Opera */
+}
+@mixin transform_origin($parm) {
+  transform-origin: $parm;
+  -ms-transform-origin: $parm; /* IE 9 */
+  -moz-transform-origin: $parm; /* Firefox */
+  -webkit-transform-origin: $parm; /* Safari 和 Chrome */
+  -o-transform-origin: $parm; /* Opera */
+}
+i {
+  vertical-align: top;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 25px 25px;
+}
+li i {
+  width: 50px;
+  height: 50px;
+}
+i.combine {
+  background-image: url('../../resourse/flow_combine.png')
+}
+i.out {
+  background-image: url('../../resourse/flow_out.png');
+}
+i.entry {
+  background-image: url('../../resourse/file2.png');
+}
+i.wash {
+  background-image: url('../../resourse/flow_wash.png');
+}
+i.transform {
+  background-image: url('../../resourse/flow_transform.png');
+}
+i.filter {
+  background-image: url('../../resourse/flow_filter.png');
+}
+i.open {
+  background-size: 22px 22px;
+  background-image: url('../../resourse/flow_close.png');
+}
+i.close {
+  background-size: 22px 22px;
+  background-image: url('../../resourse/flow_open.png');
+
+}
+i.app {
+
+  background-image: url('../../resourse/flow_com.png');
+}
+
+i.error {
+  margin-top:1px;
+  background-size: 10px 10px;
+  width:10px;
+  height:100%;
+  background-image: url('../../resourse/error.png');
+}
+.flow-container {
+  padding: 0 0px 75px 200px;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  box-sizing: border-box;
+  height: 100%;
+
+  .node, .graph, .setting {
+    position: relative;
+    box-sizing: border-box;
+    float: left;
+    font-size: 14px;
+    height: 100%;
+  }
+
+  @include transition;
+
+  .node {
+    border-right: 1px rgb(230,230,230) solid;
+    margin-left: -200px;
+    left: -100%;
+    width: 200px;
+    overflow: auto;
+
+    .title {
+      height: 40px;
+      width: 100%;
+      background-color: rgba(255,255,255,0.2);
+      line-height: 40px;
+      border-bottom: 0.5px #E0E0E0 solid;
+    }
+
+    ul {
+      width: 100%;
+      background-color: #FFFCEC;
+
+      li {
+        position: relative;
+        cursor: pointer;
+        padding-left: 12px;
+        color: rgb(150,150,150);
+        border-bottom: 0.5px #E0E0E0 solid;
+        float: none;
+        width: 100%;
+        line-height: 50px;
+        height: 50px;
+        color: steelblue;
+        background-color: snow;
+
+        &:hover {
+          color: #ffffff;
+          background-color: lightblue;
+        }
+      }
+    }
+  }
+
+  .graph {
+    .transparent {
+      opacity: 0.5;
+    }
+
+    background-color: snow;
+    background-repeat: repeat;
+    width: 100%;
+    padding-bottom: 0px;
+    overflow: auto;
+
+    .button_menu {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+
+      i {
+        @include transition;
+        width: 100%;
+        height: 100%;
+      }
+
+      .item {
+        position: absolute;
+        margin: auto;
+        background-color: lightblue;
+        border-radius: 50%;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 30px;
+        height: 30px;
+        opacity: 0;
+        @include transition;
+        z-index: 10000;
+        top: -180px;
+      }
+      /*.item.show.resource {
+      
+      }
+
+      .item.show.relation {
+      }
+
+      .item.show.app {
+      }
+
+      .item.show.plane {
+      }*/
+      .item.show {
+        opacity: 1.0;
+        /*@include transform(rotate(90deg) );*/
+        @include transform_origin(50% 105px);
+        /*i {
+          @include transform(rotate(360deg) );
+        }*/
+      }
+    }
+
+    div {
+      background-position: center;
+      background-size: 40% 40%;
+      background-repeat: no-repeat;
+    }
+  }
+
+  .setting {
+    width: 0px;
+    border-left: 1px rgb(220,220,220) solid;
+    margin-left: 0px;
+    height: 100%;
+    font-weight: 600;
+    @include transition;
+    right: 0px;
+    overflow: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+
+    .button_group {
+      padding-top: 20px;
+
+      button {
+        cursor: pointer;
+        margin-left: 30px;
+        background-image: url('../../resourse/flow_wash_11.png');
+        background-position:90% center;
+        background-size:15px 15px;
+        background-repeat:no-repeat;
+        border: 1px solid #fff;
+        text-align: center;
+        padding: 7px 10% 7px 17px;
+        font-weight: 500;
+        font-size: 13px;
+        color: #fff;
+        margin-bottom: 12px;
+        background-color: cornflowerblue
+      }
+    }
+
+    .setting_module {
+      width: 100%;
+      height: auto;
+      @include transition;
+      cursor: pointer;
+      border-bottom: 0.5px #E0E0E0 solid;
+      overflow: hidden;
+    }
+
+    .setting_module.unfold {
+      height: auto;
+      opacity: 1.0;
+    }
+
+    .setting_module.fold {
+      opacity: 0.4;
+      height: 50px;
+    }
+  }
+
+  .demo {
+    /* for IE10+ touch devices */
+    touch-action: none;
+  }
+
+  .flowchart-demo .window {
+    -moz-border-radius: 0.3em;
+    border-radius: 0.3em;
+    opacity: 0.8;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    text-align: center;
+    z-index: 20;
+    position: absolute;
+    background-color: #eeeeef;
+    color: black;
+    font-family: helvetica, sans-serif;
+    padding: 0.5em;
+    font-size: 0.9em;
+    -webkit-transition: -webkit-box-shadow 0.15s ease-in;
+    -moz-transition: -moz-box-shadow 0.15s ease-in;
+    -o-transition: -o-box-shadow 0.15s ease-in;
+    transition: box-shadow 0.15s ease-in;
+  }
+
+  .flowchart-demo .window.selected {
+    border: 1.5px #0765FC solid;
+  }
+
+  .flowchart-demo .window.edit {
+    border: 1.5px red solid;
+  }
+
+  .flowchart-demo .window:hover {
+    box-shadow: 2px 2px 19px #444;
+    -o-box-shadow: 2px 2px 19px #444;
+    -webkit-box-shadow: 2px 2px 19px #444;
+    -moz-box-shadow: 2px 2px 19px #444;
+  }
+
+
+  .flowchart-demo .hover {
+    border: 1px dotted red;
+  }
+
+
+
+  .flowchart-demo .jtk-connector {
+    z-index: 4;
+  }
+
+  .flowchart-demo .jtk-endpoint, .endpointTargetLabel, .endpointSourceLabel {
+    z-index: 21;
+    cursor: pointer;
+  }
+
+  .flowchart-demo .aLabel {
+    background-color: white;
+    padding: 0.4em;
+    font: 12px sans-serif;
+    color: #444;
+    z-index: 21;
+    border: 1px dotted gray;
+    opacity: 0.8;
+    cursor: pointer;
+  }
+
+  .flowchart-demo .aLabel.jtk-hover {
+    background-color: #5C96BC;
+    color: white;
+    border: 1px solid white;
+  }
+
+
+
+  .jtk-drag {
+    outline: 4px solid pink !important;
+  }
+
+  path, .jtk-endpoint {
+    cursor: pointer;
+  }
+
+  .jtk-overlay {
+    background-color: transparent;
+  }
+}
+.jtk-node.prepared:after {
+  content: '就绪';
+  position:absolute;
+  color:yellowgreen;
+  font-size:12px;
+  width:100%;
+  bottom:-30px;
+  height:30px;
+  line-height:30px;
+  background-image:url('');
+}
+.jtk-node.unprepared:after {
+  content: '待配置';
+  font-size: 12px;
+  position: absolute;
+  color: orangered;
+  width: 100%;
+  bottom: -30px;
+  height: 30px;
+  line-height: 30px;
+}
+.jtk-node.loading:after {
+  content: '正在获取状态';
+  font-size: 12px;
+  position: absolute;
+  color: gray;
+  width: 100%;
+  bottom: -30px;
+  height: 30px;
+  line-height: 30px;
+}
+
+.pulse:after {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  left: -6.9px;
+  top: -6.9px;
+  content: '';
+  border: 2px solid red;
+  -webkit-border-radius: 24px;
+  -moz-border-radius: 24px;
+  border-radius: 24px;
+  z-index: 1;
+  opacity: 1;
+  -webkit-animation: warn 2s linear;
+  -moz-animation: warn 2s linear;
+  animation: warn 2s linear;
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+
+  @keyframes warn {
+    0% {
+      transform: scale(0);
+      opacity: 0.25;
+    }
+
+    50% {
+      transform: scale(0.75);
+      opacity: 0.5;
+    }
+
+    100% {
+      transform: scale(1.5);
+      opacity: 0.0;
+    }
+  }
+

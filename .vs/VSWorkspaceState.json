@@ -1,12 +1,13 @@
 {
   "ExpandedNodes": [
     "",
+    "\\src",
     "\\src\\assets",
-    "\\src\\assets\\js",
     "\\src\\assets\\js\\global",
-    "\\src\\assets\\plugins",
-    "\\src\\assets\\scss"
+    "\\src\\assets\\plugins\\SlickGrid-master\\plugins",
+    "\\src\\components",
+    "\\src\\components\\wash"
   ],
-  "SelectedNode": "\\dist",
+  "SelectedNode": "\\src\\components\\wash\\exports.vue",
   "PreviewInSolutionExplorer": false
 }
