@@ -3,7 +3,7 @@
     <label v-if="parameter.label" for="name" style="display: block;">
       {{parameter.label}}
     </label>
-    <input  v-on:input="input" v-on:change="update($event)"  v-bind:value="node.parameters[parameter.name]"  class="control" type="text" v-bind:placeholder="parameter.description">
+    <input   v-on:input="input" v-on:change="update($event)"  v-bind:value="node.parameters[parameter.name]"  class="control split" type="text" v-bind:placeholder="parameter.description">
   </div>
 
 </template>

@@ -2,7 +2,7 @@ import $ from 'jquery'
 import common from '../common.js';
 var transform = common.getPreFix() + "transform"
 var transition = common.getPreFix() + "transition"
-export default function flip(fromEle, toEle, intoCss, leaveCss) {
+export default function flip(fromEle, toEle, intoCss, leaveCss,callback) {
   var size = [];
   var animateDom = [];
   fromEle.each(function (index, value) {
@@ -26,7 +26,7 @@ export default function flip(fromEle, toEle, intoCss, leaveCss) {
     dom.style["position"] = "absolute";
     dom.style["left"] = to.left+'px';
     dom.style["top"] = to.top + 'px';
-
+    dom.style["opacity"] = "1";
 
     var invertPosition = {
       x: from.left - to.left, y: to.top - from.top
@@ -36,7 +36,7 @@ export default function flip(fromEle, toEle, intoCss, leaveCss) {
     }
 
 
-    value_to.style["opacity"] = "0";
+  
     dom.style[transform] = 'translate(' + invertPosition.x + 'px,' + -invertPosition.y + 'px)';
     dom.style.width = from.width + 'px';
     dom.style.height = from.height + 'px';
@@ -49,7 +49,7 @@ export default function flip(fromEle, toEle, intoCss, leaveCss) {
       }
     }
   });
-  requestAnimationFrame(function () {
+ setTimeout(function () {
 
     animateDom.forEach(function (value, index) {
       value.style[transition] = "all .5s";
@@ -76,10 +76,13 @@ export default function flip(fromEle, toEle, intoCss, leaveCss) {
             document.body.removeChild(obj);
         //  }
           ct++;
+          if (ct == animateDom.length) {
+            callback();
+          }
         }
       }(value, index,count)))
     })
-  });
+  },200);
 
 
 }

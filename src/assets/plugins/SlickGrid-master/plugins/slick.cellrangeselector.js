@@ -90,7 +90,7 @@
     }
 
     function handleDragEnd(e, dd) {
-
+     
       if (!_dragging) {
         return;
       }

@@ -1,11 +1,11 @@
 <template>
-  <div class="database" style="height:100%;padding-left:320px;padding-right:0px;">
-    <div class="list" style="position:relative;height:100%;float:left;margin-left:-320px;">
-      <ul id="treeDemo" class="ztree" style="height:100%;margin:0; border-right: 1px dashed rgb(200,200,200);"></ul>
+  <div class="database" style="height:100%;padding-left:190px;overflow:auto">
+    <div class="list" style="overflow:auto;box-sizing:border-box;position:relative;height:100%;float:left;margin-left:-190px;  ">
+      <ul id="treeDemo" class="ztree" style="height:100%;margin:0;"></ul>
       <drowlist ref="mychild" />
     </div>
-    <div class="add" style="float:left;width:100%;height:100%;
-      background-color:#fff;padding:30px 60px 30px 60px ;"><conn/></div>
+    <div class="add " style="float:left;width:100%;height:100%;
+    padding:20px 60px 30px 60px ;"><conn/></div>
   </div>
 </template>
 
@@ -66,7 +66,7 @@
 
               }
               }],
-            top: $(this).offset().top - $("#treeDemo").offset().top,
+            top: $(this).offset().top ,
             left: $(this).position().left
           });
         
@@ -90,7 +90,7 @@
 
               }
             }],
-            top: $(this).offset().top - $("#treeDemo").offset().top ,
+            top: $(this).offset().top  ,
             left: $(this).offset().left - $("#treeDemo").offset().left
           });
       
@@ -108,7 +108,7 @@
 
               }
             }],
-            top: $(this).offset().top - $("#treeDemo").offset().top,
+            top: $(this).offset().top ,
             left: $(this).offset().left - $("#treeDemo").offset().left
           });
 
@@ -141,7 +141,7 @@
                   });
                 }
               }],
-            top: $(this).offset().top - $("#treeDemo").offset().top ,
+            top: $(this).offset().top ,
             left: $(this).offset().left - $("#treeDemo").offset().left
           });
 

@@ -1,16 +1,17 @@
 <template>
   <div class="input_point">
   
-    <ul class="point_list">
-      <li v-if="p.isTarget" v-for="(p,index) in targetEndpoints" style="float:none">
+    <ul class="point_list ">
+      <li class="split" v-if="p.isTarget" v-for="(p,index) in targetEndpoints" style="float:none">
 
         <div style="float:none">
           <el-tooltip v-if="index>0" content="删除这个入口" placement="left" effect="light">
-            <div v-on:click="deleteEndpoint(p.jsPlumbNode,node)" style="color:red;font-size:30px;position:absolute;left:20px">-</div>
+            <div v-on:click="deleteEndpoint(p.jsPlumbNode,node)" style="color:red;font-size:30px;position:absolute;left:50px">-</div>
           </el-tooltip>
           <div style="display:inline-block;height:100%;width:100px;background-color:yellow;position:relative;margin-right:15px;"><input style="margin-left:15px;top:-15px;position:absolute;margin-right:15px;width:80px;display:inline-block" v-on:change="modify_name($event,p)" v-bind:value="p.name" /></div>
           <el-tooltip content="其他端口输入格式必须映射此端口所有字段" placement="top" effect="light">
-            <span v-if="index==0" style="color:sandybrown;margin-left:60px;border:1px gray dashed;padding:5px 5px 5px 5px;border-radius:2px;">映射标准端口</span>
+          
+            <el-tag style="background-color:transparent;border:none" v-if="index==0" type="warning" size="small">映射端口</el-tag>
           </el-tooltip>
           <el-button v-if="index>0&&p.format&&p.format.length>0" size="mini">配置</el-button>
           <el-button v-if="index>0&&p.format&&p.format.length>0" size="mini">映射</el-button>

@@ -6,6 +6,8 @@
     font-size: 10px;
   }
 
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', 'Source Han Sans SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', sans-serif;
+
   .mapping {
     width: 100%;
     padding: 0px 110px 0px 110px;
@@ -15,8 +17,6 @@
       list-style: none;
       overflow: hidden;
       height: 100%;
-
- 
     }
 
     .line_content {
@@ -66,7 +66,7 @@
   }
 
   .setting {
-    font-weight: 500;
+
 
     .input_point {
       width: 100%;
@@ -74,14 +74,13 @@
 
 
       .point_list {
-        border-bottom: 1px rgb(230,230,230) solid;
+
 
         li {
           padding-left: 76px;
           width: 100%;
           min-height: 60px;
           line-height: 60px;
-          border-top: 1px rgb(230,230,230) solid;
           color: black;
 
           span {
@@ -96,18 +95,23 @@
 
     .option {
 
-      label {
-        color:lightslategray;
-        font-weight:600;
-        font-size:13px;
+      label:first-child {
+        color: lightslategray;
+        font-size: 13px;
+        margin-top: 10px;
       }
-      input{
-        width:80%;
-        border-bottom:1px solid rgb(210,210,210);
-        font-size:13px;
-        padding:3px 0px 0px 3px;
+
+      input {
+        width: 80%;
+        margin-bottom: 10px;
+        font-size: 13px;
+        padding: 3px 0px 0px 3px;
       }
-   
+
+      select {
+        margin-bottom: 10px;
+      }
+
       width: 100%;
     }
   }

@@ -28,7 +28,7 @@
 
     this.init = function () {
       var navOnLR = args.grid.getOptions().editorCellNavOnLRKeys;
-      $input = $("<INPUT type=text class='editor-text' />")
+      $input = $("<INPUT type=text class='editor-text' readonly='readonly'/>")
           .appendTo(args.container)
           .on("keydown.nav", navOnLR ? handleKeydownLRNav : handleKeydownLRNoNav)
           .focus()
@@ -94,7 +94,7 @@
 
     this.init = function () {
       var navOnLR = args.grid.getOptions().editorCellNavOnLRKeys;
-      $input = $("<INPUT type=text class='editor-text' />")
+      $input = $("<INPUT type=text class='editor-text'  readonly='readonly'/>")
       .appendTo(args.container)
       .on("keydown.nav", navOnLR ? handleKeydownLRNav : handleKeydownLRNoNav)      
       .focus()
@@ -159,7 +159,7 @@
 
     this.init = function () {
       var navOnLR = args.grid.getOptions().editorCellNavOnLRKeys;
-      $input = $("<INPUT type=text class='editor-text' />")
+      $input = $("<INPUT type=text class='editor-text'  readonly='readonly'/>")
       .appendTo(args.container)
       .on("keydown.nav", navOnLR ? handleKeydownLRNav : handleKeydownLRNoNav)      
       .focus()

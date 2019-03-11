@@ -3,7 +3,7 @@
     <label v-if="parameter.label" for="name" style="display: block;">
       {{parameter.label}}
     </label>
-    <select v-model="parameter.value" v-on:change="update">
+    <select class="split" v-model="parameter.value" v-on:change="update">
       <option v-bind:value="empty">无</option>
       <option v-if="!item.primary" v-for="(item,index) in col_list" v-bind:value="item.id">{{item.name}}</option>
     </select>

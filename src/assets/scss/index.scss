@@ -1,101 +1,62 @@
+@mixin transition {
+  transition: all .3s;
+  -moz-transition: all .3s ease; /* Firefox 4 */
+  -webkit-transition: all .3s ease; /* Safari 和 Chrome */
+  -o-transition: all .3s ease; /* Opera */
+}
+
+@mixin transform($parm) {
+  transform: $parm;
+  -ms-transform: $parm; /* IE 9 */
+  -moz-transform: $parm; /* Firefox */
+  -webkit-transform: $parm; /* Safari 和 Chrome */
+  -o-transform: $parm; /* Opera */
+}
 .index-container {
-  position: relative;
-  box-sizing: border-box;
-  float: left;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', 'Source Han Sans SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', sans-serif;
   height: 100%;
   width: 100%;
-  padding-left: 120px;
-  padding-right: 0px;
+  padding-left: 65px;
+  padding-right: 65px;
+  padding-top: 55px;
+  padding-bottom: 65px;
+  overflow: auto;
+  background-color: rgb(240,240,240);
 
-  .left {
-    width: 120px;
-    margin-left: -120px;
-    height: 100%;
-    position: relative;
-    float: left;
-    left: -100%;
-
-    ul {
-      list-style: none;
-      width: 100%;
-      height: 100%;
-      background-color: #fff;
-      border: none;
-
-
-      li.active {
-        background-color: #FFEFD5;
-      }
-
-      li {
-        position: relative;
-        float: none;
-        height: 120px;
-        width: 120px;
-        border: none;
-
-        .icon {
-          background-position: center;
-          background-repeat: no-repeat;
-          background-size: 30px 30px;
-          width: 100%;
-          height: 80px;
-        }
-
-        .icon.database {
-          background-image: url('../../resourse/data_source.png');
-        }
-
-        .icon.data_entity {
-          background-size: 35px 35px;
-          background-image: url('../../resourse/data_entity.png');
-        }
-
-        .icon.wash {
-          background-size: 35px 35px;
-          background-image: url('../../resourse/wash_data.jpg');
-        }
-
-        .icon.recycle {
-          background-size: 50px 50px;
-          background-image: url('../../resourse/recycle.jpg');
-        }
-
-        .icon.recycle_empty {
-          background-size: 50px 50px;
-          background-image: url('../../resourse/recycle_empty.jpg');
-        }
-
-        .txt {
-          width: 100%;
-          text-align: center;
-          line-height: 20px;
-          height: 20px;
-        }
-      }
-    }
+  .navi {
+    position: absolute;
+    top: 96px;
+    font-size: 19px;
+    left: 20px;
   }
 
-  .right {
-    width: 100%;
+  .main {
     height: 100%;
-    padding-left: 5px;
-    padding-right: 5px;
-    float: left;
-    position: relative;
+    width: 100%;
+    overflow: auto;
+
+
+    .tools {
+      position: absolute;
+      margin-top: -36px;
+      font-size: 19px;
+      right: 10px;
+    }
+
 
     .auto_list {
       width: 100%;
-      height: 100%;
+      height: auto;
+
 
       button {
         background-position: center;
         background-repeat: no-repeat;
         background-size: 25px 25px;
-        width: 52px;
+        width: 46.8px;
         border: none;
         background-color: transparent;
-        height: 52px;
+        height: 46.8px;
         cursor: pointer;
       }
 
@@ -130,16 +91,10 @@
         background-image: url('../../resourse/export.png')
       }
 
-      .schedule {
-        margin-top: 22px;
-        height: 10px;
-        padding: 0;
-        width: 100%;
-        background-image: url('../../resourse/loadbg.png')
-      }
+
 
       .noinit {
-        color: orange;
+        color: darkgrey;
       }
 
       .stop {
@@ -150,12 +105,15 @@
         color: #b6be00
       }
 
+      .data {
+        padding-left: 15px;
+      }
+
       .head {
-        font-weight: 800;
+        padding-left: 15px;
+        font-weight: 600;
         font-size: 13px;
-        border-bottom: 1px solid #e5e5e5;
-        box-shadow: 0 15px 2px -2px rgba(160,160,160,.15);
-        height: 30px;
+        height: 36px;
 
         &:hover {
           background-color: #fff;
@@ -164,45 +122,421 @@
         color: rgb(90,90,90);
 
         div {
-          line-height: 30px;
+          line-height: 36px;
         }
       }
 
       li {
         width: 100%;
-        height: 52px;
+        height: 46.8px;
         color: rgb(120,120,120);
-        border-bottom: 1px solid rgb(240,240,240);
+
 
         div {
           position: relative;
           white-space: nowrap;
-          line-height: 52px;
+          line-height: 46.8px;
           float: left;
-          padding-left: 15px;
         }
 
         i {
-          vertical-align: top;
-          display: inline-block;
-          width: 52px;
-          height: 52px;
+          margin-left: 17px;
+        }
+
+
+
+        &:after {
+          content: '<div>';
+          clear: both;
+          display: none;
+        }
+      }
+    }
+
+    .task {
+      height: 100%;
+      width: 100%;
+      font-size: 0;
+      padding-left: 15px;
+      padding-top: 15px;
+
+      .card {
+        .create_task {
+          width: 100%;
+          height: 100%;
+          line-height: 250px;
+          text-align: center;
+
+          button {
+            border-radius: 5px;
+            padding: 5px 10px 5px 10px;
+            background-color: transparent;
+            border: 1px solid gray;
+            cursor: pointer;
+            color: lightskyblue
+          }
+        }
+
+        width: 160px;
+        height: 250px;
+        font-size: 10px;
+        cursor: pointer;
+        background-color: #fff;
+        float: left;
+        margin-right: 15px;
+        margin-top: 0px;
+        color: rgb(160,160,160);
+        margin-bottom: 10px;
+
+        .content {
+          width: 100%;
+          height: 150px;
+          box-sizing: border-box;
+          position: relative;
+
+          .img {
+            width: 100%;
+            height: 0px;
+            overflow: hidden;
+            position: absolute;
+            @include transition;
+
+            .view {
+              position: absolute;
+              width: 100%;
+              height: 149px;
+            }
+          }
+
+          .info {
+            padding-left: 13px;
+            margin-top: 30px;
+            display: inline-block;
+
+            div {
+              margin-bottom: 10px;
+            }
+          }
+
+          .title {
+            width: 100%;
+            color: rgb(60,60,60);
+            font-weight: 600;
+            display: inline-block;
+            font-size: 12px;
+            text-align: left;
+            padding-left: 10px;
+            padding-top: 4px;
+          }
+        }
+
+        margin-top: 0px;
+
+        .state {
+          position: relative;
+          height: 100px;
+          width: 100%;
+
+          .action {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+
+            .progress {
+              float: left;
+              width: 50px;
+              height: 100%;
+              margin-top: 25px;
+            }
+
+            .des {
+              margin-top: 20px;
+              padding-left: 10px;
+              line-height: 27px;
+              font-size: 12px;
+              float: left;
+              width: 100px;
+              height: 100%;
+              font-weight: 600;
+
+              .running {
+                color: deepskyblue;
+              }
+
+              .puase {
+                color: orange;
+              }
+
+              .error {
+                color: red;
+              }
+
+              .success {
+                color: limegreen;
+              }
+            }
+          }
+
+          .edit {
+            position: relative;
+            text-align: center;
+            line-height: 100px;
+
+            button {
+              border-radius: 5px;
+              border: none;
+              padding: 5px 10px 5px 10px;
+              color: lightgray;
+              background-color: #fff;
+              border: 1px lightgray solid;
+            }
+
+            width: 100%;
+            height: 100%
+          }
+        }
+      }
+
+      .card:hover {
+        box-shadow: 0px 0px 10px skyblue;
+        -o-box-shadow: 0px 0px 10px skyblue;
+        -webkit-box-shadow: 0px 0px 10px skyblue;
+        -moz-box-shadow: 0px 0px 10px skyblue;
+        @include transition;
+        @include transform(translateY(2px));
+      }
+    }
+  }
+  /*position: relative;
+  box-sizing: border-box;
+  float: left;
+  height: 100%;
+  width: 100%;
+  padding-left: 80px;
+  padding-right: 0px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', 'Source Han Sans SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', sans-serif;
+  background-color: rgb(240,240,240);
+
+  .left {
+    width: 80px;
+    margin-left: -80px;
+    height: 100%;
+    position: relative;
+    float: left;
+    left: -100%;
+    box-sizing: border-box;
+
+    ul {
+      list-style: none;
+      width: 100%;
+      height: 90px;
+
+
+
+      li.active {
+        background-color: black;
+      }
+
+      li {
+        position: relative;
+        float: none;
+        height: 80px; 
+        width: 80px;
+        padding-top: 17px;
+        background-color: rgb(90,90,90);
+        color: #fff;
+        text-align: center;
+        line-height: 30px;
+
+        .icon {
           background-position: center;
           background-repeat: no-repeat;
-          background-size: 20px 20px;
+          background-size: 30px 30px;
+          width: 60px;
+          height: 60px;
+          background-color: #fff;
         }
 
-        i.csv {
-          background-image: url('../../resourse/csv.jpg');
+        .icon.database {
+          background-image: url('../../resourse/data_source.png');
         }
 
-        i.db {
-          background-image: url('../../resourse/base_entity.jpg');
+        .icon.data_entity {
+          background-size: 35px 35px;
+          background-image: url('../../resourse/data_entity.png');
         }
 
-        i.excel {
-          background-image: url('../../resourse/excel.jpg');
+        .icon.recently {
+          background-size: 35px 35px;
+          background-image: url('../../resourse/7eaf1309008734e8f5821fc712c3e22d.gif');
         }
+
+        .icon.wash {
+          background-size: 35px 35px;
+          background-image: url('../../resourse/wash_data.jpg');
+        }
+
+        .icon.recycle {
+          background-size: 50px 50px;
+          background-image: url('../../resourse/recycle.jpg');
+        }
+
+        .icon.recycle_empty {
+          background-size: 50px 50px;
+          background-image: url('../../resourse/recycle_empty.jpg');
+        }
+
+        .txt {
+          width: 100%;
+          text-align: center;
+          height: 20px;
+        }
+      }
+    }
+  }
+
+  .right {
+    width: 100%;
+    height: 100%;
+    padding-right: 5px;
+    float: left;
+    position: relative;
+
+    .card {
+      padding: 20px 100px 20px 100px;
+      margin-top: 10px;
+      text-align: left;
+
+      .card_item {
+        display: inline-block;
+        margin-right: 39px;
+        text-align: center;
+        margin-bottom: 35px;
+        @include transition;
+        width: 207px;
+        border-radius: 5px;
+        height: 144px;
+        border: 1px solid rgb(216,216,216);
+      
+      }
+
+      .card_item:hover {
+        box-shadow: 0px 0px 19px skyblue;
+        -o-box-shadow: 0px 0px 19px skyblue;
+        -webkit-box-shadow: 0px 0px 19px skyblue;
+        -moz-box-shadow: 0px 0px 19px skyblue;
+        @include transform(translateY(2px));
+      }
+    }
+
+    .schedule {
+      height: 10px;
+      padding: 0;
+      width: 100%;
+      background-color: #fff;
+      border: 1px solid gray;
+    }
+
+    .auto_list {
+      width: 90%;
+      height: 100%;
+      margin-left: 5%;
+
+      button {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 25px 25px;
+        width: 46.8px;
+        border: none;
+        background-color: transparent;
+        height: 46.8px;
+        cursor: pointer;
+      }
+
+      button.action {
+      }
+
+      button.action.start {
+        background-image: url('../../resourse/start.png')
+      }
+
+      button.action.pause {
+        background-image: url('../../resourse/pause.png')
+      }
+
+      button.action.stop {
+        background-image: url('../../resourse/stop.png')
+      }
+
+      button.action.replay {
+        background-image: url('../../resourse/replay.png')
+      }
+
+      button.delete {
+        background-image: url('../../resourse/deletelist.png')
+      }
+
+      button.edit {
+        background-image: url('../../resourse/waterexe.png')
+      }
+
+      button.export {
+        background-image: url('../../resourse/export.png')
+      }
+
+
+
+      .noinit {
+        color: darkgrey;
+      }
+
+      .stop {
+        color: orangered;
+      }
+
+      .suc {
+        color: #b6be00
+      }
+
+      .data {
+        padding-left: 15px;
+      }
+
+      .head {
+        padding-left: 15px;
+        font-weight: 600;
+        font-size: 13px;
+        height: 36px;
+
+        &:hover {
+          background-color: #fff;
+        }
+
+        color: rgb(90,90,90);
+
+        div {
+          line-height: 36px;
+        }
+      }
+
+      li {
+        width: 100%;
+        height: 46.8px;
+        color: rgb(120,120,120);
+
+
+        div {
+          position: relative;
+          white-space: nowrap;
+          line-height: 46.8px;
+          float: left;
+        }
+
+        i {
+          margin-left: 17px;
+        }
+
+
 
         &:after {
           content: '<div>';
@@ -214,13 +548,12 @@
     }
 
     .nav {
-      height: 35px;
+      height: 31.5px;
       width: 100%;
       color: cadetblue;
-      background-color: #fff;
-      line-height: 35px;
+      background-color: transparent;
+      line-height: 31.5px;
       padding-left: 10px;
-      border-bottom: 1px dashed rgb(200,200,200);
     }
 
     .content {
@@ -228,13 +561,13 @@
 
 
       .item {
-        height: 120px;
+        height: 108px;
         float: left;
-        width: 120px;
+        width: 108px;
         margin-right: 20px;
         margin-bottom: 20px;
         background-color: #fff;
       }
     }
-  }
+  }*/
 }

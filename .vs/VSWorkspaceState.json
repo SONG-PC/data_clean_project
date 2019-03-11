@@ -3,11 +3,11 @@
     "",
     "\\src",
     "\\src\\assets",
-    "\\src\\assets\\js\\global",
-    "\\src\\assets\\plugins\\SlickGrid-master\\plugins",
+    "\\src\\assets\\css",
+    "\\src\\assets\\scss",
     "\\src\\components",
-    "\\src\\components\\wash"
+    "\\src\\components\\flow"
   ],
-  "SelectedNode": "\\src\\components\\wash\\exports.vue",
+  "SelectedNode": "\\src\\main.js",
   "PreviewInSolutionExplorer": false
 }

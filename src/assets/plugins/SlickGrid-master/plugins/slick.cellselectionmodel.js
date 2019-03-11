@@ -5,7 +5,7 @@
       "CellSelectionModel": CellSelectionModel
     }
   });
-
+  var cache = [];
   function CellSelectionModel(options) {
     var _grid;
     var _canvas;
@@ -48,6 +48,7 @@
     }
 
     function removeInvalidRanges(ranges) {
+      console.log(ranges)
       var result = [];
 
       for (var i = 0; i < ranges.length; i++) {
@@ -79,7 +80,7 @@
     }
 
     function setSelectedRanges(ranges) {
-    
+      cache = ranges;
       // simple check for: empty selection didn't change, prevent firing onSelectedRangesChanged
       if ((!_ranges || _ranges.length === 0) && (!ranges || ranges.length === 0)) { return; }
 
@@ -88,15 +89,19 @@
       
       _ranges = removeInvalidRanges(ranges);
       if (rangeHasChanged) {
-        
-        if (_self.column[ranges[0].fromCell].primary) {
-          _ranges[0].toCell = _self.column.length - 1;
-        }
-        else {
-          
-          _ranges[0].fromRow = 0;
-          _ranges[0].toRow = _self.data.length-1;
-        }
+
+        ranges.forEach(function (v,i) {
+          if (_self.column[v.fromCell].primary) {
+            _ranges[i].toCell = _self.column.length - 1;
+          }
+          else {
+
+            _ranges[i].fromRow = 0;
+            _ranges[i].toRow = _self.data.length - 1;
+          }
+
+        })
+       
 
         _self.onSelectedRangesChanged.notify(_ranges);
       }
@@ -119,8 +124,39 @@
     }
 
     function handleActiveCellChange(e, args) {
+    
       if (_options.selectActiveCell && args.row != null && args.cell != null) {
-        setSelectedRanges([new Slick.Range(args.row, args.cell)]);
+      
+        if (e.ctrlKey && args.cell > 0) {
+          var re = false;
+          var row = false;
+          for (var i = 0; i < cache.length; i++) {
+            if (cache[i].fromCell == 0) {
+              row =true;
+            }
+            if (cache[i].fromCell == args.cell) {
+              cache.splice(i, 1);
+              i--;
+              re = true;
+              break;
+            }
+          }
+          if (!re) {
+            if (row) {
+              cache = [new Slick.Range(args.row, args.cell)];
+            }
+            else {
+              cache.push(new Slick.Range(args.row, args.cell));
+            }
+          }
+        
+        }
+        else {
+          cache = [new Slick.Range(args.row, args.cell)];
+        }
+
+        console.log(cache);
+        setSelectedRanges(cache);
       }
       else if (!_options.selectActiveCell) {
         // clear the previous selection once the cell changes
@@ -136,6 +172,7 @@
        * 39 right
        * 40 down
        */
+     
       var ranges, last;
       var active = _grid.getActiveCell();
       var metaKey = e.ctrlKey || e.metaKey;

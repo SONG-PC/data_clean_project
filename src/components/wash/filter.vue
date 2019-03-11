@@ -1,23 +1,24 @@
 <template>
-  <div style="position:relative">
-    <div class="filter">
-      <input id="filter_input" v-model="message" v-on:keyup="input_change($event);key_response($event)" v-on:keydown="input_keydown" placeholder=" 输入一个过滤规则..." type="text" />
+  <div   style="position:relative;margin-top:10px">
+ 
+    <div class="filter" >
+      <input style="border-top-left-radius:5px;border-top-right-radius:5px;" id="filter_input" v-model="message" v-on:keyup="input_change($event);key_response($event)" v-on:keydown="input_keydown" placeholder=" 输入一个过滤规则..." type="text" />
 
     </div>
     <div class="filter_container">
       <div class="filter_content">
         <transition-group name="list" tag="div" class="slider" style="font-size:0">
-          <div v-for="(item, index) in filterlist" v-bind:key="index" class="item" data-index="index">
+          <div v-for="(item, index) in filterlist" v-bind:key="item.id" class="item" data-index="index">
             <div style="display:inline-block" class="txt">{{item.filterNode[0].value}}</div>
             <div style="display:inline-block;margin-left:5px;" class="txt">{{item.filterNode[1].value}}</div>
             <div v-if="i.node.type=='parm'" style="display:inline-block;margin-left:5px;width:50px" v-for="i in item.filterNode" class="parm">
-              <input v-on:change="filter_parm_update(i,$event)" type="text" style="width:100%;font-size:10px;text-align:center" v-bind:value="i.value" />
+              <input v-bind:readonly="$store.getters.getOpBySign(item.filterNode[1].value).readonly?'readonly':false" v-on:change="filter_parm_update(i,$event)" type="text" style="width:100%;font-size:10px;text-align:center" v-bind:value="i.value" />
             </div>
             <div v-if="item.child" class="child" v-for="(c,idx) in item.child" >
               <div style="display:inline-block" class="txt">{{c[0].value}}</div>
               <div style="display:inline-block;margin-left:5px;" class="txt">{{c[1].value}}</div>
               <div v-if="c_i.node.type=='parm'" style="display:inline-block;margin-left:5px;width:50px" v-for="c_i in c" class="parm">
-                <input v-on:change="filter_parm_update(c_i,$event)" type="text" style="width:100%;font-size:10px;text-align:center" v-bind:value="c_i.value" />
+                <input  v-bind:readonly="$store.getters.getOpBySign(item.filterNode[1].value).readonly?'readonly':false" v-on:change="filter_parm_update(c_i,$event)" type="text" style="width:100%;font-size:10px;text-align:center" v-bind:value="c_i.value" />
               </div>
               <div class="close" v-on:click="close_filter(index,idx)">
                 {{c[1].value}}
@@ -77,6 +78,7 @@
   import layer from 'vue-layer'
   import Input from '../form/input'
   Vue.prototype.$layer = layer(Vue);
+  var Mock = require('mockjs');
 import common from '../../assets/js/common.js';
   var count = 0;
   var select = -1;
@@ -106,24 +108,26 @@ import common from '../../assets/js/common.js';
         var child = [];
         var type = caller.$store.getters.getDataType(v.data_type_code);
         type.op_code.forEach(function (t) {
-          var op = caller.$store.getters.getOpByCode(t);
-          var fnNode = new Node(op.sign, null, op.tip, "fn", op.code);
-          var lastNode = null;
-          for (let i = 0; i < op.param_count; i++) {
-            var nowNode = new Node("", null, "请输入第" + (i + 1) + "个" + type.name + "类型参数", "parm", null, new RegExp(type.reg));
-            if (i > 0) {
-              var douhao = new Node(",", null, "输入逗号结束","split");
-              lastNode.next = [douhao];
-              douhao.next = [nowNode];
-              lastNode = nowNode;
+          if (!t.readonly) {
+            var op = caller.$store.getters.getOpByCode(t);
+            var fnNode = new Node(op.sign, null, op.tip, "fn", op.code);
+            var lastNode = null;
+            for (let i = 0; i < op.param_count; i++) {
+              var nowNode = new Node("", null, "请输入第" + (i + 1) + "个" + type.name + "类型参数", "parm", null, new RegExp(type.reg));
+              if (i > 0) {
+                var douhao = new Node(",", null, "输入逗号结束", "split");
+                lastNode.next = [douhao];
+                douhao.next = [nowNode];
+                lastNode = nowNode;
+              }
+              else {
+
+                fnNode.next = [nowNode]
+                lastNode = nowNode;
+              }
             }
-            else {
-    
-              fnNode.next = [nowNode] 
-              lastNode = nowNode;
-            }
+            child.push(fnNode);
           }
-          child.push(fnNode);
         }) 
         node.next = child;
       }
@@ -142,14 +146,10 @@ import common from '../../assets/js/common.js';
       this.$watch('filterlist', function (newValue, oldValue) {
         
         this.updateFilter();
-
+        this.refreshBar();
       }.bind(this));
 
-
-
-
-     
-
+      window.Bus.filterPoint = this;
     },
     components: {
       Input
@@ -164,12 +164,51 @@ import common from '../../assets/js/common.js';
       this.input_control = $("#filter_input");
       this.parent = $(".mid");
       this.filter_bar = $(".filter_content");
-      this.slider = this.filter_bar.find(".slider");
-    
+      this.slider = this.filter_bar.find(".slider");  
       new NS(".filter_content", ".slider");
  
     },
     methods: {
+      addFilterForOtherPage: function (col, op, value, isCtrl) {
+
+        var filterNode = [{
+          node: {
+            id: col.id
+          },
+          value: col.name
+
+        },
+        {
+          node: {
+            data_type: op.code
+          },
+          value: op.sign
+        },
+        {
+          node: {
+            type: "parm"
+          },
+          value: value
+        }]
+        var filter = {
+          id: Mock.Random.guid(),
+          filterNode: filterNode,
+          child: []
+        }
+        if (isCtrl) {
+          if (window.Bus.filterPoint.filterlist.length > 0) {
+            this.filterlist[this.filterlist.length - 1].child.push(filter.filterNode);
+            this.updateFilter();
+            this.refreshBar();
+          }
+          else {
+            this.filterlist.push(filter);
+          }
+        }
+        else {
+          this.filterlist.push(filter);
+        }
+      },
       filter_parm_update: function (update, e) {
         var update_value = e.currentTarget.value;
         if (update.node.reg.test(update_value)) {
@@ -336,23 +375,23 @@ import common from '../../assets/js/common.js';
         var zl;
         var resize = function () {
           zl = this.slider[0].offsetHeight;
-          this.parent.css("padding-bottom", 86 + zl);
+          this.parent.css("padding-bottom", 96 + zl);
           $(document).trigger("resize");
         }.bind(this);
         if (this.filterlist.length > 0) {
-          if (!this.sliderShow) {
 
+          if (!this.sliderShow) {
+     
             this.sliderShow = true;
             this.filter_bar.slideDown(150, function () {
               resize();
             }.bind(this));
+
           }
           else {
-            Vue.nextTick(function () {
+          setTimeout(function () {
               resize();
-
-            }.bind(this))
-           
+            }.bind(this),500)       
           }
         }
         else {
@@ -382,8 +421,8 @@ import common from '../../assets/js/common.js';
      
             if (isValid) {
 
-              this.hitNode[0].child = this.hitNode;
-              this.filterlist.push({ filterNode: this.hitNode, child: [] });
+              // this.hitNode[0].child = this.hitNode;
+              this.filterlist.push({ id: Mock.Random.guid(), filterNode: this.hitNode, child: [] });
               console.log(this.filterlist);
               this.tipShow = false;
               this.message = "";
@@ -426,7 +465,9 @@ import common from '../../assets/js/common.js';
             if (idx>=0) {
               v.child.forEach(function (child, k) {
                 if (idx == k) {
-                  v.child.splice(idx, 1);                      
+                  v.child.splice(idx, 1);
+                  this.updateFilter();
+                  this.refreshBar();
                 }
               }.bind(this))
             }
@@ -440,7 +481,7 @@ import common from '../../assets/js/common.js';
 
         }.bind(this));
   
-        this.refreshBar();
+
       },
       selected: function () {
 

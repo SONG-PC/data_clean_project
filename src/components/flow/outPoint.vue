@@ -1,16 +1,16 @@
 <template>
   <div class="input_point">
 
-    <ul class="point_list">
-      <li v-if="p.isSource" v-for="(p,index) in sourceEndpoints" style="float:none">
+    <ul class="point_list ">
+      <li class="split" v-if="p.isSource" v-for="(p,index) in sourceEndpoints" style="float:none">
 
         <div style="float:none">
           <el-tooltip content="删除这个出口" placement="left" effect="light">
-            <div v-on:click="deleteEndpoint(p.jsPlumbNode,node)" style="color:red;font-size:30px;position:absolute;left:20px">-</div>
+            <div v-on:click="deleteEndpoint(p.jsPlumbNode,node)" style="color:red;font-size:30px;position:absolute;left:50px">-</div>
           </el-tooltip>
           <div style="display:inline-block;height:100%;width:100px;background-color:yellow;position:relative;margin-right:15px;"><input style="margin-left:15px;top:-15px;position:absolute;margin-right:15px;width:80px;display:inline-block" v-on:change="modify_name($event,p)" v-bind:value="p.name" /></div>
           <el-tooltip content="此端口为正常数据出口,不可占用" placement="top" effect="light">
-            <span v-if="index==0" style="color:sandybrown;margin-left:60px;border:1px gray dashed;padding:5px 5px 5px 5px;border-radius:2px;">数据出口</span>
+            <el-tag style="background-color:transparent;border:none" v-if="index==0" type="warning" size="small">数据出口</el-tag>
           </el-tooltip>
         </div>
 

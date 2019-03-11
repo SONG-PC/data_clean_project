@@ -16,7 +16,7 @@
   z-index:2;
 }
 * {
-  font-family: Verdana,Arial,sans-serif;
+
   font-size: 14px;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -62,16 +62,31 @@ body, html {
 
 header {
   position: relative;
-  border-bottom: 1px solid rgb(239,239,239);
   color: #000;
   background: #ffffff;
   position: relative;
   z-index: 1;
   width: 100%;
   height: 72px;
+  box-shadow: 0 2px 4px -1px rgba(200,200,200,0.5);
+  -o-box-shadow: 0 2px 4px -1px rgba(200,200,200,0.5);
+  -webkit-box-shadow: 0 2px 4px -1px rgba(200,200,200,0.5);
+  -moz-box-shadow: 0 2px 4px -1px rgba(200,200,200,0.5);
 }
 
 .wash_container {
+  ul li {
+    background-color: #fff;
+  }
+
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', 'Source Han Sans SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', sans-serif;
+
+  i:hover {
+    box-shadow: 2px 2px 19px #444;
+    -o-box-shadow: 2px 2px 19px #444;
+    -webkit-box-shadow: 2px 2px 19px #444;
+    -moz-box-shadow: 2px 2px 19px #444;
+  }
 
   .mid, .left, .right {
     position: relative;
@@ -93,10 +108,11 @@ header {
 
 
   .mid {
-    padding: 3px 3px 3px 3px;
+    padding: 5px 10px 0px 10px;
     width: 100%;
     overflow: hidden;
-    padding-bottom: 86px;
+    padding-bottom: 96px;
+    background-color: rgb(240,240,240);
 
     .setting {
       width: 100%;
@@ -104,21 +120,11 @@ header {
       line-height: 25px;
       background-color: #fff;
       /*border-bottom: 1px solid rgb(239,239,239);*/
-   
-
-      i:hover {
-        box-shadow: 2px 2px 19px #444;
-        -o-box-shadow: 2px 2px 19px #444;
-        -webkit-box-shadow: 2px 2px 19px #444;
-        -moz-box-shadow: 2px 2px 19px #444;
-      }
-
       i {
         background-size: 25px 25px;
-        border: 1px dashed rgb(236,236,236);
         border-left: none;
         border-top: none;
-        border-bottom:none;
+        border-bottom: none;
         margin: 0;
         cursor: pointer
       }
@@ -180,6 +186,7 @@ header {
         background-position: 99% center;
         background-repeat: no-repeat;
         background-size: 20px 20px;
+        background-color: #fff;
         font-weight: 400;
         background-image: url('../../resourse/f0f6e5ae4d1575d049d8b81d100d87c4.png');
         width: 100%;
@@ -204,11 +211,9 @@ header {
         background-size: 17px 17px;
         background-position: center;
         background-repeat: no-repeat;
-        border-bottom: 1px solid rgb(239,239,239);
       }
 
       .filter_content {
-        border-bottom: 1px solid rgb(239,239,239);
         overflow: hidden;
         position: relative;
         font-size: 0px;
@@ -228,6 +233,7 @@ header {
 
           .item {
             margin-top: 3px;
+            margin-right:3px;
             padding-left: 10px;
             padding-right: 20px;
             padding-bottom: 3px;
@@ -240,7 +246,6 @@ header {
             background-color: #7FD3ED;
             color: #fff;
             border-radius: 3px;
-            border-right: 1px solid rgb(239,239,239);
             position: relative;
             display: inline-block !important;
             display: inline;
@@ -295,7 +300,6 @@ header {
     background-color: #FFFFFF;
     height: 100%;
     z-index: 1;
-    border-right: 1px solid #e5e5e5;
 
 
 
@@ -306,7 +310,6 @@ header {
         color: lightslategray;
       }
 
-      border-bottom: 1px solid rgb(239,239,239);
       padding-left: 0px;
       padding-right: 20px;
       background-color: #fff;
@@ -344,7 +347,6 @@ header {
             text-align: center;
             height: 30px;
             line-height: 30px;
-            font-weight: 500;
             font-size: 12px;
             width: 100%;
           }
@@ -359,7 +361,6 @@ header {
           padding-top: 5px;
           padding-bottom: 5px;
           text-align: center;
-          font-weight: 500;
           border-top: 1px dashed rgb(239,239,239);
           color: #9B9393;
           width: 100%;
@@ -373,7 +374,6 @@ header {
         .title {
           padding-top: 5px;
           padding-bottom: 5px;
-          border-bottom: 1px dashed rgb(239,239,239);
           width: 100%;
           text-align: center;
         }
@@ -409,7 +409,6 @@ header {
             font-size: 10px;
             background-color: #fff;
             height: 100%;
-            border-right: 1px solid rgb(239,239,239);
             padding: 0px 12px 0px 12px;
             width: auto;
             display: inline-block !important;
@@ -472,63 +471,47 @@ header {
       }
 
       .player {
-        position: absolute;
-        height: 36px;
-        width: 100%;
-        padding-left: 20px;
-        top: 25px;
-        border-bottom: 1px solid rgb(220,220,200);
-        line-height: 36px;
-        font-size: 12px;
-        color: tomato;
-        background-color: #fff;
-        z-index: 99999;
-        @include transition;
+        font-size: 0px;
+        line-height: 50px;
+
 
         span {
+          cursor: pointer;
+          font-size: 10px;
           margin-left: 10px;
         }
 
         i {
           cursor: pointer;
+          width: 50px;
+          height: 50px;
+          background-size: 25px 25px;
+          border-bottom: none;
         }
 
         i.dyb_open {
           background-image: url('../../resourse/dyb_open.png');
-          width: 30px;
-          height: 100%;
           right: 5px;
         }
 
         i.dyb_close {
           background-image: url('../../resourse/dyb_close.png');
-          width: 30px;
-          height: 100%;
-          right: -26px;
         }
 
         i.action {
           background-image: url('../../resourse/start.png');
-          width: 30px;
-          height: 100%;
         }
 
         i.action_no {
           background-image: url('../../resourse/start_no.png');
-          width: 30px;
-          height: 100%;
         }
 
         i.replay {
           background-image: url('../../resourse/replay.png');
-          width: 30px;
-          height: 100%;
         }
 
         i.pause {
           background-image: url('../../resourse/pause.png');
-          width: 30px;
-          height: 100%;
         }
 
         span.pre, span.next {
@@ -544,7 +527,6 @@ header {
         height: 76px;
         text-align: center;
         font-size: 10px;
-        font-weight: 100;
         padding-left: 10px;
         padding-right: 10px;
         width: 260px;
@@ -566,8 +548,7 @@ header {
       width: 2px;
       height: 100%;
       top: 0px;
-      right: 14.52px;
-      display: none
+      right: 19.5px;
     }
   }
 
@@ -577,8 +558,7 @@ header {
     z-index: 1;
     right: -390px;
     background-color: #FFFFFF;
-    border-left: 1px solid rgb(230,230,230);
-
+    padding-bottom: 360px;
 
 
     .right-bottom {
@@ -610,7 +590,7 @@ header {
           width: 100%;
           height: 39px;
           background-color: transparent;
-          border-bottom: 1px solid rgb(239,239,239);
+
 
           input {
             height: 100%;
@@ -620,8 +600,7 @@ header {
             background-position: right;
             background-repeat: no-repeat;
             background-size: 20px 20px;
-            font-weight: 400;
-            background-image: url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1531739601092&di=0c38d8eb54e7cd73eae928391526610c&imgtype=0&src=http%3A%2F%2Fimage.tupian114.com%2F20140424%2F13472458.png.238.jpg');
+            background-image: url('../../resourse/search.jpg');
             width: 100%;
             border: none;
             outline: none
@@ -639,7 +618,6 @@ header {
 
   .tabs {
     background-color: #fff;
-    border-bottom: 1px solid rgb(239,239,239);
     height: 50px;
     line-height: 49px;
     overflow: hidden;
@@ -653,7 +631,7 @@ header {
 
     li.active {
       color: black;
-      font-weight: 500;
+      font-weight: 600;
       font-size: 16px;
       margin-top: -3px;
     }
@@ -677,14 +655,12 @@ header {
     background-color: transparent;
 
     ul {
-      background-color: #FFFFFF;
       list-style: none;
       z-index: 2;
 
       li {
         display: block;
         width: 100%;
-        border-bottom: 1px dotted rgb(239,239,239);
         padding: 0px 5px 5px 3px;
         font-size: 13px;
         height: 40px;
@@ -736,14 +712,14 @@ header {
   }
 }
 ul {
-  background-color: #FFFFFF;
+ 
   list-style: none;
   position: relative;
   //选项卡
   li {
     margin-top: 0px;
     float: left;
-    background-color: #FCFCFC;
+
     color: #8E8E8E;
     font-size: 12px;
     cursor: pointer;
@@ -769,7 +745,21 @@ ul {
     margin-top: 7px;
     right: 1%;
     margin-right: -2px;
-    background-image: url('../../resourse/gear.jpg');
+    background-image: url('../../resourse/gear.png');
+    width: 25px;
+    height: 25px;
+    background-size: 25px 25px;
+    background-repeat: no-repeat;
+    background-position: center;
+    float: right
+  }
+
+  .out{
+    cursor: pointer;
+    margin-top: 7px;
+    right: 36px;
+    margin-right: -2px;
+    background-image: url('../../resourse/back_out.png');
     width: 25px;
     height: 25px;
     background-size: 25px 25px;
@@ -782,16 +772,6 @@ ul {
     font-size: 12px;
     color: #B8AEAE;
     margin-bottom: 10px;
-  }
-
-
-
-  select, input {
-    width: 100%;
-    border: none;
-    outline: none;
-    border-bottom: 1px solid rgb(239,239,239);
-    margin-bottom: 30px;
   }
 }
 /*table {
@@ -863,41 +843,4 @@ i {
 }
 
 
-#mask {
-  z-index: 999999999;
-  top:0px;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  cursor: no-drop;
-  background-color:rgba(100,100,120,0.1);
-  .txt_content {
-    display: block;
-    text-align:center;
-    width: 120px;
 
-   font-size:12px;
-   color:Highlight;
-    position:absolute;
-    bottom:10px;
-    z-index: 99999;
-  }
-
-  #loading {
-    
-    background-color:#fff;
-    border-radius: 7px;
-    background-image: url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545131919203&di=527c673289d4d26a931ff868ff4817da&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20151110%2Fmp40835393_1447145260195_15.gif');
-    height: 60px;
- width:120px;
-    background-size: 60px 50px;
-    background-position: 30px -10px ;
-    position: absolute;
-    background-repeat: no-repeat;
-    left: 50%;
-    margin-left: -60px;
-    top: 50%;
-    margin-top: -95px;
-    z-index: 99999;
-  }
-}

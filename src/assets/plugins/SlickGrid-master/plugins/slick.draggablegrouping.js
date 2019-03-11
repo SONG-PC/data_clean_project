@@ -94,12 +94,9 @@
 
     }
     
-      function setupColumnReorder(grid, $headers, headerColumnWidthDiff, setColumns, setupColumnResize, columns, getColumnIndex, uid, trigger) {
-
-      
+    function setupColumnReorder(grid, $headers, headerColumnWidthDiff, setColumns, setupColumnResize, columns, getColumnIndex, uid, trigger) {
       $headers.filter(":ui-sortable").sortable("destroy");
-          var $headerDraggableGroupBy = $(grid.getPreHeaderPanel());
-     
+      var $headerDraggableGroupBy = $(grid.getPreHeaderPanel());
         $headers.sortable({
           distance: 3,
           cursor: "default",
@@ -108,41 +105,59 @@
           placeholder: "slick-sortable-placeholder ui-state-default slick-header-column",
           forcePlaceholderSize: true,
           appendTo: "body",
-            start: function (e, ui) {
-             
-            $(ui.helper).addClass("slick-header-column-active");
-            $headerDraggableGroupBy.find(".slick-placeholder").show();
-            $headerDraggableGroupBy.find(".slick-dropped-grouping").hide();
+          start: function (e, ui) {
+            //var id = ui.helper[0].id.replace(_gridUid, "");
+            //console.log(_gridColumns)
+            //$(ui.helper).addClass("slick-header-column-active");
+            //$headerDraggableGroupBy.find(".slick-placeholder").show();
+            //$headerDraggableGroupBy.find(".slick-dropped-grouping").hide();
           },
-          beforeStop: function(e, ui) {
-            $(ui.helper).removeClass("slick-header-column-active");
-            var hasDroppedColumn = $headerDraggableGroupBy.find(".slick-dropped-grouping").length;
-            if(hasDroppedColumn > 0){
-              $headerDraggableGroupBy.find(".slick-placeholder").hide();
-              $headerDraggableGroupBy.find(".slick-dropped-grouping").show();  
-            }            
+          beforeStop: function (e, ui) {
+            //var id = ui.helper[0].id.replace(_gridUid, "");
+            //var reorderedIds = $headers.sortable("toArray");
+            //console.log(reorderedIds)
+            //var reordered_ids = reorderedIds.map(function (v) {
+            //  return  v.replace(_gridUid, "");
+            //})
+      
+            //trigger(grid.onColumnsReordered, {
+            //  col_id: id,
+            //  reordered_ids: reordered_ids
+            //});
+            //$(ui.helper).removeClass("slick-header-column-active");
+            //var hasDroppedColumn = $headerDraggableGroupBy.find(".slick-dropped-grouping").length;
+            //if(hasDroppedColumn > 0){
+            //  $headerDraggableGroupBy.find(".slick-placeholder").hide();
+            //  $headerDraggableGroupBy.find(".slick-dropped-grouping").show();  
+            //}            
           },
-            stop: function (e) {
-                return;
+          stop: function(e,ui) {
             if (!grid.getEditorLock().commitCurrentEdit()) {
               $(this).sortable("cancel");
               return;
             }
-                var reorderedIds = $headers.sortable("toArray");
-   
-            var reorderedColumns = [];
-            for (var i = 0; i < reorderedIds.length; i++) {
-              reorderedColumns.push(columns[getColumnIndex(reorderedIds[i].replace(uid, ""))]);
-            }
-                //对比新老改变
-                console.log(reorderedColumns);
-                window.columns = reorderedColumns;
+            var id = ui.item[0].id.replace(_gridUid, "");
+            var reorderedIds = $headers.sortable("toArray");
+            var reordered_ids = reorderedIds.map(function (v) {
+              return  v.replace(_gridUid, "");
+            })
 
-                setColumns(reorderedColumns);
-
-    
-            e.stopPropagation();
-           // setupColumnResize();
+            trigger(grid.onColumnsReordered, {
+              col_id: id,
+              reordered_ids: reordered_ids
+            });
+            //console.log(ui);
+            //var reorderedColumns = [];
+            //for (var i = 0; i < reorderedIds.length; i++) {
+            //  reorderedColumns.push(columns[getColumnIndex(reorderedIds[i].replace(uid, ""))]);
+            //}
+            //console.log(reorderedColumns)
+            //setColumns(reorderedColumns);
+            //trigger(grid.onColumnsReordered, {
+            //  grid: grid
+            //});
+            //e.stopPropagation();
+            //setupColumnResize();
           }
         });
     }
@@ -161,74 +176,104 @@
 
     var emptyDropbox;
 
-      function setupColumnDropbox() {
-          return;
-      //dropbox.droppable({
-      //  activeClass: "ui-state-default",
-      //  hoverClass: "ui-state-hover",
-      //  accept: ":not(.ui-sortable-helper)",
-      //  deactivate: function(event, ui) {
-      //    dropbox.removeClass("slick-header-column-denied");
-      //  },
-      //    drop: function (event, ui) {
-           
-      //    handleGroupByDrop(this, ui.draggable);
-      //  },
-      //    over: function (event, ui) {
-    
-      //    var id = (ui.draggable).attr('id').replace(_gridUid, "");
-      //    _gridColumns.forEach(function(e, i, a) {
-      //      if (e.id == id) {
-      //        if (e.grouping == null) {
-      //          dropbox.addClass("slick-header-column-denied");
-      //        }
-      //      }
-      //    });
-      //  }
-      //});
-      //dropbox.sortable({
-      //  items: "div.slick-dropped-grouping",
-      //  cursor: "default",
-      //  tolerance: "pointer",
-      //  helper: "clone",
-      //  update: function(event, ui) {
-      //    var sortArray = $(this).sortable('toArray', {
-      //        attribute: 'data-id'
-      //      }),
-      //      newGroupingOrder = [];
-      //    for (var i = 0, l = sortArray.length; i < l; i++) {
-      //      for (var a = 0, b = columnsGroupBy.length; a < b; a++) {
-      //        if (columnsGroupBy[a].id == sortArray[i]) {
-      //          newGroupingOrder.push(columnsGroupBy[a]);
-      //          break;
-      //        }
-      //      }
-      //    }
-      //    columnsGroupBy = newGroupingOrder;
-      //    updateGroupBy();
-      //  }
-      //});
-      //emptyDropbox = dropbox.html();
+    function setupColumnDropbox() {
+      dropbox.droppable({
+        activeClass: "ui-state-default",
+        hoverClass: "ui-state-hover",
+        accept: ":not(.ui-sortable-helper)",
+        deactivate: function(event, ui) {
+          dropbox.removeClass("slick-header-column-denied");
+     
+        },
+        drop: function(event, ui) {
+          handleGroupByDrop(this, ui.draggable);
+        },
+        over: function (event, ui) {
+       
+          var id = (ui.draggable).attr('id').replace(_gridUid, "");
+          _gridColumns.forEach(function(e, i, a) {
+            if (e.id == id) {
+              if (e.grouping == null) {
+                dropbox.addClass("slick-header-column-denied");
+               
+              }
+            }
+          });
+        }
+      });
+      dropbox.sortable({
+        items: "div.slick-dropped-grouping",
+        cursor: "default",
+        tolerance: "pointer",
+        helper: "clone",
+        update: function(event, ui) {
+          var sortArray = $(this).sortable('toArray', {
+              attribute: 'data-id'
+            }),
+            newGroupingOrder = [];
+          for (var i = 0, l = sortArray.length; i < l; i++) {
+            for (var a = 0, b = columnsGroupBy.length; a < b; a++) {
+              if (columnsGroupBy[a].id == sortArray[i]) {
+                newGroupingOrder.push(columnsGroupBy[a]);
+                break;
+              }
+            }
+          }
+          columnsGroupBy = newGroupingOrder;
+          updateGroupBy();
+        }
+      });
+      emptyDropbox = dropbox.html();
 
-      //groupToggler.on('click', function(e) {
-      //  if (this.classList.contains('collapsed')) {
-      //    this.classList.remove('collapsed');
-      //    this.classList.add('expanded');
-      //    _dataView.expandAllGroups();
-      //  } else {
-      //    this.classList.add('collapsed');
-      //    this.classList.remove('expanded');
-      //    _dataView.collapseAllGroups();
-      //  }
-      //});
+      groupToggler.on('click', function (e) {
+
+        if (this.classList.contains('collapsed')) {
+          this.classList.remove('collapsed');
+          this.classList.add('expanded');
+          _dataView.expandAllGroups();
+        } else {
+          this.classList.add('collapsed');
+          this.classList.remove('expanded');
+          _dataView.collapseAllGroups();
+        }
+      });
     }
 
     var columnsGroupBy = [];
     var groupBySorters = [];
 
-      function handleGroupByDrop(container, column) {
-  
- 
+    function handleGroupByDrop(container, column) {
+     
+      var columnid = column.attr('id').replace(_gridUid, "");
+      var columnAllowed = true;
+      columnsGroupBy.forEach(function(e, i, a) {
+        if (e.id == columnid) {
+          columnAllowed = false;
+        }
+      });
+      if (columnAllowed) {
+    
+        _gridColumns.forEach(function(e, i, a) {
+          if (e.id == columnid) {
+            if (e.grouping != null && !$.isEmptyObject(e.grouping)) {
+              var entry = $("<div id='" + _gridUid + e.id + "_entry' data-id='" + e.id + "' class='slick-dropped-grouping'>");
+              var groupText = $("<div style='display: inline-flex'>" + column.text() + "</div>")
+              groupText.appendTo(entry);
+              var groupRemoveIcon = $("<div class='slick-groupby-remove'>&nbsp;</div>")
+              if(options.deleteIconCssClass) groupRemoveIcon.addClass(options.deleteIconCssClass);
+              if(options.deleteIconImage) groupRemoveIcon.css("background", "url(" + options.deleteIconImage + ") no-repeat center right");
+              if(!options.deleteIconCssClass && !options.deleteIconImage) groupRemoveIcon.addClass('slick-groupby-remove-image');
+              groupRemoveIcon.appendTo(entry);
+
+              $("</div>").appendTo(entry);
+              entry.appendTo(container);
+              addColumnGroupBy(e, column, container, entry);
+              addGroupByRemoveClickHandler(e.id, container, column, entry);
+            }
+          }
+        });
+        groupToggler.css('display', 'block');
+      }
     }
 
     function addColumnGroupBy(column) {
@@ -287,8 +332,7 @@
       updateGroupBy();
     }
 
-      function updateGroupBy() {
-
+    function updateGroupBy() {
       if (columnsGroupBy.length == 0) {
         _dataView.setGrouping([]);
         return;

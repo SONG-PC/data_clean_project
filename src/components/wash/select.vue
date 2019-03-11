@@ -3,7 +3,7 @@
     <label v-if="parameter.label" for="name" style="display: block;">
       {{parameter.label}}
     </label>
-    <select v-on:change="update" v-model="parameter.value" name="name" class="control" type="text">
+    <select v-on:change="update" v-model="parameter.value" name="name" class="control split" type="text">
       <option  v-for="p in parameter.configuration.values" v-bind:value="p.value">{{p.label}}</option>
     </select>
     <span class="error" style="display: block;"></span>

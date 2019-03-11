@@ -1,19 +1,19 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, { mapActions } from 'vuex'
 import axios from 'axios';
 import { fail } from 'assert';
 import { setTimeout } from 'timers';
 import { EALREADY } from 'constants';
 import $ from 'jquery'
 Vue.use(Vuex)
-var interface_host ="http://localhost:8090"
-var flow_interface_host ="http://localhost:8091"
+var interface_host ="http://192.168.1.3:8090"
+var flow_interface_host ="http://192.168.1.3:8091"
 const store = new Vuex.Store({
   state: {
     grid: {
       full_data: null,
-      view_range:[]
-
+      view_range: [],
+      diff_data:[]
     },
     col_metadata:
     {
@@ -25,20 +25,28 @@ const store = new Vuex.Store({
       function_data: [],
       op_data:[]
     },
-    suggestion: null,
+    suggestion: [],
     operation: {
       op_list: [],
       steps:[]
     },
     filters:[],
-    loading: false,
-    loading_txt: "数据正在加载中",
-    flowEle: { node: [], lines: [], endpoints: []},
-    flowApp: []
+    flowEle: { node: [], lines: [], endpoints: [] },
+    flowApp: [],
+    loading: false
   },
   getters: {
     getColAnalysis: state => (colid) => {
       return state.col_metadata.col_analysis[colid];
+    },
+    getShortcutFnList: state => (colid) => {
+      var list = [];
+      state.dictionary.function_data.forEach(function (v) {
+        if (v.shortcut) {
+          list.push(v);
+        }
+      });
+      return list;
     },
     getColByColid: state => (colid) => {
       var rtn = null;
@@ -46,6 +54,15 @@ const store = new Vuex.Store({
         function (v) {
           if (v.id == colid)
             rtn = v;
+        });
+      return rtn;
+    },
+    getColIndexByColid: state => (colid) => {
+      var rtn = null;
+      state.col_metadata.col_data && state.col_metadata.col_data.forEach(
+        function (v,i) {
+          if (v.id == colid)
+            rtn = i;
         });
       return rtn;
     },
@@ -125,13 +142,22 @@ const store = new Vuex.Store({
     },
     getGridRenderData: state => {
 
-      return { full_data: state.grid && state.grid.full_data, view_range: state.grid && state.grid.view_range, col_metadata : state.col_metadata }
+      return { diff_data: state.grid && state.grid.diff_data, full_data: state.grid && state.grid.full_data, view_range: state.grid && state.grid.view_range, col_metadata: state.col_metadata }
     },
     getDataType: (state) => (code) => {
       
       var value;
       state.dictionary.data_type.forEach(function (v) {
         if (code == v.code)
+          value = v;
+      });
+      return value;
+
+    },
+    getOpBySign: (state) => (sign) => {
+      var value;
+      state.dictionary.op_data.forEach(function (v) {
+        if (sign == v.sign)
           value = v;
       });
       return value;
@@ -156,16 +182,26 @@ const store = new Vuex.Store({
       return name;
     }
   },
-  mutations: {
+    mutations: {
+        clearDiff: function(state) {
+            state.grid.diff_data =[];
+      
+        },
+        clearSuggestion: function(state) {
+            state.suggestion =[];
 
-    loading: function (state, msg) {
-
-      state.loading = false;
-      state.loading_txt= msg;
-    },
+        },
     setFilters: function (state, filters) {
       state.filters = filters;
-    },
+      },
+      setLoading: function (state, val) {
+        if (val) {
+          state.loading = val;
+        }
+        else {
+          state.loading = val;
+        }
+      },
     justUpdataState: function (state, payload) {
 
       for (var key in payload.data) {
@@ -238,6 +274,16 @@ const store = new Vuex.Store({
     }
   },
   actions: {
+    updateCol: function ({ commit }, postJson) {
+      updateCol(postJson.data).then(function (response) {
+
+        responseHandler(response, function () {
+          commit('justUpdataState', response.data);
+        }, postJson)
+
+      })
+
+    },
     getFilter: function ({ commit }, postJson) {
 
       getFilterView(postJson.data).then(function (response) {
@@ -313,6 +359,11 @@ const store = new Vuex.Store({
         console.log(err);
       })
     },
+    getPreviewId: function ({ commit }, postJson) {
+      getPreviewId(postJson.data).then(function (response) {
+        responseHandler(response, null, postJson);
+      });    
+    },
     flowApp: function ({ commit }) {
       FlowApp().then(function (response) {
         responseHandler(response, function () {
@@ -347,6 +398,16 @@ const store = new Vuex.Store({
 
       });
 
+    },
+    diff: function ({ commit }, postJson) {
+
+    return  DiffData(postJson.data).then(function (response) {
+        responseHandler(response, function () {
+          commit('incrementalUpdataState', response.data.data);
+        }, postJson);
+
+      });
+
     }
   }
 
@@ -359,10 +420,15 @@ function increm_update(state,data) {
   else if (data instanceof Object) {
 
     for (var key in data) {
+     
       state[key] = state[key] || {}
       if (data[key] instanceof Object && !(data[key] instanceof Array)) {
-      
-          increm_update(state[key],data[key]);
+        if (key == "col_analysis") {
+          state[key] = data[key];
+        }
+        else {
+          increm_update(state[key], data[key]);
+        }
         }
         else {
           state[key] = data[key];
@@ -389,13 +455,17 @@ function responseHandler(response,commitFn,postJson) {
     postJson && postJson.rollback && postJson.rollback();
   }
   else if (response.data.state >= 0) {
-
-    commitFn();
     postJson && postJson.onSuccess && postJson.onSuccess(response.data.message, "success", "成功");
-    postJson && postJson.callback && postJson.callback();
+    postJson && postJson.callback && postJson.callback(response.data);
+    commitFn&& commitFn();
+ 
   }
+  postJson && postJson.compelete && postJson.compelete();
 
+}
 
+function updateCol(jsonPost) {
+  return axios.post(interface_host + '/UpdateColMetaData', jsonPost);
 }
 function getAction() {
   return axios.get(interface_host +'/Action');
@@ -406,6 +476,10 @@ function CardOp(jsonPost) {
 function postAction(jsonPost) {
 
   return axios.post(interface_host+ '/Action', jsonPost)
+}
+function getPreviewId(jsonPost) {
+
+  return axios.post(interface_host + '/Preview', jsonPost)
 }
 function putAction(jsonPost) {
 
@@ -418,6 +492,7 @@ function FlowOp(jsonPost) {
   
   return axios.post(flow_interface_host + '/FlowNodeOp', jsonPost)
 }
+
 function FlowOpRest(json, method, obj) {
 
   return axios[method](flow_interface_host + '/' + obj + '', json)
@@ -434,4 +509,25 @@ function getFilterView(jsonPost) {
 function Suggestion(jsonPost) {
   return axios.post(interface_host + '/Suggestion', jsonPost)
 }
+function DiffData(jsonPost) {
+  return axios.post(interface_host + '/Diff', jsonPost)
+}
+//// 添加请求拦截器
+axios.interceptors.request.use(function (config) {
+  console.log(config);
+  store.commit("setLoading", true);
+  return config;
+}, function (error) {
+  store.commit("setLoading", false)
+  return Promise.reject(error);
+});
+
+// 添加响应拦截器
+axios.interceptors.response.use(function (response) {
+  store.commit("setLoading", false)
+  return response;
+}, function (error) {
+  store.commit("setLoading", false)
+  return Promise.reject(error);
+});
 export default store

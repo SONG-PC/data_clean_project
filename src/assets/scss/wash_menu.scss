@@ -1,13 +1,14 @@
 .wash_container {
   #menu {
-    border: 1px solid #BEBEBE;
+    border: 1px solid rgb(239,239,239);
     min-width: 100px;
     overflow: hidden;
+    white-space: nowrap;
     height: auto;
     position: absolute;
     left: 50%;
     top: 50%;
-    background-color: #FFFCEC;
+    background-color: #FFF;
     z-index: 99999999;
 
     .highlight {
@@ -23,35 +24,43 @@
       color: #F7801F;
       padding-left: 20px;
       padding-right: 20px;
-      border-bottom: 1px solid #E0E5E2;
       line-height: 30px;
       height: 30px;
     }
 
     ul {
-      background-color: #FFFCEC;
+      background-color: #FFF;
       cursor: pointer;
 
       li {
         position: relative;
-        padding-right: 5px;
+        padding-right: 20px;
         padding-left: 20px;
-        background-color: #FFFCEC;
+        background-color: #FFF;
         float: none;
+        word-break: keep-all;
+        overflow: visible;
         width: 100%;
         color: #3F3F3F;
         line-height: 30px;
         height: 30px;
+      }
 
+      li.field:hover {
         &:hover {
           color: #ffffff;
           background-color: #04D75F;
         }
       }
 
-      li.split {
-        border-bottom: 1px solid #E0E5E2;
+      li.test:hover {
+        &:hover {
+          color: black;
+          background-color: transparent;
+        }
       }
+
+    
     }
   }
 }

@@ -104,7 +104,23 @@ var op_code = [{
   "tip": Mock.Random.cparagraph(1, 2),
 
 
-  }];
+  },
+  {
+    "code": Mock.Random.guid(),
+    "sign": ":",
+    "readonly":true,
+    "param_count": 1,
+    "tip": Mock.Random.cparagraph(1, 2),
+  }
+  ,{
+    "code": Mock.Random.guid(),
+    "sign": "is",
+    "readonly": true,
+    "param_count": 1,
+    "tip": Mock.Random.cparagraph(1, 2),
+  }
+
+];
 var type = [
   "select",
   "string",
@@ -236,7 +252,7 @@ Mock.Random.extend({
     return this.pick(["insert", "update","delete"]);
   },
   vue_type: function () {
-    return this.pick(["value", "string"]);
+    return this.pick(["number", "string"]);
   },
   form_data: function () {
     return this.pick(["value", "string"]);
@@ -313,7 +329,7 @@ var response= {
       {
         // 属性 id 是一个自增数，起始值为 1，每次增 1
         'code': "@guid",
-        'name|+1': ['String', 'Integer', 'Boolean', 'Decimal', 'Date', "City", "Email"],
+        'name|+1': ['City', 'Email','String', 'Integer', 'Boolean', 'Decimal', 'Date'],
         'reg': "[sS]*.*[^s][sS]*",
         'op_code': Mock.Random.op_code(Mock.Random.integer(1, 2), dictionary.data.op_data)
 
@@ -331,7 +347,8 @@ var response= {
         'category_icon_url': "@image",
         'description': '@cparagraph(2)',
         'dynamic': "@boolean",
-        'doc_url': "@image"
+        'doc_url': "@image",
+        'fn_icon':"@image",
 
       }
     ];
@@ -387,63 +404,95 @@ var response= {
 
     });
     fn_dic_data.forEach(function (v) {
+      var scope = Mock.Random.pick(["row", "col"]);
+      if (scope == "col") {
+        v.parameters.unshift({
+            'name': 'col_id',
+            'label': '选择列',
+            "default": null,
+            "description": '当前函数操作列',
+            'neccesary': true,
+            'read_only': false,
+            'type': "column",
+            'default': null,
+            'value': null
+          });      
+      }
+      else {
+        v.parameters.unshift({
+          'name': 'row_id',
+          'label': '行号',
+          "default": null,
+          "description": '当前操作行号',
+          'neccesary': true,
+          'read_only': false,
+          'type': "integer",
+          'value': null
+        });
+      }
       v.parameters.unshift({
         'name': 'scope',
         'label': '作用域',
-        "default": "col",
-        "value": "col",
-        "configuration": {
-          "mutiple": false,
-          "values": [{
-            'label': '列',
-            'value': "col",
-            'parameters': [{
-              'name': 'col_id',
-              'label': '选择列',
-              "default": null,
-              "description": '当前函数操作列',
-              'neccesary': true,
-              'read_only': false,
-              'type': "column",
-              'default': null,
-              'value':null
-            },
-            {
-              'name': 'col_content',
-              'label': '匹配内容',
-              "default": null,
-              "description": '仅操作匹配内容',
-              'neccesary': false,
-              'read_only': false,
-              'type': "regex",
-              'value': null
-            }
+        "default": scope,
+        "value": scope,
+        //"configuration": {
+        //  "mutiple": false,
+        //  "values": [{
+        //    'label': '列',
+        //    'value': "col",
+        //    'parameters': [{
+        //      'name': 'col_id',
+        //      'label': '选择列',
+        //      "default": null,
+        //      "description": '当前函数操作列',
+        //      'neccesary': true,
+        //      'read_only': false,
+        //      'type': "column",
+        //      'default': null,
+        //      'value':null
+        //    },
+        //    {
+        //      'name': 'col_content',
+        //      'label': '匹配内容',
+        //      "default": null,
+        //      "description": '仅操作匹配内容',
+        //      'neccesary': false,
+        //      'read_only': false,
+        //      'type': "regex",
+        //      'value': null
+        //    }
 
-            ]
-          }, {
-            'label': '行',
-            'value': "row",
-            'parameters': [
-              {
-                'name': 'row_id',
-                'label': '行号',
-                "default": null,
-                "description": '当前操作行号',
-                'neccesary': true,
-                'read_only': false,
-                'type': "integer",
-                'value': null
-              }
-            ]
-          }]
-        },
+        //    ]
+        //  }, {
+        //    'label': '行',
+        //    'value': "row",
+        //    'parameters': [
+        //      {
+        //        'name': 'row_id',
+        //        'label': '行号',
+        //        "default": null,
+        //        "description": '当前操作行号',
+        //        'neccesary': true,
+        //        'read_only': false,
+        //        'type': "integer",
+        //        'value': null
+        //      }
+        //    ]
+        //  }]
+        //},
         "description": '当前函数作用域类型',
         'neccesary': true,
         'read_only': false,
-        'type': "select",
+        'type': null,
       });
+
+      
     });
-    dictionary.data["function_data"]= fn_dic_data;
+    dictionary.data["function_data"] = fn_dic_data;
+    dictionary.data["grid_op_mapping"] = {
+      "swap": Mock.Random.pick(fn_dic_data).code,
+      "delete": Mock.Random.pick(fn_dic_data).code
+    };
     var data = Mock.mock(dictionary);
     data.data.data_type.forEach(function (v, i) {
 
@@ -484,7 +533,7 @@ var response= {
             'name': '@cword(3)',
             'id': "@guid",
             "data_type_code": dictionary.data_type[0].code,//列选择类型编码
-            "data_type_suggestion": dictionary.data_type.map(function (v) { if (!v.isBasic) return { code: v.code, match_per: Mock.Random.integer(1, 100) } }).filter(function (v) { if (v) return true; else return false; }),
+            "data_type_suggestion": dictionary.data_type.map(function (v) { if (!v.isBasic) { return { isBasic: v.isBasic, code: v.code, match_per: Mock.Random.integer(1, 100) } } else { return { isBasic: v.isBasic, code: v.code } } }).filter(function (v) { if (v) return true; else return false; }),
 
 
           }
@@ -518,24 +567,18 @@ var response= {
 
       ],
       "vue": {
-
-        "data": { //值分析数据
-          "range|100": ["@integer(1000,2000)", "@integer(2000,3000)"],//值区间
-          "datas|100": [{
+          "data|100": [{
             "total": "@integer(1000, 2000)",//当前版本总量
             "match": "@integer(500, 1000)", //当前过滤条件下总量
             "content": '@csentence(5)',//分析为字符串时内容值
-            "percent": "@integer(1, 100)", //占比
           }],
-          "type": "@vue_type" //分析类型 值分析/字符串分析
-
-        }
+          "type": "@vue_type" ,//分析类型 值分析/字符串分析
+      
       },
-      "pattern": [{ //模式数据
+      "pattern|10": [{ //模式数据
         "total": "@integer(1000, 2000)",//当前版本总量
         "match": "@integer(500, 1000)", //当前过滤条件下总量
         "content": '@csentence(5)',//分析为字符串时内容值
-        "percent": "@integer(1, 100)", //占比
         "child": null//子模式 
       }]
     };
@@ -574,10 +617,10 @@ var response= {
     if (fn) {
  
       var data = {
-        "parent_op_id": parent_op_id, //父级op_id
-        "height": 0,
-        "isEdit": false,
-        "tip": null,
+        "parent_op_id": parent_op_id || null, //父级op_id
+        //"height": 0,
+        //"isEdit": false,
+        //"tip": null,
         //"exception": Mock.Random.pick([["参数校验失败"],[]]),
         //"info": ["运行函数不是最新版本"],
        // "warning": ["运行存在风险"],
@@ -606,12 +649,12 @@ var response= {
           "id": "@guid", //当前操作id
           "fn_list_code":"@getFnListCode", //当前函数编码
           "turn": true,///开关,
-          "isEdit": false,
-          "tip": null,
-          //"exception": [],
-          //"info": [],
-          //"warning":[],
-          "height": 0,
+          //"isEdit": false,
+          //"tip": null,
+          ////"exception": [],
+          ////"info": [],
+          ////"warning":[],
+          //"height": 0,
           "col_data_type": "@getColType",//当前列数据类型编码
           "parameters": { "scope": "@getSope", "col_id": Mock.Random.col().id, "row_id": Mock.Random.integer(1, Grid.full_data.length) },
           "filters":[ { //过滤条件
@@ -636,7 +679,7 @@ var response= {
     });
 
     var steps = {
-        "steps|6":["@guid"]
+        "steps|0":["@guid"]
     }
  
     Op_list = { "op_list":data_com.op_list,"steps" :Mock.mock(steps).steps };
@@ -804,19 +847,29 @@ app.use('/Dictionary', function (req, res) {
 });
 app.use('/Diff', function (req, res) {
 
-
-  if (req.method == "POST") {
-    if (req.body.view_type) {
-      Grid.diff_data = response.get_grid_diff(Col_metadata, req.body);
+   
+    if (req.method == "POST") {
+      var grid = {};
+      if (req.body.view_type) {
+      
+        var flag = (!req.body.current_version && !req.body.previous_version) || (req.body.current_version ==req.body.previous_version);
+        if (!flag) {
+          grid.diff_data  = response.get_grid_diff(Col_metadata, req.body);
+        }
+        else {
+          grid.diff_data = [];
+          grid.full_data=Grid.full_data,
+          grid.view_range=Grid.view_range  
+        }
+     
       res.json({
-        "grid": {
-          diff_data: Grid.diff_data
+        "state": 0,
+        "message": "响应成功",
+        "data": {
+          "grid": grid,
+          "col_metadata": Col_metadata
 
-        },
-        "col_metadata":
-          {
-            "col_data": Col_metadata.col_data
-          }
+        }
       });
     }
     else {
@@ -825,7 +878,9 @@ app.use('/Diff', function (req, res) {
     }
 
   }
-
+  else {
+    res.json({});
+  }
 
 
 
@@ -1063,15 +1118,18 @@ app.use('/UpdateColMetaData', function (req, res) {
         if (v.id == req.body.id) {
 
           v.name = req.body.name || v.name;
-          v.data_type_code = req.body.data_type_code || v.name;
+          v.data_type_code = req.body.data_type_code || v.data_type_code;
           update = true;
         }
 
 
       });
       if (update) {
-
-        res.json({ col_metadata: Col_metadata, suggestion: response.getSuggestionFromDictionary() });
+        var rtn = { col_metadata: Col_metadata };
+        //if (req.body.data_type_code) {
+        //  rtn.suggestion = response.getSuggestionFromDictionary()
+        //}
+        res.json({ "state":0, "message": "请求成功", data:rtn });
       }
       else {
         res.json({ "state": -1, "message": "请求参数有误" });
@@ -1080,6 +1138,9 @@ app.use('/UpdateColMetaData', function (req, res) {
     else {
       res.json({ "state": -1, "message": "请求参数有误" });
     }
+  }
+  else {
+    res.json({});
   }
 });
 app.use('/Suggestion', function (req, res) {
@@ -1140,47 +1201,21 @@ app.use('/Restart', function (req, res) {
   res.json({ "state": 0, "message": "重启成功" });
 });
 app.use('/Preview', function (req, res) {
-  var Op_list_clone = clone(Op_list);``
+ 
   if (req.method == "POST") {
+    if (req.body.op_list) {
 
-    if (req.body.previews && req.body.previews.length > 0 && req.body.view_type && req.body.view_range) {
-      var up = false;
-      req.body.previews.forEach(function (v) {
-        var op = response.createOne_op(v.filters, v.parameters, v.parent_op_id, v.fn_code);
-        if (op) {
-          Op_list_clone.op_list.push(op)
-          Op_list_clone.steps.push(Mock.Random.guid());
-          up = true;
-        }
-        else {
-          up = false;
-    
-        }
-      });
-      if (up) {
-        res.json({
-          "grid":
-            {
-              diff_data: response.get_grid_diff(Col_metadata, req.body)
-            },
-          "col_metadata": {
-            col_data: Col_metadata.col_data
-          },
-          "operation": {
-            "op_list": Op_list_clone.op_list,
-            "steps": Op_list_clone.steps
-          }
-        });
-      }
-      else {
-        res.json({ "state": -1, "message": "函数不存在请求参数有误" });
-      }
+
+      res.json({ "state": 0, "message": "请求成功", data: Mock.Random.guid()});
     }
     else {
 
       res.json({ "state": -1, "message": "请求参数有误" });
     }
 
+  }
+  else {
+    res.json({});
   }
 });
 app.use('/Example', function (req, res) {

@@ -2,13 +2,15 @@
  
   
     <!--页面内容-->
-    <div class="wash_container">
+    <div class="wash_container" style="padding-top:74px">
       <!--中间-->
         
-        <div class="mid">
-      <exports/>
-
-     <InputFilter /><Grid /></div>
+      <div class="mid">
+        <exports />
+        <InputFilter />
+        <Grid />
+       
+      </div>
  
       <!--左边-->
 
@@ -26,6 +28,7 @@
   
  
 </template>
+
 <script>
   import '../assets/css/css_rest.css'
   import '../assets/scss/wash_main.scss'
@@ -43,10 +46,15 @@
   import exports from '../components/wash/exports'
   import store from '../vuex/store'
   import $ from 'jquery'
+
   export default {
     store: store,
     beforeCreate: function () {
      
+    },
+    destroyed: function () {
+      this.$store.commit("setFilters", null);
+
     },
     mounted: function () {
 
